@@ -1,10 +1,10 @@
-package com.perpetio.alertapp
+package com.perpetio.alertapp.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,13 +14,16 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.perpetio.alertapp.R
 import com.perpetio.alertapp.ui.theme.AlertAppTheme
+import com.perpetio.alertapp.view_models.MapViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val mapViewModel by viewModels<MapViewModel>()
+        mapViewModel.fetchData()
         setContent {
             AlertAppTheme {
                 AppUi()
