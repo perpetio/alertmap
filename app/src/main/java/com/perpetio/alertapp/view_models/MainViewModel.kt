@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
 import com.perpetio.alertapp.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MapViewModel(
+class MainViewModel(
     private val repository: Repository
 ) : ViewModel() {
 
@@ -18,21 +19,17 @@ class MapViewModel(
     fun fetchData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _state.value = ViewModelState.Loading
-                _state.value = ViewModelState.MapLoaded(
+                _state.postValue(ViewModelState.Loading)
+                _state.postValue(ViewModelState.MapLoaded(
                     repository.refreshMap()
-                )
+                ))
             } catch (e: Exception) {
-                _state.value = ViewModelState.Error(e.message)
+                _state.postValue(ViewModelState.Error(e.message))
             }
         }
     }
 
     companion object {
-        const val SOURCE_URL = "https://alarmmap.online/"//"https://alerts.in.ua/"
-        const val DISTRICT = "data-oblast"
-        const val SECURITY_STATUS = "data-alert-type"
-
-        const val AIR_RAID = "air-raid"
+        val FACTORY = singleArgViewModelFactory(::MainViewModel)
     }
 }
