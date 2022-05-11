@@ -3,7 +3,7 @@
     android:description="@string/app_name"
     android:minWidth="200dp"
     android:minHeight="200dp"
-    android:previewImage="@layout/widget_map"
+    android:previewLayout="@layout/widget_map"
     android:initialLayout="@layout/widget_map"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />

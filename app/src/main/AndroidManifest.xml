@@ -25,7 +25,6 @@
 
         <receiver
             android:name=".widgets.MapWidgetReceiver"
-            android:enabled="@bool/glance_appwidget_available"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
