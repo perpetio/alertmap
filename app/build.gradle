@@ -62,5 +62,5 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
     implementation "androidx.compose.runtime:runtime-livedata:1.2.0-alpha08"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-
+    implementation "androidx.glance:glance-appwidget:1.0.0-SNAPSHOT"
 }
