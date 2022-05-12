@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/widget_map.xml" value="0.4466666666666667" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable-v24/card_plate_diagonal.xml" value="0.136" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable-v24/card_plate_top.xml" value="0.136" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/card_plate.xml" value="0.136" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/widget_map.xml" value="0.5" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/xml/widget_map_settings.xml" value="0.16770833333333332" />
       </map>
     </option>

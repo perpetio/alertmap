@@ -37,9 +37,9 @@ class MapWidgetReceiver : AppWidgetProvider() {
                 context.packageName,
                 R.layout.widget_map
             ).apply {
-                setTextViewText(R.id.txt_name, "Map Widget")
+                //setTextViewText(R.id.txt_name, "Map Widget")
                 setImageViewBitmap(R.id.canvas_holder, drawMap(context))
-                setOnClickPendingIntent(R.id.btn_open_app, pendingIntent)
+                //setOnClickPendingIntent(R.id.btn_open_app, pendingIntent)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
@@ -48,26 +48,26 @@ class MapWidgetReceiver : AppWidgetProvider() {
     private fun drawMap(
         context: Context
     ): Bitmap {
-        val widgetSize = getWidgetSize(context)
-        Log.d("123", "widget size: ${widgetSize.width}x${widgetSize.height}")
-        val groundImage = Bitmap.createBitmap(
-            widgetSize.width, widgetSize.height, Bitmap.Config.ARGB_8888
+        val canvasSize = getCanvasSize(context)
+        Log.d("123", "widget size: ${canvasSize.width}x${canvasSize.height}")
+        val canvas = Bitmap.createBitmap(
+            canvasSize.width, canvasSize.height, Bitmap.Config.ARGB_8888
         )
         val map = getBitmap(R.drawable.ukraine, context)
         Log.d("123", "map image size: ${map.width}x${map.height}")
-        Log.d("123", "groundImage size: ${groundImage.width}x${groundImage.height}")
+        Log.d("123", "groundImage size: ${canvas.width}x${canvas.height}")
 
         val paint = Paint().apply {
             color = Color.GREEN
         }
-        Canvas(groundImage).apply {
+        Canvas(canvas).apply {
             Log.d("123", "canvas size: ${width}x${height}")
             //drawColor(Color.LTGRAY)
-            drawByWidth(map, 0f)
-            drawLine(500f, 50f, 400f, 50f, paint)
-            drawLine(0f, 350f, 400f, 350f, paint)
+            drawByWidth(map, -70f)
+            //drawLine(500f, 50f, 400f, 50f, paint)
+            //drawLine(0f, 350f, 400f, 350f, paint)
         }
-        return groundImage
+        return canvas
     }
 
     private fun getBitmap(imgResId: Int, context: Context): Bitmap {
@@ -76,11 +76,11 @@ class MapWidgetReceiver : AppWidgetProvider() {
         )
     }
 
-    private fun getWidgetSize(context: Context): Size {
+    private fun getCanvasSize(context: Context): Size {
         context.resources.apply {
             return Size(
                 getDimension(R.dimen.widget_width).toInt(),
-                getDimension(R.dimen.widget_height).toInt()
+                getDimension(R.dimen.widget_canvas_height).toInt()
             )
         }
     }

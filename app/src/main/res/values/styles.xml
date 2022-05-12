@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BoldText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HintText" parent="BigText">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BigText" parent="BoldText">
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>
