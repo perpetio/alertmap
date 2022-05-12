@@ -7,9 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.util.Log
+import android.util.Size
 import android.widget.RemoteViews
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
+import com.perpetio.alertapp.utils.drawByWidth
 
 
 class MapWidgetReceiver : AppWidgetProvider() {
@@ -46,31 +48,46 @@ class MapWidgetReceiver : AppWidgetProvider() {
     private fun drawMap(
         context: Context
     ): Bitmap {
+        val widgetSize = getWidgetSize(context)
+        Log.d("123", "widget size: ${widgetSize.width}x${widgetSize.height}")
         val groundImage = Bitmap.createBitmap(
-            1280, 720, Bitmap.Config.ARGB_8888
+            widgetSize.width, widgetSize.height, Bitmap.Config.ARGB_8888
         )
         val map = getBitmap(R.drawable.ukraine, context)
         Log.d("123", "map image size: ${map.width}x${map.height}")
-        Log.d("123", "canvas size: ${groundImage.width}x${groundImage.height}")
+        Log.d("123", "groundImage size: ${groundImage.width}x${groundImage.height}")
+
         val paint = Paint().apply {
             color = Color.GREEN
         }
-        val mapMatrix = Matrix().apply {
-            mapRect(RectF(0f, 0f, 1280f, 1280f))
-        }
         Canvas(groundImage).apply {
-            drawColor(Color.LTGRAY)
-            drawBitmap(map,
-                Rect(0, 0, map.width, map.height),
-                RectF(50f, 100f, map.width/3f, map.height/3f),
-                null)
-            drawLine(0f, 50f, 100f, 50f, paint)
-            drawLine(0f, 710f, 1280f, 710f, paint)
+            Log.d("123", "canvas size: ${width}x${height}")
+            //drawColor(Color.LTGRAY)
+            drawByWidth(map, 0f)
+            drawLine(500f, 50f, 400f, 50f, paint)
+            drawLine(0f, 350f, 400f, 350f, paint)
         }
         return groundImage
     }
 
     private fun getBitmap(imgResId: Int, context: Context): Bitmap {
-        return BitmapFactory.decodeResource(context.resources, imgResId)
+        return BitmapFactory.decodeResource(
+            context.resources, imgResId, bitmapOptions
+        )
+    }
+
+    private fun getWidgetSize(context: Context): Size {
+        context.resources.apply {
+            return Size(
+                getDimension(R.dimen.widget_width).toInt(),
+                getDimension(R.dimen.widget_height).toInt()
+            )
+        }
+    }
+
+    companion object {
+        val bitmapOptions = BitmapFactory.Options().apply {
+            inScaled = false;
+        }
     }
 }
