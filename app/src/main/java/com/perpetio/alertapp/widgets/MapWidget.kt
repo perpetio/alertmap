@@ -66,6 +66,7 @@ class MapWidgetReceiver : AppWidgetProvider() {
             Area("zhytomyr", getBitmap(R.drawable.zhytomyr, context), PointF(326.1f, 110.5f)),
             Area("vinnytsia", getBitmap(R.drawable.vinnytsia, context), PointF(336f, 265.6f)),
             Area("kyiv", getBitmap(R.drawable.kyiv, context), PointF(441.2f, 124.7f)),
+            Area("kyiv_city", getBitmap(R.drawable.kyiv_city, context), PointF(491.8f, 197.4f)),
             Area("chernihiv", getBitmap(R.drawable.chernihiv, context), PointF(509.7f, 46f)),
             Area("cherkasy", getBitmap(R.drawable.cherkasy, context), PointF(459f, 233.7f)),
             Area("poltava", getBitmap(R.drawable.poltava, context), PointF(596.1f, 208f)),
@@ -83,10 +84,9 @@ class MapWidgetReceiver : AppWidgetProvider() {
         )
 
         Canvas(canvas).apply {
-            drawColor(Color.LTGRAY)
             areas.forEach { area ->
                 area.apply {
-                    draw(image, pos.x, pos.y, greenPaint)
+                    draw(image, pos.x, pos.y, if(name == "kyiv_city") redPaint else greenPaint)
                 }
             }
         }
