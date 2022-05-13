@@ -47,8 +47,8 @@
         <ImageView
             android:id="@+id/canvas_holder"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/widget_canvas_height"
-            android:layout_gravity="center" />
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
 
         <TextView
             style="@style/HintText"

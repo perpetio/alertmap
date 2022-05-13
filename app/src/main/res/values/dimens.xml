@@ -2,5 +2,4 @@
 <resources>
     <dimen name="widget_width">260dp</dimen>
     <dimen name="widget_height">260dp</dimen>
-    <dimen name="widget_canvas_height">190dp</dimen>
 </resources>

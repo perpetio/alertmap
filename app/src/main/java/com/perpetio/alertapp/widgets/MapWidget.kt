@@ -1,5 +1,6 @@
 package com.perpetio.alertapp.widgets
 
+import android.R.attr.resource
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -9,8 +10,10 @@ import android.graphics.*
 import android.util.Log
 import android.util.Size
 import android.widget.RemoteViews
+import androidx.core.content.ContextCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
+import com.perpetio.alertapp.utils.draw
 import com.perpetio.alertapp.utils.drawByWidth
 
 
@@ -48,24 +51,44 @@ class MapWidgetReceiver : AppWidgetProvider() {
     private fun drawMap(
         context: Context
     ): Bitmap {
-        val canvasSize = getCanvasSize(context)
-        Log.d("123", "widget size: ${canvasSize.width}x${canvasSize.height}")
+        val greenPaint = getPaint(R.color.green, context)
+        val redPaint = getPaint(R.color.red, context)
         val canvas = Bitmap.createBitmap(
-            canvasSize.width, canvasSize.height, Bitmap.Config.ARGB_8888
+            mapWidth, mapHeight, Bitmap.Config.ARGB_8888
         )
-        val map = getBitmap(R.drawable.ukraine, context)
-        Log.d("123", "map image size: ${map.width}x${map.height}")
+        val uzhhorod = getBitmap(R.drawable.uzhhorod, context)
+        val lviv = getBitmap(R.drawable.lviv, context)
+        val lutsk = getBitmap(R.drawable.lutsk, context)
+        val frank = getBitmap(R.drawable.frank, context)
+        val ternopil = getBitmap(R.drawable.ternopil, context)
+        val rivne = getBitmap(R.drawable.rivne, context)
+        val chernivtsi = getBitmap(R.drawable.chernivtsi, context)
+        val khmel = getBitmap(R.drawable.khmel, context)
+        val zhytomyr = getBitmap(R.drawable.zhytomyr, context)
+        val vinnytsia = getBitmap(R.drawable.vinnytsia, context)
+        val kyiv = getBitmap(R.drawable.kyiv, context)
+        val chernihiv = getBitmap(R.drawable.chernihiv, context)
+        val cherkasy = getBitmap(R.drawable.cherkasy, context)
+        val poltava = getBitmap(R.drawable.poltava, context)
+        val sumy = getBitmap(R.drawable.sumy, context)
+        val odessa = getBitmap(R.drawable.odessa, context)
+        val mikolayiv = getBitmap(R.drawable.mikolayiv, context)
+        val kherson = getBitmap(R.drawable.kherson, context)
+        val dnipro = getBitmap(R.drawable.dnipro, context)
+        val kharkiv = getBitmap(R.drawable.kharkiv, context)
+        val crimea = getBitmap(R.drawable.crimea, context)
+        val zaporizhzhia = getBitmap(R.drawable.zaporizhzhia, context)
+        val donetsk = getBitmap(R.drawable.donetsk, context)
+        val luhansk = getBitmap(R.drawable.luhansk, context)
+
+        Log.d("123", "lviv image size: ${lviv.width}x${lviv.height}")
+        Log.d("123", "uzhhorod image size: ${uzhhorod.width}x${uzhhorod.height}")
         Log.d("123", "groundImage size: ${canvas.width}x${canvas.height}")
 
-        val paint = Paint().apply {
-            color = Color.GREEN
-        }
         Canvas(canvas).apply {
-            Log.d("123", "canvas size: ${width}x${height}")
-            //drawColor(Color.LTGRAY)
-            drawByWidth(map, -70f)
-            //drawLine(500f, 50f, 400f, 50f, paint)
-            //drawLine(0f, 350f, 400f, 350f, paint)
+            drawColor(Color.LTGRAY)
+            draw(lviv, 174.1f, 286.5f, greenPaint)
+            draw(uzhhorod, 146f, 420.5f, redPaint)
         }
         return canvas
     }
@@ -76,16 +99,16 @@ class MapWidgetReceiver : AppWidgetProvider() {
         )
     }
 
-    private fun getCanvasSize(context: Context): Size {
-        context.resources.apply {
-            return Size(
-                getDimension(R.dimen.widget_width).toInt(),
-                getDimension(R.dimen.widget_canvas_height).toInt()
-            )
+    private fun getPaint(colorResId: Int, context: Context): Paint {
+        val color = ContextCompat.getColor(context, colorResId)
+        return Paint().apply {
+            colorFilter = LightingColorFilter(0, color)
         }
     }
 
     companion object {
+        val mapWidth = 1144
+        val mapHeight = 668
         val bitmapOptions = BitmapFactory.Options().apply {
             inScaled = false;
         }
