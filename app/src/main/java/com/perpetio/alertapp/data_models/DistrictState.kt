@@ -1,7 +1,8 @@
 package com.perpetio.alertapp.data_models
 
 data class DistrictState(
-    val id: Int
+    val name: String,
+    val alert: Boolean
 )
 
 /*
