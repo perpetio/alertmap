@@ -1,24 +1,20 @@
 package com.perpetio.alertapp.activities
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.perpetio.alertapp.R
 import com.perpetio.alertapp.repository.Repository
-import com.perpetio.alertapp.screens.ErrorScreen
-import com.perpetio.alertapp.screens.LoadingScreen
-import com.perpetio.alertapp.screens.MapScreen
-import com.perpetio.alertapp.ui.theme.AlertAppTheme
 import com.perpetio.alertapp.utils.AlarmTimeManager
+import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.ViewModelState
 
-class MainActivity : ComponentActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         val repository = Repository();
         val viewModel = ViewModelProvider(
@@ -30,25 +26,17 @@ class MainActivity : ComponentActivity() {
             AlarmTimeManager.setReminder(this@MainActivity)
         }
 
-        setContent {
-            AlertAppTheme {
-                App(viewModel)
-            }
-        }
-    }
-}
+        val mapHolder = findViewById<ImageView>(R.id.canvas_holder)
 
-@Composable
-fun App(
-    viewModel: MainViewModel
-) {
-    viewModel.state.observeAsState().value?.let { state ->
-        when (state) {
-            ViewModelState.Loading -> LoadingScreen()
-            is ViewModelState.MapLoaded -> MapScreen()
-            is ViewModelState.Error -> ErrorScreen(
-                message = state.message
-            )
+        viewModel.state.observe(this) { state ->
+            when (state) {
+                ViewModelState.Loading -> showProgress()
+                is ViewModelState.MapLoaded -> {
+                    hideProgress()
+                    mapHolder.setImageBitmap(MapDrawer.drawMap(this))
+                }
+                is ViewModelState.Error -> showError(state.message)
+            }
         }
     }
 }
