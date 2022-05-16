@@ -3,6 +3,7 @@
     package="com.perpetio.alertapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,7 @@
         </activity>
 
         <receiver
-            android:name=".widgets.MapWidgetProvider"
+            android:name=".receivers.MapWidgetReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -35,5 +36,13 @@
                 android:resource="@xml/widget_map_settings" />
         </receiver>
 
+        <receiver
+            android:name=".receivers.AlarmReceiver"
+            android:exported="false" />
+
+        <service
+            android:name=".services.MapRefreshService"
+            android:description="@string/map_service_description"
+            android:exported="false" />
     </application>
 </manifest>

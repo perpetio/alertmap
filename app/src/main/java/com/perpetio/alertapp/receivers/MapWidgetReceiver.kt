@@ -1,4 +1,4 @@
-package com.perpetio.alertapp.widgets
+package com.perpetio.alertapp.receivers
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -13,17 +13,14 @@ import androidx.core.content.ContextCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
 import com.perpetio.alertapp.data_models.Area
+import com.perpetio.alertapp.utils.AlarmTimeManager
 import com.perpetio.alertapp.utils.draw
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 
 
-class MapWidgetProvider : AppWidgetProvider() {
-
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-    }
+class MapWidgetReceiver : AppWidgetProvider() {
 
     override fun onUpdate(
         context: Context,
@@ -36,7 +33,7 @@ class MapWidgetProvider : AppWidgetProvider() {
                 context,
                 0,
                 Intent(context, MainActivity::class.java),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
             val views = RemoteViews(
@@ -50,6 +47,7 @@ class MapWidgetProvider : AppWidgetProvider() {
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
+        AlarmTimeManager.setReminder(context)
     }
 
     private fun drawMap(
@@ -111,17 +109,10 @@ class MapWidgetProvider : AppWidgetProvider() {
     }
 
     private fun getRefreshWidgetIntent(context: Context): PendingIntent {
-        val componentName = ComponentName(
-            context.applicationContext, MapWidgetProvider::class.java
-        )
-        val ids = AppWidgetManager
-            .getInstance(context.applicationContext)
-            .getAppWidgetIds(componentName)
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        val intent = Intent(context, MapWidgetProvider::class.java)
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-        return PendingIntent.getBroadcast(context, 0, intent, flags)
+        return PendingIntent.getBroadcast(
+            context, 0, getRefreshIntent(context), flags
+        )
     }
 
     private fun getBitmap(imgResId: Int, context: Context): Bitmap {
@@ -142,6 +133,21 @@ class MapWidgetProvider : AppWidgetProvider() {
         const val mapHeight = 760
         val bitmapOptions = BitmapFactory.Options().apply {
             inScaled = false;
+        }
+
+        fun getRefreshIntent(
+            context: Context
+        ): Intent {
+            val componentName = ComponentName(
+                context.applicationContext, MapWidgetReceiver::class.java
+            )
+            val ids = AppWidgetManager
+                .getInstance(context.applicationContext)
+                .getAppWidgetIds(componentName)
+            val intent = Intent(context, MapWidgetReceiver::class.java)
+            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            return intent
         }
     }
 }
