@@ -5,6 +5,6 @@ import android.graphics.PointF
 
 data class Area(
     val name: String,
-    val image: Bitmap,
+    val imageResId: Int,
     val pos: PointF
 )
