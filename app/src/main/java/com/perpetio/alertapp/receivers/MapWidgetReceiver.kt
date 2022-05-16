@@ -6,17 +6,13 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.*
 import android.widget.RemoteViews
-import androidx.core.content.ContextCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
-import com.perpetio.alertapp.data.Map
 import com.perpetio.alertapp.utils.AlarmTimeManager
-import com.perpetio.alertapp.utils.draw
+import com.perpetio.alertapp.utils.MapDrawer
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.random.Random
 
 
 class MapWidgetReceiver : AppWidgetProvider() {
@@ -40,32 +36,12 @@ class MapWidgetReceiver : AppWidgetProvider() {
             ).apply {
                 //setTextViewText(R.id.txt_name, "Map Widget")
                 setTextViewText(R.id.refresh_date, getDateTime())
-                setImageViewBitmap(R.id.canvas_holder, drawMap(context))
+                setImageViewBitmap(R.id.canvas_holder, MapDrawer.drawMap(context))
                 setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
         AlarmTimeManager.setReminder(context)
-    }
-
-    private fun drawMap(
-        context: Context
-    ): Bitmap {
-        val greenPaint = getPaint(R.color.green, context)
-        val redPaint = getPaint(R.color.red, context)
-        val canvas = Bitmap.createBitmap(
-            mapWidth, mapHeight, Bitmap.Config.ARGB_8888
-        )
-        Canvas(canvas).apply {
-            Map.areas.forEach { area ->
-                val colorFlag = Random.nextInt(0, 2) == 0
-                area.apply {
-                    val image = getBitmap(imageResId, context)
-                    draw(image, pos.x, pos.y, if (colorFlag) redPaint else greenPaint)
-                }
-            }
-        }
-        return canvas
     }
 
     private fun getDateTime(): String {
@@ -81,26 +57,7 @@ class MapWidgetReceiver : AppWidgetProvider() {
         )
     }
 
-    private fun getBitmap(imgResId: Int, context: Context): Bitmap {
-        return BitmapFactory.decodeResource(
-            context.resources, imgResId, bitmapOptions
-        )
-    }
-
-    private fun getPaint(colorResId: Int, context: Context): Paint {
-        val color = ContextCompat.getColor(context, colorResId)
-        return Paint().apply {
-            colorFilter = LightingColorFilter(0, color)
-        }
-    }
-
     companion object {
-        const val mapWidth = 1090
-        const val mapHeight = 760
-        val bitmapOptions = BitmapFactory.Options().apply {
-            inScaled = false;
-        }
-
         fun getRefreshIntent(
             context: Context
         ): Intent {

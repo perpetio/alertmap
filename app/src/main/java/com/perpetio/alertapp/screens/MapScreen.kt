@@ -1,25 +1,26 @@
 package com.perpetio.alertapp.screens
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.perpetio.alertapp.R
+import com.perpetio.alertapp.utils.MapDrawer
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MapScreen(
     // todo
 ) {
-    val image = ImageBitmap.imageResource(R.drawable.ukraine)
+    val bitmap = MapDrawer.drawMap(LocalContext.current).asImageBitmap()
     Canvas(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxWidth(),
+        contentDescription = stringResource(R.string.alert_map)
     ) {
-        drawImage(
-            image = image,
-            topLeft = Offset(x = 5f, y = 0f)
-        )
+        drawImage(bitmap)
     }
 }
