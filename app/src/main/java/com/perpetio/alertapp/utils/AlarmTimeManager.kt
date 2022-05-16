@@ -7,18 +7,15 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import com.perpetio.alertapp.receivers.AlarmReceiver
-import java.text.SimpleDateFormat
 import java.util.*
 
 object AlarmTimeManager {
 
-    private const val ALARM_INTERVAL = 1 // 5 min
+    private const val ALARM_INTERVAL = 5 // 5 min
 
     fun setReminder(context: Context) {
-        Log.d("123", "setReminder")
-        setReceiverState(PackageManager.COMPONENT_ENABLED_STATE_ENABLED,  context)
+        setReceiverState(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, context)
 
         val pendingIntent = getReminderPendingIntent(context)
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
@@ -31,7 +28,6 @@ object AlarmTimeManager {
     }
 
     fun cancelReminder(context: Context) {
-        Log.d("123", "cancelReminder")
         setReceiverState(PackageManager.COMPONENT_ENABLED_STATE_DISABLED, context)
 
         val pendingIntent = getReminderPendingIntent(context)
@@ -52,11 +48,6 @@ object AlarmTimeManager {
     private fun getNextRefreshTime(): Long {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.MINUTE, ALARM_INTERVAL)
-
-        val dateFormat = SimpleDateFormat("dd-M-yyyy hh:mm:ss", Locale.ENGLISH)
-        val dateTime = Date(calendar.timeInMillis)
-        Log.d("123", "Next refresh time: ${dateFormat.format(dateTime)}")
-
         return calendar.timeInMillis
     }
 

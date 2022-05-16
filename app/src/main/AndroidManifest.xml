@@ -39,10 +39,5 @@
         <receiver
             android:name=".receivers.AlarmReceiver"
             android:exported="false" />
-
-        <service
-            android:name=".services.MapRefreshService"
-            android:description="@string/map_service_description"
-            android:exported="false" />
     </application>
 </manifest>

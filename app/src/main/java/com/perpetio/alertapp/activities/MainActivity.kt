@@ -43,7 +43,7 @@ fun App(
     viewModel: MainViewModel
 ) {
     viewModel.state.observeAsState().value?.let { state ->
-        when(state) {
+        when (state) {
             ViewModelState.Loading -> LoadingScreen()
             is ViewModelState.MapLoaded -> MapScreen()
             is ViewModelState.Error -> ErrorScreen(

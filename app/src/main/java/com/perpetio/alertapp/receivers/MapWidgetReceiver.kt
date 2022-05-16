@@ -7,7 +7,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
-import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import com.perpetio.alertapp.R
@@ -27,7 +26,6 @@ class MapWidgetReceiver : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        Log.d("123", "Update widget")
         appWidgetIds.forEach { widgetId ->
             val pendingIntent = PendingIntent.getActivity(
                 context,
