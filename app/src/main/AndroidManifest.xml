@@ -24,7 +24,7 @@
         </activity>
 
         <receiver
-            android:name=".widgets.MapWidgetReceiver"
+            android:name=".widgets.MapWidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

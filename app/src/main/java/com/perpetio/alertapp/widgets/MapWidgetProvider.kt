@@ -3,6 +3,7 @@ package com.perpetio.alertapp.widgets
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
@@ -13,9 +14,12 @@ import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
 import com.perpetio.alertapp.data_models.Area
 import com.perpetio.alertapp.utils.draw
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.random.Random
 
 
-class MapWidgetReceiver : AppWidgetProvider() {
+class MapWidgetProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -26,6 +30,7 @@ class MapWidgetReceiver : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
+        Log.d("123", "Update widget")
         appWidgetIds.forEach { widgetId ->
             val pendingIntent = PendingIntent.getActivity(
                 context,
@@ -39,8 +44,9 @@ class MapWidgetReceiver : AppWidgetProvider() {
                 R.layout.widget_map
             ).apply {
                 //setTextViewText(R.id.txt_name, "Map Widget")
+                setTextViewText(R.id.refresh_date, getDateTime())
                 setImageViewBitmap(R.id.canvas_holder, drawMap(context))
-                //setOnClickPendingIntent(R.id.btn_open_app, pendingIntent)
+                setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
@@ -78,19 +84,44 @@ class MapWidgetReceiver : AppWidgetProvider() {
             Area("dnipro", getBitmap(R.drawable.dnipro, context), PointF(646.7f, 325.2f)),
             Area("kharkiv", getBitmap(R.drawable.kharkiv, context), PointF(749.6f, 218f)),
             Area("crimea", getBitmap(R.drawable.crimea, context), PointF(618.9f, 569.4f)),
-            Area("zaporizhzhia", getBitmap(R.drawable.zaporizhzhia, context), PointF(714.3f, 413.5f)),
+            Area(
+                "zaporizhzhia",
+                getBitmap(R.drawable.zaporizhzhia, context),
+                PointF(714.3f, 413.5f)
+            ),
             Area("donetsk", getBitmap(R.drawable.donetsk, context), PointF(843.1f, 321.1f)),
             Area("luhansk", getBitmap(R.drawable.luhansk, context), PointF(916f, 250f)),
         )
 
         Canvas(canvas).apply {
             areas.forEach { area ->
+                val colorFlag = Random.nextInt(0, 2) == 0
                 area.apply {
-                    draw(image, pos.x, pos.y, if(name == "kyiv_city") redPaint else greenPaint)
+                    draw(image, pos.x, pos.y, if (colorFlag) redPaint else greenPaint)
                 }
             }
         }
         return canvas
+    }
+
+    private fun getDateTime(): String {
+        return SimpleDateFormat(
+            "dd MMMM, HH:mm", Locale.getDefault()
+        ).format(Date())
+    }
+
+    private fun getRefreshWidgetIntent(context: Context): PendingIntent {
+        val componentName = ComponentName(
+            context.applicationContext, MapWidgetProvider::class.java
+        )
+        val ids = AppWidgetManager
+            .getInstance(context.applicationContext)
+            .getAppWidgetIds(componentName)
+        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        val intent = Intent(context, MapWidgetProvider::class.java)
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+        return PendingIntent.getBroadcast(context, 0, intent, flags)
     }
 
     private fun getBitmap(imgResId: Int, context: Context): Bitmap {
@@ -107,8 +138,8 @@ class MapWidgetReceiver : AppWidgetProvider() {
     }
 
     companion object {
-        val mapWidth = 1090
-        val mapHeight = 760
+        const val mapWidth = 1090
+        const val mapHeight = 760
         val bitmapOptions = BitmapFactory.Options().apply {
             inScaled = false;
         }
