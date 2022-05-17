@@ -8,10 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import com.perpetio.alertapp.R
-import com.perpetio.alertapp.activities.MainActivity
 import com.perpetio.alertapp.utils.AlarmTimeManager
+import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -23,31 +22,17 @@ class MapWidgetReceiver : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         appWidgetIds.forEach { widgetId ->
-            val pendingIntent = PendingIntent.getActivity(
-                context,
-                0,
-                Intent(context, MainActivity::class.java),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-
             val views = RemoteViews(
                 context.packageName,
                 R.layout.widget_map
             ).apply {
-                //setTextViewText(R.id.txt_name, "Map Widget")
-                setTextViewText(R.id.refresh_date, getDateTime())
-                setImageViewBitmap(R.id.canvas_holder, MapDrawer.drawMap(context))
+                setTextViewText(R.id.tv_refresh_date, Formatter.getShortFormat(Date()))
+                setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(context))
                 setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
         AlarmTimeManager.setReminder(context)
-    }
-
-    private fun getDateTime(): String {
-        return SimpleDateFormat(
-            "dd MMMM, HH:mm", Locale.getDefault()
-        ).format(Date())
     }
 
     private fun getRefreshWidgetIntent(context: Context): PendingIntent {

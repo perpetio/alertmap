@@ -6,9 +6,11 @@ import androidx.lifecycle.lifecycleScope
 import com.perpetio.alertapp.databinding.ActivityMainBinding
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.utils.AlarmTimeManager
+import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.ViewModelState
+import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
@@ -34,10 +36,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 ViewModelState.Loading -> showProgress()
                 is ViewModelState.MapLoaded -> {
                     hideProgress()
-                    binding.mapHolder.setImageBitmap(MapDrawer.drawMap(this))
+                    updateMap()
                 }
                 is ViewModelState.Error -> showError(state.message)
             }
+        }
+    }
+
+    private fun updateMap() {
+        binding.apply {
+            tvRefreshDate.text = Formatter.getShortFormat(Date())
+            imgMapHolder.setImageBitmap(MapDrawer.drawMap(this@MainActivity))
         }
     }
 }
