@@ -1,50 +1,46 @@
 package com.perpetio.alertapp.activities
 
-import android.app.ProgressDialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.view.WindowManager
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.perpetio.alertapp.R
+import androidx.viewbinding.ViewBinding
+import com.perpetio.alertapp.dialogs.ProgressDialog
 
-open class BaseActivity: AppCompatActivity() {
-    private var progressDialog: ProgressDialog? = null
+abstract class BaseActivity<B : ViewBinding>(
+    val bindingFactory: (LayoutInflater) -> B
+) : AppCompatActivity() {
+    protected lateinit var binding: B
+    private lateinit var progressDialog: ProgressDialog
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = getViewBinding()
+        setContentView(binding.root)
+
+        progressDialog = ProgressDialog(this)
+    }
 
     fun showProgress() {
-        if (progressDialog == null) {
-            progressDialog = ProgressDialog.show(this, null, null, true, false)
-            progressDialog?.setContentView(R.layout.dialog_progress)
-            progressDialog?.getWindow()?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT
-            )
-            progressDialog?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            progressDialog?.setCancelable(false)
-        }
-        if (progressDialog != null && !progressDialog?.isShowing()!!) {
-            progressDialog?.show()
+        if (!progressDialog.isShowing) {
+            progressDialog.show()
         }
     }
 
     fun hideProgress() {
-        if (progressDialog != null) {
-            progressDialog?.hide()
-            progressDialog?.dismiss()
-            progressDialog = null
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
         }
     }
 
-    protected open fun showToast(stringRes: Int) {
+    fun showToast(stringRes: String?) {
         Toast.makeText(this, stringRes, Toast.LENGTH_SHORT).show()
     }
 
-    protected open fun showToast(stringRes: String?) {
-        Toast.makeText(this, stringRes, Toast.LENGTH_SHORT).show()
-    }
-
-    protected open fun showError(message: String?) {
+    fun showError(message: String?) {
         hideProgress()
         showToast(message)
     }
+
+    abstract fun getViewBinding(): B
 }

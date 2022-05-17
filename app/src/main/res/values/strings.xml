@@ -2,6 +2,8 @@
     <string name="app_name">AlertApp</string>
     <string name="map_service_description">Сервіс оновлення карти повітряних тривог</string>
 
+    <string name="loading">Завантаження...</string>
+
     <string name="alert_map">Карта повітряних тривог</string>
     <string name="data_for_date">Дані станом на:</string>
     <string name="refresh">Оновити</string>
