@@ -29,6 +29,7 @@ object Map {
         Area("dnipro", R.drawable.dnipro, PointF(646.7f, 325.2f)),
         Area("kharkiv", R.drawable.kharkiv, PointF(749.6f, 218f)),
         Area("crimea", R.drawable.crimea, PointF(618.9f, 569.4f)),
+        Area("sevastopol", R.drawable.sevastopol, PointF(668.2f, 677.3f)),
         Area("zaporizhzhia", R.drawable.zaporizhzhia, PointF(714.3f, 413.5f)),
         Area("donetsk", R.drawable.donetsk, PointF(843.1f, 321.1f)),
         Area("luhansk", R.drawable.luhansk, PointF(916f, 250f)),
