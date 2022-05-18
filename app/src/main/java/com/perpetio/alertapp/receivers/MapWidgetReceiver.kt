@@ -27,7 +27,7 @@ class MapWidgetReceiver : AppWidgetProvider() {
                 R.layout.widget_map
             ).apply {
                 setTextViewText(R.id.tv_refresh_date, Formatter.getShortFormat(Date()))
-                setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(context))
+                setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(emptyList(), context))
                 setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
             }
             appWidgetManager.updateAppWidget(widgetId, views)

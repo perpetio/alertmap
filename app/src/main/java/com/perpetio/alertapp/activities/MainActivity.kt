@@ -3,6 +3,7 @@ package com.perpetio.alertapp.activities
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.databinding.ActivityMainBinding
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
@@ -36,7 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             when (state) {
                 ViewModelState.Loading -> showProgress()
                 is ViewModelState.MapLoaded -> {
-                    updateMap()
+                    updateMap(state.statesInfo.states)
                 }
                 is ViewModelState.Error -> showError(state.message)
                 is ViewModelState.Completed -> hideProgress()
@@ -44,10 +45,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun updateMap() {
+    private fun updateMap(states: List<StateModel>) {
         binding.apply {
             tvRefreshDate.text = Formatter.getShortFormat(Date())
-            imgMapHolder.setImageBitmap(MapDrawer.drawMap(this@MainActivity))
+            imgMapHolder.setImageBitmap(MapDrawer.drawMap(states, this@MainActivity))
         }
     }
 }

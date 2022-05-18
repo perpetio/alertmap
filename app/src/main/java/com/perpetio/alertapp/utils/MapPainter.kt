@@ -5,6 +5,7 @@ import android.graphics.*
 import androidx.core.content.ContextCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.Map
+import com.perpetio.alertapp.data_models.StateModel
 import kotlin.random.Random
 
 object MapDrawer {
@@ -13,6 +14,7 @@ object MapDrawer {
     }
 
     fun drawMap(
+        states: List<StateModel>,
         context: Context
     ): Bitmap {
         val greenPaint = getPaint(R.color.green, context)
@@ -25,7 +27,10 @@ object MapDrawer {
                 val colorFlag = Random.nextInt(0, 2) == 0
                 area.apply {
                     val image = getBitmap(imageResId, context)
-                    draw(image, pos.x, pos.y, if (colorFlag) redPaint else greenPaint)
+                    val isAlert = states.find { state ->
+                        state.id == id
+                    }?.isAlert == true
+                    draw(image, pos.x, pos.y, if (isAlert) redPaint else greenPaint)
                 }
             }
         }
