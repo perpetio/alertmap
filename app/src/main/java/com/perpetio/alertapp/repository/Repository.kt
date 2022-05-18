@@ -1,10 +1,23 @@
 package com.perpetio.alertapp.repository
 
-import kotlinx.coroutines.delay
+import com.perpetio.alertapp.data_models.StatesInfoModel
 
-class Repository {
-    suspend fun refreshMap(): List<DistrictState> {
-        delay(1_000)
-        return emptyList()
+class Repository(
+    private val airAlertApi: AirAlertApi
+) {
+    suspend fun refreshStates(): StatesInfoModel {
+        val response = airAlertApi.getStates()
+        response.apply {
+            data?.let { statesInfo ->
+                return statesInfo
+            }
+            error?.message?.let { message ->
+                throw ApiError(message)
+            }
+        }
+        throw UnknownError
     }
 }
+
+class ApiError(message: String) : Exception(message)
+object UnknownError : Exception()

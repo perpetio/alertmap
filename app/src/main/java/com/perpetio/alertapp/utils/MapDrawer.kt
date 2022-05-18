@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.*
 import androidx.core.content.ContextCompat
 import com.perpetio.alertapp.R
-import com.perpetio.alertapp.data.Const
 import com.perpetio.alertapp.data.Map
 import kotlin.random.Random
 
@@ -19,7 +18,7 @@ object MapDrawer {
         val greenPaint = getPaint(R.color.green, context)
         val redPaint = getPaint(R.color.red, context)
         val canvas = Bitmap.createBitmap(
-            Const.mapWidth, Const.mapHeight, Bitmap.Config.ARGB_8888
+            Map.width, Map.height, Bitmap.Config.ARGB_8888
         )
         Canvas(canvas).apply {
             Map.areas.forEach { area ->

@@ -5,6 +5,9 @@ import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.MapAreaModel
 
 object Map {
+    const val width = 1090
+    const val height = 760
+
     val areas = listOf(
         MapAreaModel("uzhhorod", R.drawable.uzhhorod, PointF(46f, 333.5f)),
         MapAreaModel("lviv", R.drawable.lviv, PointF(74.1f, 199.5f)),

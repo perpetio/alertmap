@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.perpetio.alertapp.databinding.ActivityMainBinding
 import com.perpetio.alertapp.repository.Repository
+import com.perpetio.alertapp.repository.getAlertApiService
 import com.perpetio.alertapp.utils.AlarmTimeManager
 import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
@@ -21,13 +22,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val repository = Repository();
+        val repository = Repository(getAlertApiService())
         val viewModel = ViewModelProvider(
             this, MainViewModel.FACTORY(repository)
         ).get(MainViewModel::class.java)
 
         lifecycleScope.launchWhenStarted {
-            viewModel.fetchData()
+            viewModel.refreshMap()
             AlarmTimeManager.setReminder(this@MainActivity)
         }
 
@@ -35,10 +36,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             when (state) {
                 ViewModelState.Loading -> showProgress()
                 is ViewModelState.MapLoaded -> {
-                    hideProgress()
                     updateMap()
                 }
                 is ViewModelState.Error -> showError(state.message)
+                is ViewModelState.Completed -> hideProgress()
             }
         }
     }

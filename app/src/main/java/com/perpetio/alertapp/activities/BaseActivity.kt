@@ -38,7 +38,6 @@ abstract class BaseActivity<B : ViewBinding>(
     }
 
     fun showError(message: String?) {
-        hideProgress()
         showToast(message)
     }
 

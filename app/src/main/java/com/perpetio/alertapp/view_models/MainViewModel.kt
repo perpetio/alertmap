@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
 import com.perpetio.alertapp.repository.Repository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -16,15 +16,21 @@ class MainViewModel(
     private val _state = MutableLiveData<ViewModelState>()
     val state: LiveData<ViewModelState> = _state
 
-    fun fetchData() {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun refreshMap() {
+        withLoading {
+            repository.refreshStates()
+        }
+    }
+
+    private fun withLoading(block: suspend () -> Unit): Job {
+        return viewModelScope.launch {
             try {
-                _state.postValue(ViewModelState.Loading)
-                _state.postValue(ViewModelState.MapLoaded(
-                    repository.refreshMap()
-                ))
+                _state.value = ViewModelState.Loading
+                block()
             } catch (e: Exception) {
-                _state.postValue(ViewModelState.Error(e.message))
+                _state.value = ViewModelState.Error(e.message)
+            } finally {
+                _state.value = ViewModelState.Completed
             }
         }
     }
