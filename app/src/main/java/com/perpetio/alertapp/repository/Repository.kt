@@ -1,6 +1,5 @@
 package com.perpetio.alertapp.repository
 
-import com.perpetio.alertapp.data_models.DistrictState
 import kotlinx.coroutines.delay
 
 class Repository {

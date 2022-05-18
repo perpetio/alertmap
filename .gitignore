@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# API keys
+app/src/main/java/com/perpetio/alertapp/repository/Keys.kt
