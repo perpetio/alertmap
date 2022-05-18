@@ -1,13 +1,12 @@
 package com.perpetio.alertapp.repository
 
-import com.perpetio.alertapp.data_models.ApiResponse
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import okhttp3.Interceptor
-import okhttp3.Request
 
 
 private const val BASE_URL = "https://alerts.com.ua/"
@@ -36,5 +35,5 @@ fun getAlertApiService() = apiService
 
 interface AirAlertApi {
     @GET("/api/states")
-    fun getStates(): ApiResponse<StatesInfoModel>
+    suspend fun getStates(): StatesInfoModel
 }

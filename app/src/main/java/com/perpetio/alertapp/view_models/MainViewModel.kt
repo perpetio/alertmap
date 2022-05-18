@@ -18,7 +18,8 @@ class MainViewModel(
 
     fun refreshMap() {
         withLoading {
-            repository.refreshStates()
+            val statesInfo = repository.refreshStates()
+            _state.value = ViewModelState.MapLoaded(statesInfo)
         }
     }
 

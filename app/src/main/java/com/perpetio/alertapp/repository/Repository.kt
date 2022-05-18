@@ -6,18 +6,12 @@ class Repository(
     private val airAlertApi: AirAlertApi
 ) {
     suspend fun refreshStates(): StatesInfoModel {
-        val response = airAlertApi.getStates()
-        response.apply {
-            data?.let { statesInfo ->
-                return statesInfo
-            }
-            error?.message?.let { message ->
-                throw ApiError(message)
-            }
+        try {
+            return airAlertApi.getStates()
+        } catch (cause: Throwable) {
+            throw ApiError("Can't load states", cause)
         }
-        throw UnknownError
     }
 }
 
-class ApiError(message: String) : Exception(message)
-object UnknownError : Exception()
+class ApiError(message: String, cause: Throwable) : Exception(message, cause)
