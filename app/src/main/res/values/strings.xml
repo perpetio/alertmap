@@ -15,5 +15,5 @@
     <string name="settings">Налаштування</string>
     <string name="auto_update">Автооновлення</string>
     <string name="every">Кожні</string>
-    <string name="min">хв.</string>
+    <string name="min">%d хв.</string>
 </resources>

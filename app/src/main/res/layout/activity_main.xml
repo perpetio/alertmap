@@ -135,6 +135,7 @@
             android:paddingEnd="10dp">
 
             <CheckBox
+                android:id="@+id/chk_auto_update"
                 style="@style/BoldText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -158,6 +159,7 @@
                     android:text="@string/every" />
 
                 <RadioButton
+                    android:id="@+id/rb_min_period"
                     style="@style/MainText"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
@@ -166,6 +168,7 @@
                     android:text="@string/min" />
 
                 <RadioButton
+                    android:id="@+id/rb_middle_period"
                     style="@style/MainText"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
@@ -174,6 +177,7 @@
                     android:text="@string/min" />
 
                 <RadioButton
+                    android:id="@+id/rb_max_period"
                     style="@style/MainText"
                     android:layout_width="0dp"
                     android:layout_height="30dp"

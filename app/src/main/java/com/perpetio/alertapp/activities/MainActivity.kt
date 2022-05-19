@@ -2,7 +2,12 @@ package com.perpetio.alertapp.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.RadioButton
+import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
+import com.perpetio.alertapp.R
+import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.ActivityMainBinding
 import com.perpetio.alertapp.repository.Repository
@@ -29,6 +34,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         ).get(MainViewModel::class.java)
 
         setupObservers(viewModel)
+        setupViews()
+        setupListeners()
+
         viewModel.refreshMap()
         AlarmTimeManager.setReminder(this@MainActivity)
         Log.d("123", "MainActivity onCreate end")
@@ -42,6 +50,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 is ViewModelState.MapLoaded -> updateMap(state.statesInfo)
                 is ViewModelState.Error -> showError(state.message)
                 is ViewModelState.Completed -> hideProgress()
+            }
+        }
+    }
+
+    private fun setupViews() {
+        binding.apply {
+            val intervals = RepeatInterval.values().toList()
+            rgRepeatInterval.forEach { button ->
+                intervals.find { interval ->
+                    interval.bntId == button.id
+                }?.let { interval ->
+                    (button as RadioButton).text = getString(R.string.min, interval.minutes)
+                }
+            }
+        }
+    }
+
+    private fun setupListeners() {
+        binding.apply {
+            chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
+                rgRepeatInterval.visibility = if (isChecked) View.VISIBLE else View.GONE
             }
         }
     }
