@@ -3,5 +3,7 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@color/ground</item>
+        <item name="android:colorPrimary">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
     </style>
 </resources>

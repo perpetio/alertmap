@@ -8,6 +8,10 @@
     </style>
 
     <style name="BoldText" parent="MainText">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="BigText" parent="MainText">
         <item name="android:textSize">18sp</item>
     </style>
 </resources>

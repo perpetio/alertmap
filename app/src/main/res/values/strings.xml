@@ -11,5 +11,9 @@
     <string name="air_alert">Тривога</string>
     <string name="no_alert">Відбій</string>
     <string name="no_info">Немає даних</string>
-    <string name="Settings">Налаштування</string>
+
+    <string name="settings">Налаштування</string>
+    <string name="auto_update">Автооновлення</string>
+    <string name="every">Кожні</string>
+    <string name="min">хв.</string>
 </resources>
