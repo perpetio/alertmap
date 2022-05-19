@@ -10,6 +10,7 @@ import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.ActivityMainBinding
+import com.perpetio.alertapp.receivers.MapWidgetReceiver
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
 import com.perpetio.alertapp.utils.AlarmTimeManager
@@ -35,7 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         setupObservers(viewModel)
         setupViews()
-        setupListeners()
+        setupListeners(viewModel)
 
         viewModel.refreshMap()
         AlarmTimeManager.setReminder(this@MainActivity)
@@ -67,8 +68,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun setupListeners() {
+    private fun setupListeners(
+        viewModel: MainViewModel
+    ) {
         binding.apply {
+            refreshLayout.setOnRefreshListener {
+                viewModel.refreshMap()
+            }
             chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
                 rgRepeatInterval.visibility = if (isChecked) View.VISIBLE else View.GONE
             }
@@ -85,5 +91,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 )
             )
         }
+        MapWidgetReceiver.checkUpdate(
+            statesInfo.states, this@MainActivity
+        )
+    }
+
+    private fun showProgress() {
+        binding.refreshLayout.isRefreshing = true
+    }
+
+    private fun hideProgress() {
+        binding.refreshLayout.isRefreshing = false
     }
 }
