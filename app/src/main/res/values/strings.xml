@@ -8,5 +8,8 @@
     <string name="data_for_date">Дані станом на:</string>
     <string name="refresh">Оновити</string>
 
+    <string name="air_alert">Тривога</string>
+    <string name="no_alert">Відбій</string>
+    <string name="no_info">Немає даних</string>
     <string name="Settings">Налаштування</string>
 </resources>

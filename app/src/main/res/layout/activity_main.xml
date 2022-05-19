@@ -13,14 +13,15 @@
         android:padding="10dp">
 
         <TextView
-            style="@style/BigText"
+            style="@style/BoldText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/alert_map" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
             <TextView
                 style="@style/MainText"
@@ -44,8 +45,74 @@
         android:layout_weight="50"
         android:scaleType="fitCenter" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/calm" />
+
+            <TextView
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/no_alert" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginStart="10dp">
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/alert" />
+
+            <TextView
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/air_alert" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginStart="10dp">
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/noInfo" />
+
+            <TextView
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/no_info" />
+        </LinearLayout>
+    </LinearLayout>
+
     <TextView
-        style="@style/BigText"
+        style="@style/BoldText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/card_plate_top"
