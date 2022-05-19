@@ -18,7 +18,7 @@ class MapRefreshService : Service() {
         val repository = Repository(getAlertApiService())
         CoroutineScope(Job()).launch {
             val statesInfo = repository.refreshStates()
-            MapWidgetReceiver.checkUpdate(this@MapRefreshService)
+            MapWidgetReceiver.checkUpdate(statesInfo.states, this@MapRefreshService)
             Log.d("123", "Service end...")
             stopSelf()
         }

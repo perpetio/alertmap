@@ -9,14 +9,25 @@ import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
 import com.perpetio.alertapp.R
+import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.services.MapRefreshService
 import com.perpetio.alertapp.utils.AlarmTimeManager
 import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MapWidgetReceiver : AppWidgetProvider() {
+
+    private var states: List<StateModel>? = null
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        intent?.apply {
+            states = getParcelableArrayListExtra(STATES)
+        }
+        super.onReceive(context, intent)
+    }
 
     override fun onUpdate(
         context: Context,
@@ -30,8 +41,10 @@ class MapWidgetReceiver : AppWidgetProvider() {
                 R.layout.widget_map
             ).apply {
                 setTextViewText(R.id.tv_refresh_date, Formatter.getShortFormat(Date()))
-                setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(emptyList(), context))
                 setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
+                states?.let {
+                    setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(it, context))
+                }
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
@@ -52,8 +65,14 @@ class MapWidgetReceiver : AppWidgetProvider() {
     }
 
     companion object {
-        fun checkUpdate(context: Context) {
+        const val STATES = "states"
+
+        fun checkUpdate(
+            states: List<StateModel>,
+            context: Context
+        ) {
             val refreshIntent = getRefreshIntent(context)
+            refreshIntent.putParcelableArrayListExtra(STATES, ArrayList(states))
             context.sendBroadcast(refreshIntent)
         }
 
