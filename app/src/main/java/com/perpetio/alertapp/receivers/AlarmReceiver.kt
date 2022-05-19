@@ -7,13 +7,8 @@ import android.content.Intent
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        context?.apply {
-            refreshMap(this)
+        context?.let {
+            MapWidgetReceiver.checkUpdate(it)
         }
-    }
-
-    private fun refreshMap(context: Context) {
-        val refreshIntent = MapWidgetReceiver.getRefreshIntent(context)
-        context.sendBroadcast(refreshIntent)
     }
 }

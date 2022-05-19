@@ -43,7 +43,12 @@ class MapWidgetReceiver : AppWidgetProvider() {
     }
 
     companion object {
-        fun getRefreshIntent(
+        fun checkUpdate(context: Context) {
+            val refreshIntent = getRefreshIntent(context)
+            context.sendBroadcast(refreshIntent)
+        }
+
+        private fun getRefreshIntent(
             context: Context
         ): Intent {
             val componentName = ComponentName(
