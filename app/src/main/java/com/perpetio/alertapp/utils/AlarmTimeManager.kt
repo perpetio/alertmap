@@ -7,14 +7,16 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import com.perpetio.alertapp.receivers.AlarmReceiver
 import java.util.*
 
 object AlarmTimeManager {
 
-    private const val ALARM_INTERVAL = 5 // 5 min
+    private const val ALARM_INTERVAL = 1 // 5 min
 
     fun setReminder(context: Context) {
+        Log.d("123", "Set reminder")
         setReceiverState(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, context)
 
         val pendingIntent = getReminderPendingIntent(context)
@@ -28,6 +30,7 @@ object AlarmTimeManager {
     }
 
     fun cancelReminder(context: Context) {
+        Log.d("123", "Cancel reminder")
         setReceiverState(PackageManager.COMPONENT_ENABLED_STATE_DISABLED, context)
 
         val pendingIntent = getReminderPendingIntent(context)

@@ -25,10 +25,11 @@ object MapDrawer {
         Canvas(canvas).apply {
             Map.areas.forEach { area ->
                 area.apply {
+                    val isAlert = Random.nextInt(0, 2) == 0
                     val image = getBitmap(imageResId, context)
-                    val isAlert = states.find { state ->
+                    /*val isAlert = states.find { state ->
                         state.id == id
-                    }?.isAlert == true
+                    }?.isAlert == true*/
                     draw(image, pos.x, pos.y, if (isAlert) redPaint else greenPaint)
                 }
             }
