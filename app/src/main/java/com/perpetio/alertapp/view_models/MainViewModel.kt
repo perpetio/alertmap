@@ -1,5 +1,6 @@
 package com.perpetio.alertapp.view_models
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,11 +27,14 @@ class MainViewModel(
     private fun withLoading(block: suspend () -> Unit): Job {
         return viewModelScope.launch {
             try {
+                Log.d("123", "withLoading Loading")
                 _state.value = ViewModelState.Loading
                 block()
             } catch (e: Exception) {
+                Log.d("123", "withLoading Exception: $e")
                 _state.value = ViewModelState.Error(e.message)
             } finally {
+                Log.d("123", "withLoading Completed")
                 _state.value = ViewModelState.Completed
             }
         }

@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
 import com.perpetio.alertapp.receivers.AlarmReceiver
+import java.text.SimpleDateFormat
 import java.util.*
 
 object AlarmTimeManager {
@@ -51,6 +52,11 @@ object AlarmTimeManager {
     private fun getNextRefreshTime(): Long {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.MINUTE, ALARM_INTERVAL)
+
+        val dateFormat = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault())
+        val dateTime = Date(calendar.timeInMillis)
+        Log.d("123", "Time: ${dateFormat.format(dateTime)}")
+
         return calendar.timeInMillis
     }
 
