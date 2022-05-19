@@ -14,7 +14,7 @@
         android:padding="10dp">
 
         <TextView
-            style="@style/BoldText"
+            style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/alert_map" />

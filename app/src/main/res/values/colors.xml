@@ -3,12 +3,12 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="dark">#121212</color>
-    <color name="on_dark">#1F1F1F</color>
-    <color name="light">#EBEBF0</color>
+    <color name="ground">#26282F</color>
+    <color name="on_ground">#383A3F</color>
 
-    <color name="red">#ff3b3b</color>
-    <color name="green">#05c270</color>
+    <color name="alert">#FF6951</color>
+    <color name="calm">#04B97F</color>
+    <color name="noInfo">#FFDC78</color>
 
-    <color name="black_transparent">#99202122</color>
+    <color name="black_transparent">#9926282F</color>
 </resources>

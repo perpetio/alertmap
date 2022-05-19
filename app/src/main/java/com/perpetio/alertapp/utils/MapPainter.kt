@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.Map
 import com.perpetio.alertapp.data_models.StateModel
-import kotlin.random.Random
 
 object MapDrawer {
     private val bitmapOptions = BitmapFactory.Options().apply {
@@ -17,8 +16,9 @@ object MapDrawer {
         states: List<StateModel>,
         context: Context
     ): Bitmap {
-        val greenPaint = getPaint(R.color.green, context)
-        val redPaint = getPaint(R.color.red, context)
+        val calmPaint = getPaint(R.color.calm, context)
+        val alertPaint = getPaint(R.color.alert, context)
+        val noInfoPaint = getPaint(R.color.noInfo, context)
         val canvas = Bitmap.createBitmap(
             Map.width, Map.height, Bitmap.Config.ARGB_8888
         )
@@ -29,8 +29,13 @@ object MapDrawer {
                     val image = getBitmap(imageResId, context)
                     val isAlert = states.find { state ->
                         state.id == id
-                    }?.isAlert == true
-                    draw(image, pos.x, pos.y, if (isAlert) redPaint else greenPaint)
+                    }?.isAlert
+                    val paint = when (isAlert){
+                        null -> noInfoPaint
+                        true -> alertPaint
+                        else -> calmPaint
+                    }
+                    draw(image, pos.x, pos.y, paint)
                 }
             }
         }
