@@ -58,6 +58,7 @@
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
                     android:layout_weight="25"
+                    android:checked="true"
                     android:text="@string/min" />
 
                 <RadioButton
