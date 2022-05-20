@@ -118,22 +118,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            style="@style/BigText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card_plate_top"
-            android:backgroundTint="@color/on_ground"
-            android:padding="20dp"
-            android:text="@string/settings" />
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fr_settings"
             android:name="com.perpetio.alertapp.fragments.SettingsFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="50"
-            android:background="@color/black_transparent"
-            android:backgroundTint="@color/on_ground" />
+            android:layout_weight="50" />
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

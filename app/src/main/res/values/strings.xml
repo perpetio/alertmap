@@ -16,4 +16,5 @@
     <string name="auto_update">Автооновлення</string>
     <string name="every">Кожні</string>
     <string name="min">%d хв.</string>
+    <string name="save">Зберегти</string>
 </resources>
