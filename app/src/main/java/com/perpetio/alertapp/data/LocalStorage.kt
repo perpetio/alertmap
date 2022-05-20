@@ -31,4 +31,3 @@ class LocalStorage(
         private const val NULL_INT = -1
     }
 }
-}

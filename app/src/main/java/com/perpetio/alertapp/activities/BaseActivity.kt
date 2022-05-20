@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.perpetio.alertapp.AlertApp
 
-abstract class BaseActivity<B : ViewBinding>(
-    val bindingFactory: (LayoutInflater) -> B
-) : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
-    val app = application as AlertApp
-    protected lateinit var binding: B
+    protected lateinit var binding: VB
+
+    protected val app by lazy {
+        application as AlertApp
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,5 +29,5 @@ abstract class BaseActivity<B : ViewBinding>(
         showToast(message)
     }
 
-    abstract fun getViewBinding(): B
+    abstract fun getViewBinding(): VB
 }
