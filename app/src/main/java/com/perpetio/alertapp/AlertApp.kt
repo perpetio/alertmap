@@ -6,8 +6,8 @@ import com.perpetio.alertapp.data.LocalStorage
 
 class AlertApp : Application() {
 
-    private lateinit var _storage: LocalStorage
-    val storage = _storage
+    private var _storage: LocalStorage? = null
+    val storage get() = _storage!!
 
     override fun onCreate() {
         super.onCreate()
