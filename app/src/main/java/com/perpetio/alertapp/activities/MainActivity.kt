@@ -35,7 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         ).get(MainViewModel::class.java)
 
         setupObservers(viewModel)
-        setupViews()
         setupListeners(viewModel)
 
         viewModel.refreshMap()
@@ -55,28 +54,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    private fun setupViews() {
-        binding.apply {
-            val intervals = RepeatInterval.values().toList()
-            rgRepeatInterval.forEach { button ->
-                intervals.find { interval ->
-                    interval.bntId == button.id
-                }?.let { interval ->
-                    (button as RadioButton).text = getString(R.string.min, interval.minutes)
-                }
-            }
-        }
-    }
-
     private fun setupListeners(
         viewModel: MainViewModel
     ) {
         binding.apply {
             refreshLayout.setOnRefreshListener {
                 viewModel.refreshMap()
-            }
-            chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
-                rgRepeatInterval.visibility = if (isChecked) View.VISIBLE else View.GONE
             }
         }
     }

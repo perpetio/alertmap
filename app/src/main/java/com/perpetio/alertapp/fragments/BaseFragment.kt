@@ -11,7 +11,7 @@ import com.perpetio.alertapp.AlertApp
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private var _binding: VB? = null
-    protected val binding = _binding!!
+    protected val binding get() = _binding!!
 
     protected val app by lazy {
         requireActivity().application as AlertApp
