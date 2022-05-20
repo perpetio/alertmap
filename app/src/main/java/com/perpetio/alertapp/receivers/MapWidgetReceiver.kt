@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
+import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.services.MapRefreshService
@@ -15,7 +16,6 @@ import com.perpetio.alertapp.utils.AlarmTimeManager
 import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MapWidgetReceiver : AppWidgetProvider() {
@@ -48,7 +48,9 @@ class MapWidgetReceiver : AppWidgetProvider() {
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
-        AlarmTimeManager.setReminder(context)
+        getApp(context).storage.repeatInterval?.let { interval ->
+            AlarmTimeManager.setReminder(interval, context)
+        }
     }
 
     /*private fun getRefreshWidgetIntent(context: Context): PendingIntent {
@@ -62,6 +64,10 @@ class MapWidgetReceiver : AppWidgetProvider() {
         val intent = Intent(context, MapRefreshService::class.java)
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         return PendingIntent.getService(context, 0, intent, flags)
+    }
+
+    private fun getApp(context: Context): AlertApp {
+        return context.applicationContext as AlertApp
     }
 
     companion object {

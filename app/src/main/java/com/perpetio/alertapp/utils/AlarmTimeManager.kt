@@ -14,9 +14,7 @@ import java.util.*
 
 object AlarmTimeManager {
 
-    private const val ALARM_INTERVAL = 1 // 5 min
-
-    fun setReminder(context: Context) {
+    fun setReminder(interval: Int, context: Context) {
         Log.d("123", "Set reminder")
         setReceiverState(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, context)
 
@@ -25,7 +23,7 @@ object AlarmTimeManager {
 
         alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
-            getNextRefreshTime(),
+            getNextRefreshTime(interval),
             pendingIntent
         )
     }
@@ -49,9 +47,9 @@ object AlarmTimeManager {
         )
     }
 
-    private fun getNextRefreshTime(): Long {
+    private fun getNextRefreshTime(interval: Int): Long {
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MINUTE, ALARM_INTERVAL)
+        calendar.add(Calendar.MINUTE, interval)
 
         val dateFormat = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault())
         val dateTime = Date(calendar.timeInMillis)
