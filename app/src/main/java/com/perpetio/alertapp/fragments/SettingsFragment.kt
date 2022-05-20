@@ -53,7 +53,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun enableSaving(value: Boolean) {
-        binding.btnSave.visibility = if (value) View.VISIBLE else View.GONE
+        val titleText = getString(R.string.settings)
+        binding.apply {
+            tvTitle.text = if (value) "${titleText}*" else titleText
+            btnSave.visibility = if (value) View.VISIBLE else View.GONE
+        }
     }
 
     private fun showSettings() {
@@ -68,6 +72,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 chkAutoUpdate.isChecked = true
             }
         }
+        enableSaving(false)
     }
 
     private fun saveSettings() {
