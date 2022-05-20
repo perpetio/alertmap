@@ -4,7 +4,7 @@
     android:minWidth="@dimen/widget_width"
     android:minHeight="@dimen/widget_height"
     android:targetCellWidth="4"
-    android:targetCellHeight="4"
+    android:targetCellHeight="3"
     android:previewLayout="@layout/widget_map"
     android:initialLayout="@layout/widget_map"
     android:resizeMode="horizontal|vertical"
