@@ -9,11 +9,9 @@ import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
-import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.ViewModelState
-import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -32,9 +30,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setupObservers(viewModel)
         setupListeners(viewModel)
 
-        viewModel.refreshMap()
-        app.storage.repeatInterval?.let { interval ->
-            WidgetRefreshReminder.startWithDelay(interval, this)
+        if (viewModel.state.value == null) {
+            viewModel.refreshMap()
+            app.storage.repeatInterval?.let { interval ->
+                WidgetRefreshReminder.startWithDelay(interval, this)
+            }
         }
         Log.d("123", "MainActivity onCreate end")
     }
@@ -44,10 +44,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             Log.d("123", "viewModel.state.observe $state")
             when (state) {
                 ViewModelState.Loading -> showProgress()
-                is ViewModelState.MapLoaded -> updateMap(state.statesInfo)
                 is ViewModelState.Error -> showError(state.message)
                 is ViewModelState.Completed -> hideProgress()
             }
+        }
+        viewModel.statesInfo.observe(this) { statesInfo ->
+            updateMap(statesInfo)
         }
     }
 
@@ -64,7 +66,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun updateMap(statesInfo: StatesInfoModel) {
         Log.d("123", "updateMap: $statesInfo")
         binding.apply {
-            tvRefreshDate.text = Formatter.getShortFormat(Date())
+            tvRefreshDate.text = statesInfo.refreshTime
             imgMapHolder.setImageBitmap(
                 MapDrawer.drawMap(
                     statesInfo.states, this@MainActivity

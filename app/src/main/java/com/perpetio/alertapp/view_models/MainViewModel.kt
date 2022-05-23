@@ -6,9 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
+import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.repository.Repository
+import com.perpetio.alertapp.utils.Formatter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainViewModel(
     private val repository: Repository
@@ -17,10 +20,16 @@ class MainViewModel(
     private val _state = MutableLiveData<ViewModelState>()
     val state: LiveData<ViewModelState> = _state
 
+    private val _statesInfo = MutableLiveData<StatesInfoModel>()
+    val statesInfo: LiveData<StatesInfoModel> = _statesInfo
+
     fun refreshMap() {
         withLoading {
             val statesInfo = repository.refreshStates()
-            _state.value = ViewModelState.MapLoaded(statesInfo)
+            _statesInfo.value = StatesInfoModel(
+                statesInfo.states,
+                Formatter.getShortFormat(Date())
+            )
         }
     }
 

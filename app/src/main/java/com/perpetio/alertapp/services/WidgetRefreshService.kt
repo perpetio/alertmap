@@ -15,9 +15,11 @@ import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.repository.ApiError
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
+import com.perpetio.alertapp.utils.Formatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class WidgetRefreshService : Service() {
@@ -30,7 +32,10 @@ class WidgetRefreshService : Service() {
             val statesInfo = try {
                 repository.refreshStates()
             } catch (e: ApiError) {
-                StatesInfoModel(emptyList(), "")
+                StatesInfoModel(
+                    emptyList(),
+                    Formatter.getShortFormat(Date())
+                )
             }
             WidgetUpdateReceiver.checkUpdate(statesInfo.states, this@WidgetRefreshService)
             Log.d("123", "Service end...")
