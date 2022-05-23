@@ -4,7 +4,9 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.receivers.MapWidgetReceiver
+import com.perpetio.alertapp.repository.ApiError
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +19,11 @@ class MapRefreshService : Service() {
         Log.d("123", "Service start...")
         val repository = Repository(getAlertApiService())
         CoroutineScope(Job()).launch {
-            val statesInfo = repository.refreshStates()
+            val statesInfo = try {
+                repository.refreshStates()
+            } catch (e: ApiError) {
+                StatesInfoModel(emptyList(), "")
+            }
             MapWidgetReceiver.checkUpdate(statesInfo.states, this@MapRefreshService)
             Log.d("123", "Service end...")
             stopSelf()

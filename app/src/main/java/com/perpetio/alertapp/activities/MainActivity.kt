@@ -38,6 +38,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setupListeners(viewModel)
 
         viewModel.refreshMap()
+        app.storage.repeatInterval?.let { interval ->
+            AlarmTimeManager.setReminder(interval, this)
+        }
         Log.d("123", "MainActivity onCreate end")
     }
 

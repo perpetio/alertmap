@@ -48,26 +48,12 @@ class MapWidgetReceiver : AppWidgetProvider() {
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
-        getApp(context).storage.repeatInterval?.let { interval ->
-            AlarmTimeManager.setReminder(interval, context)
-        }
     }
-
-    /*private fun getRefreshWidgetIntent(context: Context): PendingIntent {
-        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        return PendingIntent.getBroadcast(
-            context, 0, getRefreshIntent(context), flags
-        )
-    }*/
 
     private fun getRefreshWidgetIntent(context: Context): PendingIntent {
         val intent = Intent(context, MapRefreshService::class.java)
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         return PendingIntent.getService(context, 0, intent, flags)
-    }
-
-    private fun getApp(context: Context): AlertApp {
-        return context.applicationContext as AlertApp
     }
 
     companion object {
