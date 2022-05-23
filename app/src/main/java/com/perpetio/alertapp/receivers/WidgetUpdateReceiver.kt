@@ -8,17 +8,15 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
-import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StateModel
-import com.perpetio.alertapp.services.MapRefreshService
-import com.perpetio.alertapp.utils.AlarmTimeManager
+import com.perpetio.alertapp.services.WidgetRefreshService
 import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import java.util.*
 
 
-class MapWidgetReceiver : AppWidgetProvider() {
+class WidgetUpdateReceiver : AppWidgetProvider() {
 
     private var states: List<StateModel>? = null
 
@@ -51,7 +49,7 @@ class MapWidgetReceiver : AppWidgetProvider() {
     }
 
     private fun getRefreshWidgetIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MapRefreshService::class.java)
+        val intent = Intent(context, WidgetRefreshService::class.java)
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         return PendingIntent.getService(context, 0, intent, flags)
     }
@@ -72,12 +70,12 @@ class MapWidgetReceiver : AppWidgetProvider() {
             context: Context
         ): Intent {
             val componentName = ComponentName(
-                context.applicationContext, MapWidgetReceiver::class.java
+                context.applicationContext, WidgetUpdateReceiver::class.java
             )
             val ids = AppWidgetManager
                 .getInstance(context.applicationContext)
                 .getAppWidgetIds(componentName)
-            val intent = Intent(context, MapWidgetReceiver::class.java)
+            val intent = Intent(context, WidgetUpdateReceiver::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             return intent

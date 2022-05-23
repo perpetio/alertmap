@@ -2,18 +2,13 @@ package com.perpetio.alertapp.activities
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.RadioButton
-import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
-import com.perpetio.alertapp.R
-import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.ActivityMainBinding
-import com.perpetio.alertapp.receivers.MapWidgetReceiver
+import com.perpetio.alertapp.receivers.WidgetRefreshReminder
+import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
-import com.perpetio.alertapp.utils.AlarmTimeManager
 import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
@@ -39,7 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         viewModel.refreshMap()
         app.storage.repeatInterval?.let { interval ->
-            AlarmTimeManager.setReminder(interval, this)
+            WidgetRefreshReminder.setReminder(interval, this)
         }
         Log.d("123", "MainActivity onCreate end")
     }
@@ -76,7 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 )
             )
         }
-        MapWidgetReceiver.checkUpdate(
+        WidgetUpdateReceiver.checkUpdate(
             statesInfo.states, this@MainActivity
         )
     }

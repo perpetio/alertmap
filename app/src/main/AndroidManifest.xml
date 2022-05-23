@@ -27,7 +27,7 @@
         </activity>
 
         <receiver
-            android:name=".receivers.MapWidgetReceiver"
+            android:name=".receivers.WidgetUpdateReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -39,7 +39,7 @@
         </receiver>
 
         <receiver
-            android:name=".receivers.AlarmReceiver"
+            android:name=".receivers.WidgetRefreshReminder"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -47,7 +47,7 @@
         </receiver>
 
         <service
-            android:name=".services.MapRefreshService"
+            android:name=".services.WidgetRefreshService"
             android:description="@string/map_service_description"
             android:exported="false" />
     </application>

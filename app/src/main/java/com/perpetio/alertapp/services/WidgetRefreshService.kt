@@ -11,7 +11,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StatesInfoModel
-import com.perpetio.alertapp.receivers.MapWidgetReceiver
+import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.repository.ApiError
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
@@ -20,10 +20,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
-class MapRefreshService : Service() {
+class WidgetRefreshService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startInForeground()
+        startOnForeground()
         Log.d("123", "Service start...")
         val repository = Repository(getAlertApiService())
         CoroutineScope(Job()).launch {
@@ -32,7 +32,7 @@ class MapRefreshService : Service() {
             } catch (e: ApiError) {
                 StatesInfoModel(emptyList(), "")
             }
-            MapWidgetReceiver.checkUpdate(statesInfo.states, this@MapRefreshService)
+            WidgetUpdateReceiver.checkUpdate(statesInfo.states, this@WidgetRefreshService)
             Log.d("123", "Service end...")
             stopSelf()
         }
@@ -49,7 +49,7 @@ class MapRefreshService : Service() {
         super.onDestroy()
     }
 
-    private fun startInForeground() {
+    private fun startOnForeground() {
         val channelId = "Foreground Service ID"
         val notificationId = 101
         createNotificationChannel(channelId)

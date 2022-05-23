@@ -7,7 +7,7 @@ import androidx.core.view.forEach
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
-import com.perpetio.alertapp.utils.AlarmTimeManager
+import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
@@ -83,7 +83,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                     interval.btnId == checkedButtonId
                 }?.let { interval ->
                     app.storage.repeatInterval = interval.minutes
-                    AlarmTimeManager.setReminder(interval.minutes, requireContext())
+                    WidgetRefreshReminder.setReminder(interval.minutes, requireContext())
                 }
             } else app.storage.repeatInterval = null
         }
