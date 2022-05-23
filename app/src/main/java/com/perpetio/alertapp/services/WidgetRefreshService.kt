@@ -50,13 +50,13 @@ class WidgetRefreshService : Service() {
     }
 
     private fun startOnForeground() {
-        val channelId = "Foreground Service ID"
-        val notificationId = 101
+        val channelId = getString(R.string.widget_service_channel_id)
+        val notificationId = getString(R.string.widget_service_notification_id).toInt()
         createNotificationChannel(channelId)
 
         val notification = NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Service enabled")
-            .setContentText("Service is running")
+            .setContentTitle(getString(R.string.widget_service_notification_title))
+            .setContentText(getString(R.string.widget_service_notification_text))
             .setSmallIcon(R.drawable.ic_launcher_background)
 
         startForeground(notificationId, notification.build())
@@ -66,15 +66,11 @@ class WidgetRefreshService : Service() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelName = getString(R.string.map_service_channel)
-            val channelDescription = getString(R.string.map_service_channel_description)
+            val channelName = getString(R.string.widget_service_channel_name)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(
                 channelId, channelName, importance
-            ).apply {
-                description = channelDescription
-            }
-            // Register the channel with the system
+            )
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)

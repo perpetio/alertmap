@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">AlertApp</string>
-    <string name="map_service_description">Air alert map update service</string>
-    <string name="map_service_channel">Map service channel</string>
-    <string name="map_service_channel_description">Map service channel description</string>
+    
+    <string name="widget_service_description">Widget refresh service</string>
+    <string name="widget_service_channel_id">1120</string>
+    <string name="widget_service_channel_name">Widget refresh channel</string>
+    <string name="widget_service_notification_id">1121</string>
+    <string name="widget_service_notification_title">AlertApp refresh service</string>
+    <string name="widget_service_notification_text">Fetching map information&#8230;</string>
 
     <string name="alert_map">Карта повітряних тривог</string>
     <string name="data_for_date">Дані станом на:</string>

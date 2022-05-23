@@ -1,5 +1,6 @@
 package com.perpetio.alertapp.receivers
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -15,16 +16,14 @@ import java.util.*
 
 class WidgetRefreshReminder : BroadcastReceiver() {
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
+    override fun onReceive(context: Context, intent: Intent) {
         Log.d("123", "Alarm receiver onReceive")
-        context?.apply {
-            Intent(this, WidgetRefreshService::class.java).also {
-                startService(it)
-            }
-            Log.d("123", "Alarm receiver started service")
-            getApp(this).storage.repeatInterval?.let { interval ->
-                startWithDelay(interval, this)
-            }
+        val serviceIntent = Intent(context, WidgetRefreshService::class.java)
+        context.startService(serviceIntent)
+        Log.d("123", "Alarm receiver started service")
+        getApp(context).storage.repeatInterval?.let { interval ->
+            startWithDelay(interval, context)
         }
     }
 

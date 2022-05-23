@@ -48,7 +48,7 @@
 
         <service
             android:name=".services.WidgetRefreshService"
-            android:description="@string/map_service_description"
+            android:description="@string/widget_service_description"
             android:exported="false" />
     </application>
 </manifest>
