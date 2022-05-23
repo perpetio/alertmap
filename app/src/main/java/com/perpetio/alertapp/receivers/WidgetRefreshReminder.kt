@@ -23,7 +23,7 @@ class WidgetRefreshReminder : BroadcastReceiver() {
             }
             Log.d("123", "Alarm receiver started service")
             getApp(this).storage.repeatInterval?.let { interval ->
-                setReminder(interval, this)
+                startWithDelay(interval, this)
             }
         }
     }
@@ -33,7 +33,7 @@ class WidgetRefreshReminder : BroadcastReceiver() {
     }
 
     companion object {
-        fun setReminder(interval: Int, context: Context) {
+        fun startWithDelay(delay: Int, context: Context) {
             Log.d("123", "Set reminder")
             setReceiverState(
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
@@ -45,12 +45,12 @@ class WidgetRefreshReminder : BroadcastReceiver() {
 
             alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
-                getNextRefreshTime(interval),
+                getNextRefreshTime(delay),
                 pendingIntent
             )
         }
 
-        fun cancelReminder(context: Context) {
+        fun cancel(context: Context) {
             Log.d("123", "Cancel reminder")
             setReceiverState(
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
@@ -72,9 +72,9 @@ class WidgetRefreshReminder : BroadcastReceiver() {
             )
         }
 
-        private fun getNextRefreshTime(interval: Int): Long {
+        private fun getNextRefreshTime(delay: Int): Long {
             val calendar = Calendar.getInstance()
-            calendar.add(Calendar.MINUTE, interval)
+            calendar.add(Calendar.MINUTE, delay)
 
             val dateFormat = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault())
             val dateTime = Date(calendar.timeInMillis)

@@ -83,9 +83,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                     interval.btnId == checkedButtonId
                 }?.let { interval ->
                     app.storage.repeatInterval = interval.minutes
-                    WidgetRefreshReminder.setReminder(interval.minutes, requireContext())
+                    WidgetRefreshReminder.startWithDelay(
+                        interval.minutes, requireContext()
+                    )
                 }
-            } else app.storage.repeatInterval = null
+            } else {
+                app.storage.repeatInterval = null
+                WidgetRefreshReminder.cancel(requireContext())
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         viewModel.refreshMap()
         app.storage.repeatInterval?.let { interval ->
-            WidgetRefreshReminder.setReminder(interval, this)
+            WidgetRefreshReminder.startWithDelay(interval, this)
         }
         Log.d("123", "MainActivity onCreate end")
     }
