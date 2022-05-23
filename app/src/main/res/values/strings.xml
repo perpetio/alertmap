@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">AlertApp</string>
-    <string name="map_service_description">Сервіс оновлення карти повітряних тривог</string>
-
-    <string name="loading">Завантаження...</string>
+    <string name="map_service_description">Air alert map update service</string>
+    <string name="map_service_channel">Map service channel</string>
+    <string name="map_service_channel_description">Map service channel description</string>
 
     <string name="alert_map">Карта повітряних тривог</string>
     <string name="data_for_date">Дані станом на:</string>
