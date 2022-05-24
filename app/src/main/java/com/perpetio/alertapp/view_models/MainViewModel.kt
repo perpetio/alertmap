@@ -25,8 +25,10 @@ class MainViewModel(
     private val _statesInfo = MutableLiveData<StatesInfoModel>()
     val statesInfo: LiveData<StatesInfoModel> = _statesInfo
 
-    fun refreshMap(): Job {
-        return viewModelScope.launch {
+    private var mapRefreshingJob: Job? = null
+
+    fun refreshMap() {
+        viewModelScope.launch {
             withLoading {
                 val statesInfo = repository.refreshStates()
                 _statesInfo.value = StatesInfoModel(
@@ -39,9 +41,9 @@ class MainViewModel(
 
     fun refreshMapPeriodically(
         minutesInterval: Int
-    ): Job {
-        return viewModelScope.launch {
-            while (true) {
+    ) {
+        mapRefreshingJob = viewModelScope.launch {
+            while (isActive) {
                 withLoading {
                     val statesInfo = repository.refreshStates()
                     _statesInfo.value = StatesInfoModel(
@@ -49,10 +51,13 @@ class MainViewModel(
                         Formatter.getShortFormat(Date())
                     )
                 }
-                if (!isActive) break
                 delay(minutesInterval * 60 * 1000L)
             }
         }
+    }
+
+    fun cancelMapRefreshing() {
+        mapRefreshingJob?.cancel()
     }
 
     private suspend fun withLoading(

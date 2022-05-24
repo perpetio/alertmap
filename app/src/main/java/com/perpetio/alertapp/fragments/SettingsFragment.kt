@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.view.forEach
+import androidx.fragment.app.activityViewModels
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
+import com.perpetio.alertapp.view_models.MainViewModel
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
+
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun getViewBinding(): FragmentSettingsBinding {
         return FragmentSettingsBinding.inflate(layoutInflater)
@@ -83,12 +87,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                     interval.btnId == checkedButtonId
                 }?.let { interval ->
                     app.storage.repeatInterval = interval.minutes
+                    viewModel.refreshMapPeriodically(interval.minutes)
                     WidgetRefreshReminder.startWithDelay(
                         interval.minutes, requireContext()
                     )
                 }
             } else {
                 app.storage.repeatInterval = null
+                viewModel.cancelMapRefreshing()
                 WidgetRefreshReminder.cancel(requireContext())
             }
         }
