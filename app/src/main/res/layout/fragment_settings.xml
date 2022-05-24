@@ -27,12 +27,26 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
 
-            <CheckBox
-                android:id="@+id/chk_auto_update"
-                style="@style/BoldText"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/auto_update" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/chk_auto_update"
+                    style="@style/BoldText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="@string/auto_update" />
+
+                <TextView
+                    android:id="@+id/tv_next_update"
+                    style="@style/MainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/grey" />
+            </LinearLayout>
 
             <RadioGroup
                 android:id="@+id/rg_repeat_interval"

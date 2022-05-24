@@ -8,6 +8,7 @@ import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
+import com.perpetio.alertapp.utils.Formatter
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
@@ -61,14 +62,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private fun showSettings() {
         binding.apply {
-            app.storage.repeatInterval?.let { repeatInterval ->
-                val intervals = RepeatInterval.values().toList()
-                intervals.find { interval ->
-                    interval.minutes == repeatInterval
-                }?.let { interval ->
-                    rgRepeatInterval.check(interval.btnId)
+            app.storage.apply {
+                repeatInterval?.let { repeatInterval ->
+                    val intervals = RepeatInterval.values().toList()
+                    intervals.find { interval ->
+                        interval.minutes == repeatInterval
+                    }?.let { interval ->
+                        rgRepeatInterval.check(interval.btnId)
+                    }
+                    chkAutoUpdate.isChecked = true
                 }
-                chkAutoUpdate.isChecked = true
+                nextUpdateTime?.let { time ->
+                    tvNextUpdate.text = "(${Formatter.getTimeFormat(time)})"
+                }
             }
         }
         enableSaving(false)
@@ -82,14 +88,22 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 intervals.find { interval ->
                     interval.btnId == checkedButtonId
                 }?.let { interval ->
-                    app.storage.repeatInterval = interval.minutes
-                    WidgetRefreshReminder.startWithDelay(
+                    val time = WidgetRefreshReminder.startWithDelay(
                         interval.minutes, requireContext()
                     )
+                    app.storage.apply {
+                        repeatInterval = interval.minutes
+                        nextUpdateTime = time
+                    }
+                    tvNextUpdate.text = "(${Formatter.getTimeFormat(time)})"
                 }
             } else {
-                app.storage.repeatInterval = null
                 WidgetRefreshReminder.cancel(requireContext())
+                app.storage.apply {
+                    repeatInterval = null
+                    nextUpdateTime = null
+                }
+                tvNextUpdate.text = ""
             }
         }
     }

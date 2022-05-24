@@ -9,4 +9,10 @@ object Formatter {
             "dd MMMM, HH:mm", Locale.getDefault()
         ).format(dateTime)
     }
+
+    fun getTimeFormat(time: Long): String {
+        return SimpleDateFormat(
+            "HH:mm", Locale.getDefault()
+        ).format(Date(time))
+    }
 }

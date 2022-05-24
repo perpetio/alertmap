@@ -24,10 +24,22 @@ class LocalStorage(
             ).apply()
         }
 
+    var nextUpdateTime: Long?
+        get() {
+            return prefs.getLong(NEXT_UPDATE_TIME, NULL_LONG)
+        }
+        set(value) {
+            prefs.edit().putLong(
+                NEXT_UPDATE_TIME, value ?: NULL_LONG
+            ).apply()
+        }
+
     companion object {
         private const val STORAGE_NAME = "AlertAppStorage"
         private const val REPEAT_INTERVAL = "repeat_interval"
+        private const val NEXT_UPDATE_TIME = "next_update_time"
 
         private const val NULL_INT = -1
+        private const val NULL_LONG = -1L
     }
 }

@@ -8,10 +8,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.services.WidgetRefreshService
-import java.text.SimpleDateFormat
 import java.util.*
 
 class WidgetRefreshReminder : BroadcastReceiver() {
@@ -30,20 +28,22 @@ class WidgetRefreshReminder : BroadcastReceiver() {
     }
 
     companion object {
-        fun startWithDelay(delay: Int, context: Context) {
+        fun startWithDelay(delay: Int, context: Context): Long {
             setReceiverState(
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 context
             )
 
+            val nextRefreshTime = getNextRefreshTime(delay)
             val pendingIntent = getReminderPendingIntent(context)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
-                getNextRefreshTime(delay),
+                nextRefreshTime,
                 pendingIntent
             )
+            return nextRefreshTime
         }
 
         fun cancel(context: Context) {
