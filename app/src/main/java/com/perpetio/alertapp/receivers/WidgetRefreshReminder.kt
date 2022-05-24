@@ -16,8 +16,7 @@ class WidgetRefreshReminder : BroadcastReceiver() {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent) {
-        val serviceIntent = Intent(context, WidgetRefreshService::class.java)
-        context.startService(serviceIntent)
+        WidgetRefreshService.startSelf(context)
         getApp(context).storage.apply {
             repeatInterval?.let { interval ->
                 nextUpdateTime = startWithDelay(interval, context)

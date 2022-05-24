@@ -75,4 +75,15 @@ class WidgetRefreshService : Service() {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+    companion object {
+        fun startSelf(context: Context) {
+            val serviceIntent = Intent(context, WidgetRefreshService::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(serviceIntent);
+            } else {
+                context.startService(serviceIntent);
+            }
+        }
+    }
 }

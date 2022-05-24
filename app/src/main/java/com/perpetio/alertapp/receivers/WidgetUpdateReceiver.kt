@@ -19,8 +19,7 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
-        val serviceIntent = Intent(context, WidgetRefreshService::class.java)
-        context.startService(serviceIntent)
+        WidgetRefreshService.startSelf(context)
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
