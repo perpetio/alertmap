@@ -7,13 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
 import com.perpetio.alertapp.data_models.StatesInfoModel
+import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.repository.Repository
-import com.perpetio.alertapp.utils.Formatter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import java.util.*
 
 class MainViewModel(
     private val repository: Repository
@@ -30,11 +29,7 @@ class MainViewModel(
     fun refreshMap() {
         viewModelScope.launch {
             withLoading {
-                val statesInfo = repository.refreshStates()
-                _statesInfo.value = StatesInfoModel(
-                    statesInfo.states,
-                    Formatter.getShortFormat(Date())
-                )
+                _statesInfo.value = repository.refreshStates()
             }
         }
     }
@@ -42,14 +37,11 @@ class MainViewModel(
     fun refreshMapPeriodically(
         minutesInterval: Int
     ) {
+        mapRefreshingJob?.cancel()
         mapRefreshingJob = viewModelScope.launch {
             while (isActive) {
                 withLoading {
-                    val statesInfo = repository.refreshStates()
-                    _statesInfo.value = StatesInfoModel(
-                        statesInfo.states,
-                        Formatter.getShortFormat(Date())
-                    )
+                    _statesInfo.value = repository.refreshStates()
                 }
                 delay(minutesInterval * 60 * 1000L)
             }

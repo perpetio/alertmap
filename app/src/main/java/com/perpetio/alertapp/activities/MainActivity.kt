@@ -9,9 +9,11 @@ import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
+import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.ViewModelState
+import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -27,16 +29,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             this, MainViewModel.FACTORY(repository)
         ).get(MainViewModel::class.java)
 
+        Log.d("123", "MainActivity viewModel $viewModel")
+
         setupObservers(viewModel)
         setupListeners(viewModel)
 
         if (viewModel.state.value == null) {
             val minutesInterval = app.storage.repeatInterval
             if (minutesInterval != null) {
+                Log.d("123", "minutesInterval != null")
                 viewModel.refreshMapPeriodically(minutesInterval)
             } else viewModel.refreshMap()
         }
         Log.d("123", "MainActivity onCreate end")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        app.storage.repeatInterval?.let {
+            WidgetRefreshReminder.cancel(this)
+        }
+    }
+
+    override fun onStop() {
+        app.storage.repeatInterval?.let { minutesInterval ->
+            WidgetRefreshReminder.startWithDelay(minutesInterval, this)
+        }
+        super.onStop()
     }
 
     private fun setupObservers(viewModel: MainViewModel) {
@@ -64,9 +83,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun updateMap(statesInfo: StatesInfoModel) {
-        Log.d("123", "updateMap: $statesInfo")
         binding.apply {
-            tvRefreshDate.text = statesInfo.refreshTime
+            tvRefreshDate.text = Formatter.getShortFormat(Date())
             imgMapHolder.setImageBitmap(
                 MapDrawer.drawMap(
                     statesInfo.states, this@MainActivity
@@ -74,7 +92,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             )
         }
         WidgetUpdateReceiver.checkUpdate(
-            statesInfo.states, this@MainActivity
+            statesInfo.states, this
         )
     }
 
