@@ -16,8 +16,9 @@ data class StateModel(
     val nameEn: String
 ): Parcelable
 
+@Parcelize
 data class StatesInfoModel(
     val states: List<StateModel>,
     @SerializedName("last_update")
     val refreshTime: String,
-)
+): Parcelable

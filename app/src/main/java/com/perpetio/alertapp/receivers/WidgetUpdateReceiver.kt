@@ -10,19 +10,19 @@ import android.util.Log
 import android.widget.RemoteViews
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StateModel
+import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.services.WidgetRefreshService
-import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import java.util.*
 
 
 class WidgetUpdateReceiver : AppWidgetProvider() {
 
-    private var states: List<StateModel>? = null
+    private var statesInfo: StatesInfoModel? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.apply {
-            states = getParcelableArrayListExtra(STATES)
+            statesInfo = getParcelableExtra(STATES_INFO)
         }
         super.onReceive(context, intent)
     }
@@ -38,10 +38,10 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
                 context.packageName,
                 R.layout.widget_map
             ).apply {
-                setTextViewText(R.id.tv_refresh_date, Formatter.getShortFormat(Date()))
                 setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
-                states?.let {
-                    setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(it, context))
+                statesInfo?.apply {
+                    setTextViewText(R.id.tv_refresh_date, refreshTime)
+                    setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(states, context))
                 }
             }
             appWidgetManager.updateAppWidget(widgetId, views)
@@ -55,14 +55,14 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
     }
 
     companion object {
-        const val STATES = "states"
+        const val STATES_INFO = "states_info"
 
         fun checkUpdate(
-            states: List<StateModel>,
+            statesInfo: StatesInfoModel,
             context: Context
         ) {
             val refreshIntent = getRefreshIntent(context)
-            refreshIntent.putParcelableArrayListExtra(STATES, ArrayList(states))
+            refreshIntent.putExtra(STATES_INFO, statesInfo)
             context.sendBroadcast(refreshIntent)
         }
 

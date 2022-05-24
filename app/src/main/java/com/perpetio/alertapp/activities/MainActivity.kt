@@ -5,15 +5,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.ActivityMainBinding
-import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.repository.getAlertApiService
-import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.ViewModelState
-import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -35,27 +32,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setupListeners(viewModel)
 
         if (viewModel.state.value == null) {
-            val minutesInterval = app.storage.repeatInterval
-            if (minutesInterval != null) {
-                Log.d("123", "minutesInterval != null")
-                viewModel.refreshMapPeriodically(minutesInterval)
-            } else viewModel.refreshMap()
+            viewModel.refreshMap()
         }
         Log.d("123", "MainActivity onCreate end")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        app.storage.repeatInterval?.let {
-            WidgetRefreshReminder.cancel(this)
-        }
-    }
-
-    override fun onStop() {
-        app.storage.repeatInterval?.let { minutesInterval ->
-            WidgetRefreshReminder.startWithDelay(minutesInterval, this)
-        }
-        super.onStop()
     }
 
     private fun setupObservers(viewModel: MainViewModel) {
@@ -69,6 +48,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         viewModel.statesInfo.observe(this) { statesInfo ->
             updateMap(statesInfo)
+            WidgetUpdateReceiver.checkUpdate(
+                statesInfo, this
+            )
         }
     }
 
@@ -84,16 +66,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun updateMap(statesInfo: StatesInfoModel) {
         binding.apply {
-            tvRefreshDate.text = Formatter.getShortFormat(Date())
+            tvRefreshDate.text = statesInfo.refreshTime
             imgMapHolder.setImageBitmap(
                 MapDrawer.drawMap(
                     statesInfo.states, this@MainActivity
                 )
             )
         }
-        WidgetUpdateReceiver.checkUpdate(
-            statesInfo.states, this
-        )
     }
 
     private fun showProgress() {

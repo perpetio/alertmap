@@ -56,7 +56,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun enableSaving(value: Boolean) {
-        val titleText = getString(R.string.settings)
+        val titleText = getString(R.string.widget_settings)
         binding.apply {
             tvTitle.text = if (value) "${titleText}*" else titleText
             btnSave.visibility = if (value) View.VISIBLE else View.GONE
@@ -87,14 +87,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                     interval.btnId == checkedButtonId
                 }?.let { interval ->
                     app.storage.repeatInterval = interval.minutes
-                    viewModel.refreshMapPeriodically(interval.minutes)
                     WidgetRefreshReminder.startWithDelay(
                         interval.minutes, requireContext()
                     )
                 }
             } else {
                 app.storage.repeatInterval = null
-                viewModel.cancelMapRefreshing()
                 WidgetRefreshReminder.cancel(requireContext())
             }
         }

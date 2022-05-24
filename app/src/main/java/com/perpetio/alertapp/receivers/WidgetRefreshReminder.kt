@@ -87,7 +87,7 @@ class WidgetRefreshReminder : BroadcastReceiver() {
                 context,
                 0,
                 Intent(context, WidgetRefreshReminder::class.java),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
     }

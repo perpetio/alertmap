@@ -37,7 +37,9 @@ class WidgetRefreshService : Service() {
                     Formatter.getShortFormat(Date())
                 )
             }
-            WidgetUpdateReceiver.checkUpdate(statesInfo.states, this@WidgetRefreshService)
+            WidgetUpdateReceiver.checkUpdate(
+                statesInfo, this@WidgetRefreshService
+            )
             Log.d("123", "Service end...")
             stopSelf()
         }

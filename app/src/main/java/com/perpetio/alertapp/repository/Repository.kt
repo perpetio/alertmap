@@ -2,6 +2,8 @@ package com.perpetio.alertapp.repository
 
 import android.util.Log
 import com.perpetio.alertapp.data_models.StatesInfoModel
+import com.perpetio.alertapp.utils.Formatter
+import java.util.*
 
 class Repository(
     private val airAlertApi: AirAlertApi
@@ -9,7 +11,11 @@ class Repository(
     suspend fun refreshStates(): StatesInfoModel {
         try {
             Log.d("123", "refreshStates start")
-            return airAlertApi.getStates()
+            val statesInfo = airAlertApi.getStates()
+            return StatesInfoModel(
+                statesInfo.states,
+                Formatter.getShortFormat(Date())
+            )
         } catch (cause: Throwable) {
             throw ApiError("Can't load states", cause)
         }
