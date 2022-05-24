@@ -18,8 +18,10 @@ class WidgetRefreshReminder : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val serviceIntent = Intent(context, WidgetRefreshService::class.java)
         context.startService(serviceIntent)
-        getApp(context).storage.repeatInterval?.let { interval ->
-            startWithDelay(interval, context)
+        getApp(context).storage.apply {
+            repeatInterval?.let { interval ->
+                nextUpdateTime = startWithDelay(interval, context)
+            }
         }
     }
 
