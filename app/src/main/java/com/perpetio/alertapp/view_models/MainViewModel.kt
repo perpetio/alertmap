@@ -10,6 +10,8 @@ import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.repository.Repository
 import com.perpetio.alertapp.utils.Formatter
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -23,29 +25,49 @@ class MainViewModel(
     private val _statesInfo = MutableLiveData<StatesInfoModel>()
     val statesInfo: LiveData<StatesInfoModel> = _statesInfo
 
-    fun refreshMap() {
-        withLoading {
-            val statesInfo = repository.refreshStates()
-            _statesInfo.value = StatesInfoModel(
-                statesInfo.states,
-                Formatter.getShortFormat(Date())
-            )
+    fun refreshMap(): Job {
+        return viewModelScope.launch {
+            withLoading {
+                val statesInfo = repository.refreshStates()
+                _statesInfo.value = StatesInfoModel(
+                    statesInfo.states,
+                    Formatter.getShortFormat(Date())
+                )
+            }
         }
     }
 
-    private fun withLoading(block: suspend () -> Unit): Job {
+    fun refreshMapPeriodically(
+        minutesInterval: Int
+    ): Job {
         return viewModelScope.launch {
-            try {
-                Log.d("123", "withLoading Loading")
-                _state.value = ViewModelState.Loading
-                block()
-            } catch (e: Exception) {
-                Log.d("123", "withLoading Exception: $e")
-                _state.value = ViewModelState.Error(e.message)
-            } finally {
-                Log.d("123", "withLoading Completed")
-                _state.value = ViewModelState.Completed
+            while (true) {
+                withLoading {
+                    val statesInfo = repository.refreshStates()
+                    _statesInfo.value = StatesInfoModel(
+                        statesInfo.states,
+                        Formatter.getShortFormat(Date())
+                    )
+                }
+                if (!isActive) break
+                delay(minutesInterval * 60 * 1000L)
             }
+        }
+    }
+
+    private suspend fun withLoading(
+        block: suspend () -> Unit
+    ) {
+        try {
+            Log.d("123", "withLoading Loading")
+            _state.value = ViewModelState.Loading
+            block()
+        } catch (e: Exception) {
+            Log.d("123", "withLoading Exception: $e")
+            _state.value = ViewModelState.Error(e.message)
+        } finally {
+            Log.d("123", "withLoading Completed")
+            _state.value = ViewModelState.Completed
         }
     }
 

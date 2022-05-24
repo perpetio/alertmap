@@ -31,10 +31,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setupListeners(viewModel)
 
         if (viewModel.state.value == null) {
-            viewModel.refreshMap()
-            app.storage.repeatInterval?.let { interval ->
-                WidgetRefreshReminder.startWithDelay(interval, this)
-            }
+            val minutesInterval = app.storage.repeatInterval
+            if (minutesInterval != null) {
+                viewModel.refreshMapPeriodically(minutesInterval)
+            } else viewModel.refreshMap()
         }
         Log.d("123", "MainActivity onCreate end")
     }
