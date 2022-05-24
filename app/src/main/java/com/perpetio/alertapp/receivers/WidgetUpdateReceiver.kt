@@ -6,14 +6,11 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.RemoteViews
 import com.perpetio.alertapp.R
-import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.services.WidgetRefreshService
 import com.perpetio.alertapp.utils.MapDrawer
-import java.util.*
 
 
 class WidgetUpdateReceiver : AppWidgetProvider() {
@@ -32,7 +29,6 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        Log.d("123", "Widget onUpdate")
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(
                 context.packageName,

@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StatesInfoModel
@@ -26,7 +25,6 @@ class WidgetRefreshService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startOnForeground()
-        Log.d("123", "Service start...")
         val repository = Repository(getAlertApiService())
         CoroutineScope(Job()).launch {
             val statesInfo = try {
@@ -40,7 +38,6 @@ class WidgetRefreshService : Service() {
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, this@WidgetRefreshService
             )
-            Log.d("123", "Service end...")
             stopSelf()
         }
 
@@ -49,11 +46,6 @@ class WidgetRefreshService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
-    }
-
-    override fun onDestroy() {
-        Log.d("123", "Service onDestroy")
-        super.onDestroy()
     }
 
     private fun startOnForeground() {

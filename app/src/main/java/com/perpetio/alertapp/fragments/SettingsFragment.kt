@@ -4,16 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.view.forEach
-import androidx.fragment.app.activityViewModels
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
-import com.perpetio.alertapp.view_models.MainViewModel
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
-
-    private val viewModel: MainViewModel by activityViewModels()
 
     override fun getViewBinding(): FragmentSettingsBinding {
         return FragmentSettingsBinding.inflate(layoutInflater)

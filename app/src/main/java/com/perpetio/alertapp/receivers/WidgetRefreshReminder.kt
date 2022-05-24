@@ -18,10 +18,8 @@ class WidgetRefreshReminder : BroadcastReceiver() {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("123", "Alarm receiver onReceive")
         val serviceIntent = Intent(context, WidgetRefreshService::class.java)
         context.startService(serviceIntent)
-        Log.d("123", "Alarm receiver started service")
         getApp(context).storage.repeatInterval?.let { interval ->
             startWithDelay(interval, context)
         }
@@ -33,7 +31,6 @@ class WidgetRefreshReminder : BroadcastReceiver() {
 
     companion object {
         fun startWithDelay(delay: Int, context: Context) {
-            Log.d("123", "Set reminder")
             setReceiverState(
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 context
@@ -50,7 +47,6 @@ class WidgetRefreshReminder : BroadcastReceiver() {
         }
 
         fun cancel(context: Context) {
-            Log.d("123", "Cancel reminder")
             setReceiverState(
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 context
@@ -74,11 +70,6 @@ class WidgetRefreshReminder : BroadcastReceiver() {
         private fun getNextRefreshTime(delay: Int): Long {
             val calendar = Calendar.getInstance()
             calendar.add(Calendar.MINUTE, delay)
-
-            val dateFormat = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault())
-            val dateTime = Date(calendar.timeInMillis)
-            Log.d("123", "Time: ${dateFormat.format(dateTime)}")
-
             return calendar.timeInMillis
         }
 

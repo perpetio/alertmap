@@ -1,7 +1,6 @@
 package com.perpetio.alertapp.activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.ActivityMainBinding
@@ -26,20 +25,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             this, MainViewModel.FACTORY(repository)
         ).get(MainViewModel::class.java)
 
-        Log.d("123", "MainActivity viewModel $viewModel")
-
         setupObservers(viewModel)
         setupListeners(viewModel)
 
         if (viewModel.state.value == null) {
             viewModel.refreshMap()
         }
-        Log.d("123", "MainActivity onCreate end")
     }
 
     private fun setupObservers(viewModel: MainViewModel) {
         viewModel.state.observe(this) { state ->
-            Log.d("123", "viewModel.state.observe $state")
             when (state) {
                 ViewModelState.Loading -> showProgress()
                 is ViewModelState.Error -> showError(state.message)

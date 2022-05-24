@@ -1,6 +1,5 @@
 package com.perpetio.alertapp.repository
 
-import android.util.Log
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.utils.Formatter
 import java.util.*
@@ -10,7 +9,6 @@ class Repository(
 ) {
     suspend fun refreshStates(): StatesInfoModel {
         try {
-            Log.d("123", "refreshStates start")
             val statesInfo = airAlertApi.getStates()
             return StatesInfoModel(
                 statesInfo.states,
