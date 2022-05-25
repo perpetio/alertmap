@@ -10,9 +10,11 @@
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/card_plate.xml" value="0.136" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/circle.xml" value="0.136" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.136" />
-        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/activity_main.xml" value="0.6972222222222222" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/ic_vink.xml" value="0.136" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/sound_check.xml" value="0.136" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/dialog_progress.xml" value="0.5" />
-        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_settings.xml" value="0.6972222222222222" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_settings.xml" value="0.5810185185185185" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/test_activity.xml" value="0.503968253968254" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/widget_map.xml" value="0.67" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/xml/widget_map_settings.xml" value="0.16770833333333332" />

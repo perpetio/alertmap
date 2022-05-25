@@ -16,9 +16,11 @@
     <string name="no_alert">Відбій</string>
     <string name="no_info">Немає даних</string>
 
-    <string name="widget_settings">Налаштування віджета</string>
+    <string name="settings">Налаштування</string>
     <string name="auto_update">Автооновлення</string>
     <string name="every">Кожні</string>
     <string name="min">%d хв.</string>
+    <string name="notification">Сповіщення</string>
+    <string name="territory">Території</string>
     <string name="save">Зберегти</string>
 </resources>
