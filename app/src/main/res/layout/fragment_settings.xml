@@ -115,7 +115,7 @@
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"
                     android:button="@drawable/sound_check"
-                    android:checked="true"
+                    android:checked="false"
                     android:visibility="gone" />
             </LinearLayout>
 
