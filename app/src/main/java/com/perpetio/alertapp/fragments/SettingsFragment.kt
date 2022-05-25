@@ -1,13 +1,13 @@
 package com.perpetio.alertapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.view.forEach
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
+import com.perpetio.alertapp.dialogs.SelectTerritoryDialog
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.utils.Formatter
 
@@ -49,11 +49,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             chkNotification.setOnCheckedChangeListener { button, isChecked ->
                 val visibility = getVisibility(isChecked)
                 chkNotificationSound.visibility = visibility
-                tvTerritoryTitle.visibility = visibility
-                tvTerritory.visibility = visibility
+                tvTerritoriesTitle.visibility = visibility
+                tvTerritories.visibility = visibility
             }
-            tvTerritory.setOnClickListener {
-                Log.d("123", "Open territories dialog")
+            tvTerritories.setOnClickListener {
+                SelectTerritoryDialog(requireContext()).show()
             }
             btnSave.setOnClickListener {
                 saveSettings()
