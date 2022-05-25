@@ -31,5 +31,9 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         _binding = null
     }
 
+    protected fun getVisibility(value: Boolean): Int {
+        return if (value) View.VISIBLE else View.GONE
+    }
+
     abstract fun getViewBinding(): VB
 }

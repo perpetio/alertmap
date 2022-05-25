@@ -1,6 +1,7 @@
 package com.perpetio.alertapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.view.forEach
@@ -39,11 +40,20 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     private fun setupListeners() {
         binding.apply {
             chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
-                rgRepeatInterval.visibility = if (isChecked) View.VISIBLE else View.GONE
+                rgRepeatInterval.visibility = getVisibility(isChecked)
                 enableSaving(true)
             }
             rgRepeatInterval.setOnCheckedChangeListener { radioGroup, buttonId ->
                 enableSaving(true)
+            }
+            chkNotification.setOnCheckedChangeListener { button, isChecked ->
+                val visibility = getVisibility(isChecked)
+                chkNotificationSound.visibility = visibility
+                tvTerritoryTitle.visibility = visibility
+                tvTerritory.visibility = visibility
+            }
+            tvTerritory.setOnClickListener {
+                Log.d("123", "Open territories dialog")
             }
             btnSave.setOnClickListener {
                 saveSettings()
@@ -53,10 +63,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun enableSaving(value: Boolean) {
-        val titleText = getString(R.string.widget_settings)
+        val titleText = getString(R.string.settings)
         binding.apply {
             tvTitle.text = if (value) "${titleText}*" else titleText
-            btnSave.visibility = if (value) View.VISIBLE else View.GONE
+            btnSave.visibility = getVisibility(value)
         }
     }
 
