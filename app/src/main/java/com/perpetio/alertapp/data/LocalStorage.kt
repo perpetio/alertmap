@@ -26,7 +26,8 @@ class LocalStorage(
 
     var nextUpdateTime: Long?
         get() {
-            return prefs.getLong(NEXT_UPDATE_TIME, NULL_LONG)
+            val time = prefs.getLong(NEXT_UPDATE_TIME, NULL_LONG)
+            return if (time == NULL_LONG) null else time
         }
         set(value) {
             prefs.edit().putLong(
