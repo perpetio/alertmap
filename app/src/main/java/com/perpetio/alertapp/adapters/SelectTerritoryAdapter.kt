@@ -1,10 +1,9 @@
 package com.perpetio.alertapp.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
+import android.widget.CheckedTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StateModel
@@ -29,15 +28,15 @@ class SelectTerritoryAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
+        private val chkText: CheckedTextView = itemView.findViewById(R.id.chk_text)
 
         fun bind(state: StateModel) {
-            checkBox.apply {
+            chkText.apply {
                 text = state.name
-                setOnCheckedChangeListener(null)
                 isChecked = state.isChecked
-                setOnCheckedChangeListener { button, isChecked ->
-                    state.isChecked = isChecked
+                setOnClickListener {
+                    chkText.isChecked = !chkText.isChecked
+                    state.isChecked = chkText.isChecked
                 }
             }
         }
