@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/territories"
+                android:text="@string/selected_territories"
                 android:visibility="gone" />
 
             <TextView

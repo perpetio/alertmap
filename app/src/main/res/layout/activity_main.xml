@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/refresh_layout"
+    android:id="@+id/fr_host"
+    android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/calm">
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fr_host"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/main_nav_graph" />
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    app:navGraph="@navigation/main_nav_graph" />

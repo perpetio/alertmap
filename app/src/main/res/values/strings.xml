@@ -21,9 +21,9 @@
     <string name="every">Кожні</string>
     <string name="min">%d хв.</string>
     <string name="notification">Сповіщення</string>
-    <string name="territories">Території</string>
+    <string name="selected_territories">Обрані території</string>
     <string name="save">Зберегти</string>
 
     <string name="follow_by">Слідкувати за:</string>
-    <string name="select_territories_you_want_observe">Оберіть території, про які ви хочете отримувати сповіщення</string>
+    <string name="select_territories_you_want_observe">Оберіть території, від яких ви хочете отримувати сповіщення</string>
 </resources>
