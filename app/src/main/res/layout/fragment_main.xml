@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/calm">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -115,15 +118,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/btn_settings"
-            style="@style/BigText"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fr_settings"
+            android:name="com.perpetio.alertapp.fragments.SettingsFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/card_plate_top"
-            android:backgroundTint="@color/on_ground"
-            android:padding="20dp"
-            android:text="@string/settings" />
+            android:layout_height="270dp"
+            tools:layout="@layout/fragment_settings" />
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

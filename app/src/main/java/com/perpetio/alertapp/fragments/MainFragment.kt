@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.perpetio.alertapp.data_models.StatesInfoModel
-import com.perpetio.alertapp.databinding.FragmentMapBinding
+import com.perpetio.alertapp.databinding.FragmentMainBinding
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.ViewModelState
 
-class MapFragment : BaseFragment<FragmentMapBinding>() {
+class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val viewModel by activityViewModels<MainViewModel>()
 
-    override fun getViewBinding(): FragmentMapBinding {
-        return FragmentMapBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentMainBinding {
+        return FragmentMainBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,9 +49,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         binding.apply {
             refreshLayout.setOnRefreshListener {
                 viewModel.refreshMap()
-            }
-            btnSettings.setOnClickListener {
-                goTo(MapFragmentDirections.toSettingsFragment())
             }
         }
     }

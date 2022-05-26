@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.RadioButton
 import androidx.core.view.forEach
 import com.perpetio.alertapp.R
+import com.perpetio.alertapp.activities.MainActivity
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
@@ -38,9 +39,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private fun setupListeners() {
         binding.apply {
-            btnBack.setOnClickListener {
-                goTo(SettingsFragmentDirections.toMapFragment())
-            }
             chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
                 rgRepeatInterval.visibility = getVisibility(isChecked)
                 enableSaving(true)
@@ -51,11 +49,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             chkNotification.setOnCheckedChangeListener { button, isChecked ->
                 val visibility = getVisibility(isChecked)
                 chkNotificationSound.visibility = visibility
-                tvTerritoriesTitle.visibility = visibility
-                tvTerritories.visibility = visibility
+                layNotificationSound.visibility = visibility
             }
-            tvTerritories.setOnClickListener {
-                goTo(SettingsFragmentDirections.toSelectTerritoryFragment())
+            btnSelectTerritories.setOnClickListener {
+                goTo(MainFragmentDirections.toSelectTerritoryFragment())
             }
             btnSave.setOnClickListener {
                 saveSettings()
@@ -69,6 +66,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.apply {
             tvTitle.text = if (value) "${titleText}*" else titleText
             btnSave.visibility = getVisibility(value)
+            btnSelectTerritories.visibility = getVisibility(
+                if (value) !value else chkNotification.isChecked
+            )
         }
     }
 

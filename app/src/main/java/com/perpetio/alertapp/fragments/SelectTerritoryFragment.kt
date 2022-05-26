@@ -18,7 +18,7 @@ class SelectTerritoryFragment : BaseFragment<FragmentSelectTerritotyBinding>() {
     private fun setListeners() {
         binding.apply {
             btnBack.setOnClickListener {
-                goTo(SelectTerritoryFragmentDirections.toSettingsFragment())
+                goTo(SelectTerritoryFragmentDirections.toMainFragment())
             }
         }
     }
