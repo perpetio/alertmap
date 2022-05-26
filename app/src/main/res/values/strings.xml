@@ -22,7 +22,7 @@
     <string name="min">%d хв.</string>
     <string name="receive_notification">Отримувати сповіщення</string>
     <string name="notification_sound">Звук сповіщення</string>
-    <string name="select_territories">Обрати потрібні території</string>
+    <string name="notification_territories">Території оповіщення</string>
     <string name="save">Зберегти</string>
 
     <string name="follow_by">Слідкувати за:</string>

@@ -50,6 +50,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 val visibility = getVisibility(isChecked)
                 chkNotificationSound.visibility = visibility
                 layNotificationSound.visibility = visibility
+                btnSelectTerritories.visibility = visibility
             }
             btnSelectTerritories.setOnClickListener {
                 goTo(MainFragmentDirections.toSelectTerritoryFragment())
@@ -66,9 +67,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.apply {
             tvTitle.text = if (value) "${titleText}*" else titleText
             btnSave.visibility = getVisibility(value)
-            btnSelectTerritories.visibility = getVisibility(
-                if (value) !value else chkNotification.isChecked
-            )
         }
     }
 
