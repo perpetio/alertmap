@@ -7,7 +7,6 @@ import androidx.core.view.forEach
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
-import com.perpetio.alertapp.dialogs.SelectTerritoryDialog
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.utils.Formatter
 
@@ -39,6 +38,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private fun setupListeners() {
         binding.apply {
+            btnBack.setOnClickListener {
+                goTo(SettingsFragmentDirections.toMapFragment())
+            }
             chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
                 rgRepeatInterval.visibility = getVisibility(isChecked)
                 enableSaving(true)
@@ -53,7 +55,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 tvTerritories.visibility = visibility
             }
             tvTerritories.setOnClickListener {
-                SelectTerritoryDialog(requireContext()).show()
+                goTo(SettingsFragmentDirections.toSelectTerritoryFragment())
             }
             btnSave.setOnClickListener {
                 saveSettings()

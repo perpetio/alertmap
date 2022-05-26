@@ -21,13 +21,5 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    fun showToast(stringRes: String?) {
-        Toast.makeText(this, stringRes, Toast.LENGTH_SHORT).show()
-    }
-
-    fun showError(message: String?) {
-        showToast(message)
-    }
-
     abstract fun getViewBinding(): VB
 }
