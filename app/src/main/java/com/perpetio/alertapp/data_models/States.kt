@@ -13,7 +13,8 @@ data class StateModel(
     val updateTime: String,
     val name: String,
     @SerializedName("name_en")
-    val nameEn: String
+    val nameEn: String,
+    var isChecked: Boolean
 ): Parcelable
 
 @Parcelize

@@ -35,12 +35,12 @@
             android:textColor="@color/grey" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tv_territories"
+            android:id="@+id/rv_territories"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            tools:listitem="@layout/item_territory" />
+            tools:listitem="@layout/item_select_territory" />
 
         <TextView
             android:id="@+id/btn_save"
