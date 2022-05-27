@@ -42,6 +42,7 @@ class SelectStateFragment : BaseFragment<FragmentSelectStateBinding>() {
                                     observedStatesId.add(stateId)
                                 }
                             } else observedStatesId.remove(stateId)
+                            isDataSaved = false
                         }
                     }
                 }

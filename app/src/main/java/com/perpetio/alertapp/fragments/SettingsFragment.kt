@@ -24,9 +24,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
-        setupListeners()
         loadSettings()
         showSettings()
+        setupListeners()
     }
 
     private fun setupViews() {
@@ -48,8 +48,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.apply {
             chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
                 Log.d("123", "chkAutoUpdate")
-                rgRepeatInterval.visibility = getVisibility(isChecked)
+                showAutoUpdateUi(isChecked)
                 settingsViewModel.autoUpdateCheck = isChecked
+                chkNotification.isChecked = false
                 enableSaving(true)
             }
             rgRepeatInterval.setOnCheckedChangeListener { radioGroup, buttonId ->
@@ -60,11 +61,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 enableSaving(true)
             }
             chkNotification.setOnCheckedChangeListener { button, isChecked ->
-                val visibility = getVisibility(isChecked)
-                chkNotificationSound.visibility = visibility
-                layNotificationSound.visibility = visibility
-                btnSelectTerritories.visibility = visibility
-
+                showNotificationUi(isChecked)
                 settingsViewModel.notificationCheck = isChecked
                 enableSaving(true)
             }
@@ -91,6 +88,22 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         settingsViewModel.isDataSaved = !value
     }
 
+    private fun showAutoUpdateUi(value: Boolean) {
+        binding.apply {
+            val visibility = getVisibility(value)
+            rgRepeatInterval.visibility = visibility
+            chkNotification.visibility = visibility
+        }
+    }
+
+    private fun showNotificationUi(value: Boolean) {
+        binding.apply {
+            val visibility = getVisibility(value)
+            layNotificationSound.visibility = visibility
+            btnSelectTerritories.visibility = visibility
+        }
+    }
+
     private fun loadSettings() {
         val storage = app.storage
         settingsViewModel.apply {
@@ -114,6 +127,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 if (autoUpdateCheck) {
                     tvNextUpdate.text = "(${Formatter.getTimeFormat(timeUpdate)})"
                 }
+                showAutoUpdateUi(autoUpdateCheck)
                 val intervals = RepeatInterval.values().toList()
                 intervals.find { interval ->
                     interval.minutes == repeatInterval
@@ -122,6 +136,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 }
                 chkNotification.isChecked = notificationCheck
                 chkNotificationSound.isChecked = notificationSoundCheck
+                showNotificationUi(autoUpdateCheck && notificationCheck)
                 enableSaving(!isDataSaved)
             }
         }
@@ -131,27 +146,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         val settings = settingsViewModel
         val storage = app.storage
 
-        if (!settings.autoUpdateCheck) {
-            WidgetRefreshReminder.cancel(requireContext())
-            binding.tvNextUpdate.text = ""
-            return
-        }
-        val checkedButtonId = binding.rgRepeatInterval.checkedRadioButtonId
-        val intervals = RepeatInterval.values().toList()
-        intervals.find { interval ->
-            interval.btnId == checkedButtonId
-        }?.let { interval ->
-            val time = WidgetRefreshReminder.startWithDelay(
-                interval.minutes, requireContext()
+        if (settings.autoUpdateCheck) {
+            settings.timeUpdate = WidgetRefreshReminder.startWithDelay(
+                settings.repeatInterval, requireContext()
             )
-            storage.apply {
-                repeatInterval = interval.minutes
-                timeUpdate = time
-            }
-            binding.tvNextUpdate.text = "(${Formatter.getTimeFormat(time)})"
+        } else {
+            WidgetRefreshReminder.cancel(requireContext())
+            settings.timeUpdate = 0
         }
         storage.apply {
             autoUpdateCheck = settings.autoUpdateCheck
+            repeatInterval = settings.repeatInterval
+            timeUpdate = settings.timeUpdate
             notificationCheck = settings.notificationCheck
             notificationSoundCheck = settings.notificationSoundCheck
             observedStatesId = settings.observedStatesId
