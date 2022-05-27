@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import java.util.*
 
 class LocalStorage(
     context: Context,
@@ -15,32 +16,32 @@ class LocalStorage(
         prefs.edit().clear().apply()
     }
 
-    var repeatInterval: Int?
-        get() {
-            val interval = prefs.getInt(REPEAT_INTERVAL, NULL_INT)
-            return if (interval == NULL_INT) null else interval
-        }
+    var autoupdate: Boolean
+        get() = prefs.getBoolean(AUTOUPDATE, false)
+        set(value) = prefs.edit().putBoolean(
+            AUTOUPDATE, value
+        ).apply()
+
+    var repeatInterval: Int
+        get() = prefs.getInt(REPEAT_INTERVAL, RepeatInterval.Min.minutes)
         set(value) {
             prefs.edit().putInt(
-                REPEAT_INTERVAL, value ?: NULL_INT
+                REPEAT_INTERVAL, value
             ).apply()
         }
 
-    var nextUpdateTime: Long?
-        get() {
-            val time = prefs.getLong(NEXT_UPDATE_TIME, NULL_LONG)
-            return if (time == NULL_LONG) null else time
-        }
+    var timeUpdate: Long
+        get() = prefs.getLong(TIME_UPDATE, Date().time)
         set(value) {
             prefs.edit().putLong(
-                NEXT_UPDATE_TIME, value ?: NULL_LONG
+                TIME_UPDATE, value
             ).apply()
         }
 
-    var shouldNotify: Boolean
-        get() = prefs.getBoolean(SHOULD_NOTIFY, false)
+    var notify: Boolean
+        get() = prefs.getBoolean(NOTIFY, false)
         set(value) = prefs.edit().putBoolean(
-            SHOULD_NOTIFY, value
+            NOTIFY, value
         ).apply()
 
     var notifyWithSound: Boolean
@@ -66,14 +67,13 @@ class LocalStorage(
 
     companion object {
         private const val STORAGE_NAME = "alert_app_storage"
-        private const val REPEAT_INTERVAL = "repeat_interval"
-        private const val NEXT_UPDATE_TIME = "next_update_time"
 
-        private const val SHOULD_NOTIFY = "should_notify"
+        private const val AUTOUPDATE = "autoupdate"
+        private const val REPEAT_INTERVAL = "repeat_interval"
+        private const val TIME_UPDATE = "time_update"
+
+        private const val NOTIFY = "notify"
         private const val NOTIFY_WITH_SOUND = "notify_with_sound"
         private const val OBSERVED_TERRITORIES = "observed_territories"
-
-        private const val NULL_INT = -1
-        private const val NULL_LONG = -1L
     }
 }
