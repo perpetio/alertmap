@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StateModel
 
-class SelectTerritoryAdapter(
-    val states: List<StateModel>
-) : RecyclerView.Adapter<SelectTerritoryAdapter.ViewHolder>() {
+class SelectStateAdapter(
+    private val states: List<StateModel>,
+    private val checkChangeListener: CheckChangeListener
+) : RecyclerView.Adapter<SelectStateAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
@@ -37,8 +38,16 @@ class SelectTerritoryAdapter(
                 setOnClickListener {
                     chkText.isChecked = !chkText.isChecked
                     state.isChecked = chkText.isChecked
+                    checkChangeListener.onCheckChange(
+                        state.id,
+                        chkText.isChecked
+                    )
                 }
             }
         }
+    }
+
+    interface CheckChangeListener {
+        fun onCheckChange(stateId: Int, isChecked: Boolean)
     }
 }

@@ -13,5 +13,5 @@ class SettingsViewModel : ViewModel() {
     var timeUpdate = Date().time
     var notificationCheck = false
     var notificationSoundCheck = false
-    var observedTerritories = listOf<StateModel>()
+    var observedStatesId = mutableListOf<Int>()
 }

@@ -10,14 +10,14 @@
         android:name="com.perpetio.alertapp.fragments.MainFragment"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/to_selectTerritoryFragment"
-            app:destination="@id/selectTerritoryFragment" />
+            android:id="@+id/to_selectStateFragment"
+            app:destination="@id/selectStateFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/selectTerritoryFragment"
-        android:name="com.perpetio.alertapp.fragments.SelectTerritoryFragment"
-        tools:layout="@layout/fragment_select_territoty">
+        android:id="@+id/selectStateFragment"
+        android:name="com.perpetio.alertapp.fragments.SelectStateFragment"
+        tools:layout="@layout/fragment_select_state">
         <action
             android:id="@+id/to_MainFragment"
             app:destination="@id/mainFragment" />

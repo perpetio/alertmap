@@ -73,7 +73,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 enableSaving(true)
             }
             btnSelectTerritories.setOnClickListener {
-                goTo(MainFragmentDirections.toSelectTerritoryFragment())
+                goTo(MainFragmentDirections.toSelectStateFragment())
             }
             btnSave.setOnClickListener {
                 saveSettings()
@@ -100,7 +100,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 timeUpdate = storage.timeUpdate
                 notificationCheck = storage.notificationCheck
                 notificationSoundCheck = storage.notificationSoundCheck
-                observedTerritories = storage.observedTerritories
+                observedStatesId = storage.observedStatesId.toMutableList()
                 isDataSaved = true
                 isDataLoaded = true
             }
@@ -128,27 +128,33 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun saveSettings() {
-        binding.apply {
-            app.storage.autoUpdateCheck = chkAutoUpdate.isChecked
-            if (chkAutoUpdate.isChecked) {
-                val checkedButtonId = rgRepeatInterval.checkedRadioButtonId
-                val intervals = RepeatInterval.values().toList()
-                intervals.find { interval ->
-                    interval.btnId == checkedButtonId
-                }?.let { interval ->
-                    val time = WidgetRefreshReminder.startWithDelay(
-                        interval.minutes, requireContext()
-                    )
-                    app.storage.apply {
-                        repeatInterval = interval.minutes
-                        timeUpdate = time
-                    }
-                    tvNextUpdate.text = "(${Formatter.getTimeFormat(time)})"
-                }
-            } else {
-                WidgetRefreshReminder.cancel(requireContext())
-                tvNextUpdate.text = ""
+        val settings = settingsViewModel
+        val storage = app.storage
+
+        if (!settings.autoUpdateCheck) {
+            WidgetRefreshReminder.cancel(requireContext())
+            binding.tvNextUpdate.text = ""
+            return
+        }
+        val checkedButtonId = binding.rgRepeatInterval.checkedRadioButtonId
+        val intervals = RepeatInterval.values().toList()
+        intervals.find { interval ->
+            interval.btnId == checkedButtonId
+        }?.let { interval ->
+            val time = WidgetRefreshReminder.startWithDelay(
+                interval.minutes, requireContext()
+            )
+            storage.apply {
+                repeatInterval = interval.minutes
+                timeUpdate = time
             }
+            binding.tvNextUpdate.text = "(${Formatter.getTimeFormat(time)})"
+        }
+        storage.apply {
+            autoUpdateCheck = settings.autoUpdateCheck
+            notificationCheck = settings.notificationCheck
+            notificationSoundCheck = settings.notificationSoundCheck
+            observedStatesId = settings.observedStatesId
         }
     }
 }

@@ -35,26 +35,11 @@
             android:textColor="@color/grey" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_territories"
+            android:id="@+id/rv_states"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             tools:listitem="@layout/item_select_territory" />
-
-        <TextView
-            android:id="@+id/btn_save"
-            style="@style/BoldText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/card_frame_plate"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp"
-            android:text="@string/save" />
     </LinearLayout>
 </LinearLayout>

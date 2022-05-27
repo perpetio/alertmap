@@ -51,10 +51,10 @@ class LocalStorage(
             NOTIFY_WITH_SOUND, value
         ).apply()
 
-    var observedTerritories: List<StateModel>
+    var observedStatesId: List<Int>
         get() {
             val json = prefs.getString(OBSERVED_TERRITORIES, "")
-            val listType = object : TypeToken<List<StateModel>>() {}.type
+            val listType = object : TypeToken<List<Int>>() {}.type
             return try {
                 gson.fromJson(json, listType)
             } catch (e: Exception) {
