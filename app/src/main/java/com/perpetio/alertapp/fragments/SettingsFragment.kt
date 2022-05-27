@@ -97,11 +97,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun showNotificationUi(value: Boolean) {
-        binding.apply {
-            val visibility = getVisibility(value)
-            layNotificationSound.visibility = visibility
-            btnSelectTerritories.visibility = visibility
-        }
+        binding.layNotificationSound.visibility = getVisibility(value)
     }
 
     private fun loadSettings() {

@@ -24,7 +24,7 @@
             style="@style/BigText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/follow_by" />
+            android:text="@string/state_list" />
 
         <TextView
             style="@style/MainText"

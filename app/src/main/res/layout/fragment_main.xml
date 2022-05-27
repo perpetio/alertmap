@@ -122,7 +122,7 @@
             android:id="@+id/fr_settings"
             android:name="com.perpetio.alertapp.fragments.SettingsFragment"
             android:layout_width="match_parent"
-            android:layout_height="310dp"
+            android:layout_height="280dp"
             tools:layout="@layout/fragment_settings" />
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
