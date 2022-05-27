@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import com.perpetio.alertapp.data_models.StateModel
 import java.util.*
 
 class LocalStorage(
@@ -16,7 +17,7 @@ class LocalStorage(
         prefs.edit().clear().apply()
     }
 
-    var autoupdate: Boolean
+    var autoUpdateCheck: Boolean
         get() = prefs.getBoolean(AUTOUPDATE, false)
         set(value) = prefs.edit().putBoolean(
             AUTOUPDATE, value
@@ -38,25 +39,25 @@ class LocalStorage(
             ).apply()
         }
 
-    var notify: Boolean
+    var notificationCheck: Boolean
         get() = prefs.getBoolean(NOTIFY, false)
         set(value) = prefs.edit().putBoolean(
             NOTIFY, value
         ).apply()
 
-    var notifyWithSound: Boolean
+    var notificationSoundCheck: Boolean
         get() = prefs.getBoolean(NOTIFY_WITH_SOUND, false)
         set(value) = prefs.edit().putBoolean(
             NOTIFY_WITH_SOUND, value
         ).apply()
 
-    var observedTerritories: List<String>
+    var observedTerritories: List<StateModel>
         get() {
             val json = prefs.getString(OBSERVED_TERRITORIES, "")
-            val listType = object : TypeToken<List<String>>() {}.type
+            val listType = object : TypeToken<List<StateModel>>() {}.type
             return try {
                 gson.fromJson(json, listType)
-            } catch (e: JsonSyntaxException) {
+            } catch (e: Exception) {
                 emptyList()
             }
         }

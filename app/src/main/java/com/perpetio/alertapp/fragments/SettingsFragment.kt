@@ -1,17 +1,21 @@
 package com.perpetio.alertapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.view.forEach
+import androidx.fragment.app.activityViewModels
 import com.perpetio.alertapp.R
-import com.perpetio.alertapp.activities.MainActivity
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.utils.Formatter
+import com.perpetio.alertapp.view_models.SettingsViewModel
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
+
+    private val settingsViewModel by activityViewModels<SettingsViewModel>()
 
     override fun getViewBinding(): FragmentSettingsBinding {
         return FragmentSettingsBinding.inflate(layoutInflater)
@@ -21,10 +25,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupListeners()
+        loadSettings()
         showSettings()
     }
 
     private fun setupViews() {
+        Log.d("123", "setupViews")
         binding.apply {
             val intervals = RepeatInterval.values().toList()
             rgRepeatInterval.forEach { button ->
@@ -38,12 +44,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun setupListeners() {
+        Log.d("123", "setupListeners")
         binding.apply {
             chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
+                Log.d("123", "chkAutoUpdate")
                 rgRepeatInterval.visibility = getVisibility(isChecked)
+                settingsViewModel.autoUpdateCheck = isChecked
                 enableSaving(true)
             }
             rgRepeatInterval.setOnCheckedChangeListener { radioGroup, buttonId ->
+                val intervals = RepeatInterval.values().toList()
+                val interval = intervals.find { it.btnId == buttonId }!!.minutes
+
+                settingsViewModel.repeatInterval = interval
                 enableSaving(true)
             }
             chkNotification.setOnCheckedChangeListener { button, isChecked ->
@@ -51,6 +64,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 chkNotificationSound.visibility = visibility
                 layNotificationSound.visibility = visibility
                 btnSelectTerritories.visibility = visibility
+
+                settingsViewModel.notificationCheck = isChecked
+                enableSaving(true)
+            }
+            chkNotificationSound.setOnCheckedChangeListener { button, isChecked ->
+                settingsViewModel.notificationSoundCheck = isChecked
+                enableSaving(true)
             }
             btnSelectTerritories.setOnClickListener {
                 goTo(MainFragmentDirections.toSelectTerritoryFragment())
@@ -68,30 +88,48 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             tvTitle.text = if (value) "${titleText}*" else titleText
             btnSave.visibility = getVisibility(value)
         }
+        settingsViewModel.isDataSaved = !value
+    }
+
+    private fun loadSettings() {
+        val storage = app.storage
+        settingsViewModel.apply {
+            if (!isDataLoaded) {
+                autoUpdateCheck = storage.autoUpdateCheck
+                repeatInterval = storage.repeatInterval
+                timeUpdate = storage.timeUpdate
+                notificationCheck = storage.notificationCheck
+                notificationSoundCheck = storage.notificationSoundCheck
+                observedTerritories = storage.observedTerritories
+                isDataSaved = true
+                isDataLoaded = true
+            }
+        }
     }
 
     private fun showSettings() {
         binding.apply {
-            app.storage.apply {
-                repeatInterval?.let { repeatInterval ->
-                    val intervals = RepeatInterval.values().toList()
-                    intervals.find { interval ->
-                        interval.minutes == repeatInterval
-                    }?.let { interval ->
-                        rgRepeatInterval.check(interval.btnId)
-                    }
-                    chkAutoUpdate.isChecked = true
+            settingsViewModel.apply {
+                chkAutoUpdate.isChecked = autoUpdateCheck
+                if (autoUpdateCheck) {
+                    tvNextUpdate.text = "(${Formatter.getTimeFormat(timeUpdate)})"
                 }
-                nextUpdateTime?.let { time ->
-                    tvNextUpdate.text = "(${Formatter.getTimeFormat(time)})"
+                val intervals = RepeatInterval.values().toList()
+                intervals.find { interval ->
+                    interval.minutes == repeatInterval
+                }?.let { interval ->
+                    rgRepeatInterval.check(interval.btnId)
                 }
+                chkNotification.isChecked = notificationCheck
+                chkNotificationSound.isChecked = notificationSoundCheck
+                enableSaving(!isDataSaved)
             }
         }
-        enableSaving(false)
     }
 
     private fun saveSettings() {
         binding.apply {
+            app.storage.autoUpdateCheck = chkAutoUpdate.isChecked
             if (chkAutoUpdate.isChecked) {
                 val checkedButtonId = rgRepeatInterval.checkedRadioButtonId
                 val intervals = RepeatInterval.values().toList()
@@ -103,16 +141,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                     )
                     app.storage.apply {
                         repeatInterval = interval.minutes
-                        nextUpdateTime = time
+                        timeUpdate = time
                     }
                     tvNextUpdate.text = "(${Formatter.getTimeFormat(time)})"
                 }
             } else {
                 WidgetRefreshReminder.cancel(requireContext())
-                app.storage.apply {
-                    repeatInterval = null
-                    nextUpdateTime = null
-                }
                 tvNextUpdate.text = ""
             }
         }
