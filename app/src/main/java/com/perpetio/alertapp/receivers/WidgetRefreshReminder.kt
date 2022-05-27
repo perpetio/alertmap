@@ -30,21 +30,25 @@ class WidgetRefreshReminder : BroadcastReceiver() {
 
     companion object {
         fun startWithDelay(delay: Int, context: Context): Long {
+            val refreshTime = getNextTime(delay)
+            return startAtTime(refreshTime, context)
+        }
+
+        fun startAtTime(time: Long, context: Context): Long {
             setReceiverState(
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 context
             )
 
-            val nextRefreshTime = getNextRefreshTime(delay)
             val pendingIntent = getReminderPendingIntent(context)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
-                nextRefreshTime,
+                time,
                 pendingIntent
             )
-            return nextRefreshTime
+            return time
         }
 
         fun cancel(context: Context) {
@@ -59,6 +63,12 @@ class WidgetRefreshReminder : BroadcastReceiver() {
             pendingIntent.cancel()
         }
 
+        fun getNextTime(delay: Int): Long {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.MINUTE, delay)
+            return calendar.timeInMillis
+        }
+
         private fun setReceiverState(state: Int, context: Context) {
             val receiver = ComponentName(context, WidgetRefreshReminder::class.java)
             context.packageManager.setComponentEnabledSetting(
@@ -66,12 +76,6 @@ class WidgetRefreshReminder : BroadcastReceiver() {
                 state,
                 PackageManager.DONT_KILL_APP
             )
-        }
-
-        private fun getNextRefreshTime(delay: Int): Long {
-            val calendar = Calendar.getInstance()
-            calendar.add(Calendar.MINUTE, delay)
-            return calendar.timeInMillis
         }
 
         private fun getReminderPendingIntent(context: Context): PendingIntent {

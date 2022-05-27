@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.FragmentMainBinding
+import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.view_models.MainViewModel
@@ -27,6 +28,24 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         if (viewModel.state.value == null) {
             viewModel.refreshMap()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        WidgetRefreshReminder.cancel(requireContext())
+        if (app.storage.autoUpdateCheck) {
+            viewModel.refreshMapPeriodically(app.storage.repeatInterval)
+        }
+    }
+
+    override fun onStop() {
+        if (app.storage.autoUpdateCheck) {
+            val refreshTime = viewModel.refreshTime.value!!
+            viewModel.cancelMapRefreshing()
+            WidgetRefreshReminder.startAtTime(refreshTime, requireContext())
+            app.storage.timeUpdate = refreshTime
+        }
+        super.onStop()
     }
 
     private fun setupObservers() {

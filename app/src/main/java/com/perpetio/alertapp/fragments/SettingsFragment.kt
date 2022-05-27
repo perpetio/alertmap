@@ -11,10 +11,12 @@ import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.utils.Formatter
+import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.SettingsViewModel
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val settingsViewModel by activityViewModels<SettingsViewModel>()
 
     override fun getViewBinding(): FragmentSettingsBinding {
@@ -26,6 +28,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         setupViews()
         loadSettings()
         showSettings()
+        setupObservers()
         setupListeners()
     }
 
@@ -79,6 +82,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         }
     }
 
+    private fun setupObservers() {
+        mainViewModel.refreshTime.observe(viewLifecycleOwner) { refreshTime ->
+            binding.tvRefreshTime.text = if (refreshTime > 0L) {
+                "(${Formatter.getTimeFormat(refreshTime)})"
+            } else ""
+        }
+    }
+
     private fun enableSaving(value: Boolean) {
         val titleText = getString(R.string.settings)
         binding.apply {
@@ -120,9 +131,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.apply {
             settingsViewModel.apply {
                 chkAutoUpdate.isChecked = autoUpdateCheck
-                if (autoUpdateCheck) {
-                    tvNextUpdate.text = "(${Formatter.getTimeFormat(timeUpdate)})"
-                }
                 showAutoUpdateUi(autoUpdateCheck)
                 val intervals = RepeatInterval.values().toList()
                 intervals.find { interval ->
@@ -143,13 +151,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         val storage = app.storage
 
         if (settings.autoUpdateCheck) {
-            settings.timeUpdate = WidgetRefreshReminder.startWithDelay(
-                settings.repeatInterval, requireContext()
-            )
-        } else {
-            WidgetRefreshReminder.cancel(requireContext())
-            settings.timeUpdate = 0
-        }
+            mainViewModel.refreshMapPeriodically(settings.repeatInterval)
+        } else mainViewModel.cancelMapRefreshing()
         storage.apply {
             autoUpdateCheck = settings.autoUpdateCheck
             repeatInterval = settings.repeatInterval

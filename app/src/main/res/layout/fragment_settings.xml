@@ -36,7 +36,7 @@
                 android:text="@string/auto_update" />
 
             <TextView
-                android:id="@+id/tv_next_update"
+                android:id="@+id/tv_refresh_time"
                 style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
