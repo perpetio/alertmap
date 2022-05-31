@@ -56,7 +56,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 ViewModelState.Loading -> showProgress()
-                is ViewModelState.AirAlert -> showAlert(state.alertList)
+                is ViewModelState.AirAlert -> showAlert(state.isAlert)
                 is ViewModelState.Error -> showError(state.message)
                 is ViewModelState.Completed -> hideProgress()
             }
@@ -89,11 +89,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
     }
 
-    private fun showAlert(alertList: List<StateModel>) {
+    private fun showAlert(isAlert: Boolean) {
         NotificationPublisher(requireContext()).informUser(
-            alertList, app.storage.notificationSoundCheck
+            isAlert, app.storage.notificationSoundCheck
         )
-        Log.d("123", "alert list: $alertList")
     }
 
     private fun showProgress() {

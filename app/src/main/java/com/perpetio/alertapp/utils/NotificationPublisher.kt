@@ -23,28 +23,15 @@ class NotificationPublisher(
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
 
-    fun informUser(stateChanges: List<StateModel>, withSound: Boolean) {
-        val isAlert = stateChanges.find { state ->
-            state.isAlert
-        }?.isAlert == true
-
+    fun informUser(isAlert: Boolean, withSound: Boolean) {
         val title = context.getString(
             if (isAlert) R.string.air_alert_
             else R.string.air_alert_is_stopped
         )
-
-        val alert = context.getString(R.string.air_alert)
-        val no_alert = context.getString(R.string.no_alert)
-
-        val content = stateChanges.joinToString(
-            separator = "\n", postfix = ".\n"
-        ) {
-            "${it.name} - ${if (it.isAlert) alert else no_alert}"
-        } + context.getString(
+        val content = context.getString(
             if (isAlert) R.string.go_to_the_refuge
             else R.string.get_back_to_business
         )
-
         val notificationId = context.getString(R.string.alert_notification_id).toInt()
         NotificationPublisher(context).showNotification(
             notificationId, title, content, withSound, true

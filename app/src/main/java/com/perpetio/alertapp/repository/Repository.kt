@@ -1,6 +1,5 @@
 package com.perpetio.alertapp.repository
 
-import android.util.Log
 import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.utils.Formatter
@@ -21,31 +20,24 @@ class Repository(
         }
     }
 
-    fun getAlertList(
+    fun isAirAlert(
         states: List<StateModel>,
         observedStatesId: List<Int>,
         minutesRefreshInterval: Int
-    ): List<StateModel> {
-        Log.d("123", "getAlertList states: $states")
-        Log.d("123", "observedStatesId: $observedStatesId")
-        val result = mutableListOf<StateModel>()
+    ): Boolean {
         observedStatesId.forEach { stateId ->
             states.find { state ->
                 state.id == stateId
             }?.let { state ->
-                Log.d("123", "forEach state: $state")
                 Formatter.getDate(state.updateTime)?.let { refreshDate ->
-                    Log.d("123", "state refreshDate: $refreshDate")
                     val interval = minutesRefreshInterval * 60 * 1000L
                     if (Formatter.isDateFresh(refreshDate, interval)) {
-                        Log.d("123", "DateFresh: $refreshDate")
-                        result.add(state)
-                    } else Log.d("123", "Date is old")
+                        if (state.isAlert) return true
+                    }
                 }
             }
         }
-        Log.d("123", "getAlertList result: $result")
-        return result
+        return false
     }
 
 }

@@ -61,14 +61,12 @@ class MainViewModel(
     private fun handleData(statesInfo: StatesInfoModel) {
         _statesInfo.value = statesInfo
 
-        val alertList = repository.getAlertList(
+        val isAlert = repository.isAirAlert(
             statesInfo.states,
             storage.observedStatesId,
             storage.minutesRepeatInterval
         )
-        if (alertList.isNotEmpty()) {
-            _state.value = ViewModelState.AirAlert(alertList)
-        }
+        _state.value = ViewModelState.AirAlert(isAlert)
     }
 
     private suspend fun withLoading(

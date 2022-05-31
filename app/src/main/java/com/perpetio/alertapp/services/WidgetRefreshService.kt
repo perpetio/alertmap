@@ -39,15 +39,14 @@ class WidgetRefreshService : Service() {
                     Formatter.getShortFormat(Date())
                 )
             }
-            repository.getAlertList(
+            val isAlert = repository.isAirAlert(
                 statesInfo.states,
                 app.storage.observedStatesId,
                 app.storage.minutesRepeatInterval
-            ).let {
-                if (it.isNotEmpty()) {
-                    notifyUser(it)
-                }
-            }
+            )
+            NotificationPublisher(this@WidgetRefreshService).informUser(
+                isAlert, app.storage.notificationSoundCheck
+            )
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, this@WidgetRefreshService
             )
@@ -72,12 +71,6 @@ class WidgetRefreshService : Service() {
             )
             startForeground(notificationId, notification)
         }
-    }
-
-    private fun notifyUser(alertList: List<StateModel>) {
-        NotificationPublisher(this).informUser(
-            alertList, app.storage.notificationSoundCheck
-        )
     }
 
     companion object {
