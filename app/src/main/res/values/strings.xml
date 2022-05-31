@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">AlertApp</string>
-    
+
     <string name="widget_service_description">Widget refresh service</string>
-    <string name="widget_service_channel_id">1120</string>
-    <string name="widget_service_channel_name">Widget refresh channel</string>
-    <string name="widget_service_notification_id">1121</string>
-    <string name="widget_service_notification_title">AlertApp refresh service</string>
-    <string name="widget_service_notification_text">Fetching map information&#8230;</string>
+    
+    <string name="notification_channel_id">1120</string>
+    <string name="notification_channel_name">AlertApp notification channel</string>
+    <string name="notification_channel_description">This channel is used for sending notifications</string>
+
+    <string name="refresh_service_notification_id">1121</string>
+    <string name="refresh_service_notification_title">Refresh service is working</string>
+    <string name="refresh_service_notification_content">Fetching map information&#8230;</string>
+
+    <string name="alert_notification_id">1122</string>
 
     <string name="alert_map">Карта повітряних тривог</string>
     <string name="data_for_date">Дані станом на:</string>
@@ -27,4 +32,7 @@
 
     <string name="state_list">Список областей</string>
     <string name="select_territories_you_want_observe">Оберіть об\'єкти, від яких хочете отримувати сповіщення</string>
+    
+    <string name="air_alert_">Повітряна тривога!</string>
+    <string name="go_to_the_refuge">Перейдіть у сховище</string>
 </resources>
