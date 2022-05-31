@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.IBinder
 import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
-import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.repository.ApiError
@@ -39,14 +38,15 @@ class WidgetRefreshService : Service() {
                     Formatter.getShortFormat(Date())
                 )
             }
-            val isAlert = repository.isAirAlert(
+            repository.isAirAlert(
                 statesInfo.states,
                 app.storage.observedStatesId,
                 app.storage.minutesRepeatInterval
-            )
-            NotificationPublisher(this@WidgetRefreshService).informUser(
-                isAlert, app.storage.notificationSoundCheck
-            )
+            )?.let { isAlert ->
+                NotificationPublisher(this@WidgetRefreshService).informUser(
+                    isAlert, app.storage.notificationSoundCheck
+                )
+            }
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, this@WidgetRefreshService
             )

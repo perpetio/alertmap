@@ -18,7 +18,8 @@ class NotificationPublisher(
     private val context: Context
 ) {
     private val alertSound: Uri =
-        RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        Uri.parse("android.resource://"
+                + context.packageName + "/" + R.raw.horn);
 
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
@@ -51,7 +52,10 @@ class NotificationPublisher(
             .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .apply {
-                if (withSound) setSound(alertSound)
+                if (withSound) {
+                    setSound(alertSound)
+                    setVibrate(longArrayOf(800))
+                }
                 if (withOpenAppLogic) setContentIntent(getOpenAppIntent())
             }.build()
     }

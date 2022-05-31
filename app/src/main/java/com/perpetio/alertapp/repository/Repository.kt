@@ -24,7 +24,9 @@ class Repository(
         states: List<StateModel>,
         observedStatesId: List<Int>,
         minutesRefreshInterval: Int
-    ): Boolean {
+    ): Boolean? {
+        var isNewChanges = false
+        var isAlert = false
         observedStatesId.forEach { stateId ->
             states.find { state ->
                 state.id == stateId
@@ -32,12 +34,15 @@ class Repository(
                 Formatter.getDate(state.updateTime)?.let { refreshDate ->
                     val interval = minutesRefreshInterval * 60 * 1000L
                     if (Formatter.isDateFresh(refreshDate, interval)) {
-                        if (state.isAlert) return true
+                        isNewChanges = true
+                        if (state.isAlert) isAlert = true
                     }
                 }
             }
         }
-        return false
+        return if (isNewChanges) {
+            isAlert
+        } else null
     }
 
 }
