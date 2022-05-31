@@ -22,18 +22,25 @@ class Repository(
 
     fun getAlertList(
         states: List<StateModel>,
-        observedStatesId: List<Int>
+        observedStatesId: List<Int>,
+        minutesRefreshInterval: Int
     ): List<StateModel> {
         val result = mutableListOf<StateModel>()
         observedStatesId.forEach { stateId ->
             states.find { state ->
-                state.id == stateId && state.isAlert
+                state.id == stateId
             }?.let { state ->
-                result.add(state)
+                Formatter.getDate(state.updateTime)?.let { refreshDate ->
+                    val interval = minutesRefreshInterval * 60 * 1000L
+                    if (Formatter.isDateFresh(refreshDate, interval)) {
+                        result.add(state)
+                    }
+                }
             }
         }
         return result
     }
+
 }
 
 class ApiError(message: String, cause: Throwable) : Exception(message, cause)

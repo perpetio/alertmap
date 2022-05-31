@@ -41,7 +41,8 @@ class WidgetRefreshService : Service() {
             }
             repository.getAlertList(
                 statesInfo.states,
-                app.storage.observedStatesId
+                app.storage.observedStatesId,
+                app.storage.minutesRepeatInterval
             ).let {
                 if (it.isNotEmpty()) {
                     notifyUser(it)
@@ -77,7 +78,7 @@ class WidgetRefreshService : Service() {
         val title = getString(R.string.air_alert_)
         val content = states.joinToString(
             separator = "\n", postfix = ".\n"
-        ) + getString(R.string.go_to_the_refuge)
+        ) { it.name } + getString(R.string.go_to_the_refuge)
         val withSound = app.storage.notificationSoundCheck
 
         NotificationPublisher(this).showNotification(

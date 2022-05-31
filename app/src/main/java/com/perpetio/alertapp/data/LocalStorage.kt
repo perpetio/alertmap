@@ -2,9 +2,7 @@ package com.perpetio.alertapp.data
 
 import android.content.Context
 import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import com.perpetio.alertapp.data_models.StateModel
 import java.util.*
 
 class LocalStorage(
@@ -23,7 +21,7 @@ class LocalStorage(
             AUTOUPDATE, value
         ).apply()
 
-    var repeatInterval: Int
+    var minutesRepeatInterval: Int
         get() = prefs.getInt(REPEAT_INTERVAL, RepeatInterval.Min.minutes)
         set(value) {
             prefs.edit().putInt(

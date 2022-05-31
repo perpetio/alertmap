@@ -19,7 +19,7 @@ class WidgetRefreshReminder : BroadcastReceiver() {
         WidgetRefreshService.startSelf(context)
         getApp(context).storage.apply {
             if (autoUpdateCheck) {
-                timeUpdate = startWithDelay(repeatInterval, context)
+                timeUpdate = startWithDelay(minutesRepeatInterval, context)
             }
         }
     }
