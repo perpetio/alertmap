@@ -5,21 +5,25 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
-import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.core.app.NotificationCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
-import com.perpetio.alertapp.data_models.StateModel
+
 
 class NotificationPublisher(
     private val context: Context
 ) {
     private val alertSound: Uri =
-        Uri.parse("android.resource://"
-                + context.packageName + "/" + R.raw.horn);
+        Uri.parse(
+            "android.resource://"
+                    + context.packageName + "/" + R.raw.horn
+        );
 
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
@@ -52,10 +56,7 @@ class NotificationPublisher(
             .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .apply {
-                if (withSound) {
-                    setSound(alertSound)
-                    setVibrate(longArrayOf(800))
-                }
+                if (withSound) setSound(alertSound)
                 if (withOpenAppLogic) setContentIntent(getOpenAppIntent())
             }.build()
     }
@@ -74,6 +75,19 @@ class NotificationPublisher(
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(id, notification)
+        vibrate()
+    }
+
+    private fun vibrate() {
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager =
+                context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            context.getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
+        vibrator.vibrate(500)
     }
 
     private fun getOpenAppIntent(): PendingIntent {
