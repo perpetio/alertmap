@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
+import com.example.android.kotlincoroutines.util.doubleArgViewModelFactory
+import com.perpetio.alertapp.data.LocalStorage
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.repository.Repository
@@ -14,6 +15,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class MainViewModel(
+    private val storage: LocalStorage,
     private val repository: Repository
 ) : ViewModel() {
 
@@ -31,7 +33,7 @@ class MainViewModel(
     fun refreshMap() {
         viewModelScope.launch {
             withLoading {
-                _statesInfo.value = repository.refreshStates()
+                handleData(repository.refreshStates())
             }
         }
     }
@@ -45,7 +47,7 @@ class MainViewModel(
                 _refreshTime.value = WidgetRefreshReminder.getNextTime(minutesInterval)
                 delay(minutesInterval * 60 * 1000L)
                 withLoading {
-                    _statesInfo.value = repository.refreshStates()
+                    handleData(repository.refreshStates())
                 }
             }
         }
@@ -54,6 +56,19 @@ class MainViewModel(
     fun cancelMapRefreshing() {
         refreshJob?.cancel()
         _refreshTime.value = 0
+    }
+
+    private fun handleData(statesInfo: StatesInfoModel) {
+        _statesInfo.value = statesInfo
+
+        val alertList = repository.getAlertList(
+            statesInfo.states,
+            storage.observedStatesId,
+            storage.minutesRepeatInterval
+        )
+        if (alertList.isNotEmpty()) {
+            _state.value = ViewModelState.AirAlert(alertList)
+        }
     }
 
     private suspend fun withLoading(
@@ -70,6 +85,6 @@ class MainViewModel(
     }
 
     companion object {
-        val FACTORY = singleArgViewModelFactory(::MainViewModel)
+        val FACTORY = doubleArgViewModelFactory(::MainViewModel)
     }
 }

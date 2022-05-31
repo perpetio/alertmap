@@ -8,6 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.services.WidgetRefreshService
 import java.util.*
@@ -35,6 +36,8 @@ class WidgetRefreshReminder : BroadcastReceiver() {
         }
 
         fun startAtTime(time: Long, context: Context): Long {
+
+            Log.d("123", "Reminder, start at time: ${Date(time)}")
             setReceiverState(
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 context

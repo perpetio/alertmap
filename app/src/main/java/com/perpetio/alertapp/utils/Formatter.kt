@@ -19,14 +19,14 @@ object Formatter {
     fun getDate(dateTime: String): Date? {
         return try {
             SimpleDateFormat(
-                "yyyy-MM-dd'T'HH:mm:ss.S'Z'", Locale.getDefault()
-            ).parse(dateTime)
+                "yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.getDefault()
+            ).parse(dateTime) //2022-05-31T13:19:38+03:00
         } catch (e: Exception) {
             return null
         }
     }
 
     fun isDateFresh(dateTime: Date, maxInterval: Long): Boolean {
-        return Date().time - dateTime.time < maxInterval
+        return (Date().time - dateTime.time) < maxInterval
     }
 }

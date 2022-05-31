@@ -12,6 +12,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
+import com.perpetio.alertapp.data_models.StateModel
 
 class NotificationPublisher(
     private val context: Context
@@ -22,20 +23,32 @@ class NotificationPublisher(
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
 
-    fun showNotification(
-        id: Int,
-        title: String,
-        content: String,
-        withSound: Boolean,
-        withOpenAppLogic: Boolean
-    ) {
-        createNotificationChannel()
-        val notification = buildNotification(
-            title, content, withSound, withOpenAppLogic
+    fun informUser(stateChanges: List<StateModel>, withSound: Boolean) {
+        val isAlert = stateChanges.find { state ->
+            state.isAlert
+        }?.isAlert == true
+
+        val title = context.getString(
+            if (isAlert) R.string.air_alert_
+            else R.string.air_alert_is_stopped
         )
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(id, notification)
+
+        val alert = context.getString(R.string.air_alert)
+        val no_alert = context.getString(R.string.no_alert)
+
+        val content = stateChanges.joinToString(
+            separator = "\n", postfix = ".\n"
+        ) {
+            "${it.name} - ${if (it.isAlert) alert else no_alert}"
+        } + context.getString(
+            if (isAlert) R.string.go_to_the_refuge
+            else R.string.get_back_to_business
+        )
+
+        val notificationId = context.getString(R.string.alert_notification_id).toInt()
+        NotificationPublisher(context).showNotification(
+            notificationId, title, content, withSound, true
+        )
     }
 
     fun buildNotification(
@@ -54,6 +67,22 @@ class NotificationPublisher(
                 if (withSound) setSound(alertSound)
                 if (withOpenAppLogic) setContentIntent(getOpenAppIntent())
             }.build()
+    }
+
+    private fun showNotification(
+        id: Int,
+        title: String,
+        content: String,
+        withSound: Boolean,
+        withOpenAppLogic: Boolean
+    ) {
+        createNotificationChannel()
+        val notification = buildNotification(
+            title, content, withSound, withOpenAppLogic
+        )
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(id, notification)
     }
 
     private fun getOpenAppIntent(): PendingIntent {

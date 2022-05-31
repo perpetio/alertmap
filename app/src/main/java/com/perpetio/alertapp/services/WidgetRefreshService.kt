@@ -74,16 +74,9 @@ class WidgetRefreshService : Service() {
         }
     }
 
-    private fun notifyUser(states: List<StateModel>) {
-        val title = getString(R.string.air_alert_)
-        val content = states.joinToString(
-            separator = "\n", postfix = ".\n"
-        ) { it.name } + getString(R.string.go_to_the_refuge)
-        val withSound = app.storage.notificationSoundCheck
-
-        NotificationPublisher(this).showNotification(
-            getString(R.string.alert_notification_id).toInt(),
-            title, content, withSound, true
+    private fun notifyUser(alertList: List<StateModel>) {
+        NotificationPublisher(this).informUser(
+            alertList, app.storage.notificationSoundCheck
         )
     }
 

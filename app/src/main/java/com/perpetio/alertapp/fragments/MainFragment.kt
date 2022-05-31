@@ -1,13 +1,17 @@
 package com.perpetio.alertapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.perpetio.alertapp.R
+import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.FragmentMainBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
 import com.perpetio.alertapp.utils.MapDrawer
+import com.perpetio.alertapp.utils.NotificationPublisher
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.ViewModelState
 
@@ -52,11 +56,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 ViewModelState.Loading -> showProgress()
+                is ViewModelState.AirAlert -> showAlert(state.alertList)
                 is ViewModelState.Error -> showError(state.message)
                 is ViewModelState.Completed -> hideProgress()
             }
         }
         viewModel.statesInfo.observe(viewLifecycleOwner) { statesInfo ->
+            Log.d("123","viewModel.statesInfo.observe: $statesInfo")
             updateMap(statesInfo)
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, requireContext()
@@ -81,6 +87,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 )
             )
         }
+    }
+
+    private fun showAlert(alertList: List<StateModel>) {
+        NotificationPublisher(requireContext()).informUser(
+            alertList, app.storage.notificationSoundCheck
+        )
+        Log.d("123", "alert list: $alertList")
     }
 
     private fun showProgress() {

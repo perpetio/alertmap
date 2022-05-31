@@ -35,4 +35,7 @@
     
     <string name="air_alert_">Повітряна тривога!</string>
     <string name="go_to_the_refuge">Перейдіть у сховище</string>
+
+    <string name="air_alert_is_stopped">Відбій повітряної тривоги!</string>
+    <string name="get_back_to_business">Повертайтесь до справ</string>
 </resources>

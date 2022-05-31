@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         val repository = Repository(getAlertApiService())
         ViewModelProvider(
-            this, MainViewModel.FACTORY(repository)
+            this, MainViewModel.FACTORY(app.storage, repository)
         ).get(MainViewModel::class.java)
     }
 }
