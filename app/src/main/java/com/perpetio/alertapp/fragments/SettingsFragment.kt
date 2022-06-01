@@ -128,6 +128,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 timeUpdate = storage.timeUpdate
                 notificationCheck = storage.notificationCheck
                 soundCheck = storage.soundCheck
+                vibrationCheck = storage.vibrationCheck
                 observedStatesId = storage.observedStatesId.toMutableList()
                 isDataSaved = true
                 isDataLoaded = true

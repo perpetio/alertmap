@@ -94,9 +94,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun notifyUser(changeList: List<StateModel>) {
-        NotificationPublisher(requireContext()).showChangeList(
-            changeList, app.storage.soundCheck, app.storage.vibrationCheck
-        )
+        if (changeList.isNotEmpty()) {
+            NotificationPublisher(requireContext()).showChangeList(
+                changeList, app.storage.soundCheck, app.storage.vibrationCheck
+            )
+        }
     }
 
     private fun showProgress() {

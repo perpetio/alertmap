@@ -43,9 +43,11 @@ class WidgetRefreshService : Service() {
                 app.storage.observedStatesId,
                 app.storage.minutesRepeatInterval
             )
-            NotificationPublisher(this@WidgetRefreshService).showChangeList(
-                changeList, app.storage.soundCheck, app.storage.vibrationCheck
-            )
+            if (changeList.isNotEmpty()) {
+                NotificationPublisher(this@WidgetRefreshService).showChangeList(
+                    changeList, app.storage.soundCheck, app.storage.vibrationCheck
+                )
+            }
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, this@WidgetRefreshService
             )
