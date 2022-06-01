@@ -5,12 +5,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.Vibrator
-import android.os.VibratorManager
 import androidx.core.app.NotificationCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
@@ -75,19 +72,8 @@ class NotificationPublisher(
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(id, notification)
-        vibrate()
-    }
 
-    private fun vibrate() {
-        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager =
-                context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibratorManager.defaultVibrator
-        } else {
-            @Suppress("DEPRECATION")
-            context.getSystemService(VIBRATOR_SERVICE) as Vibrator
-        }
-        vibrator.vibrate(500)
+        Vibrator(context).vibrate(3, 50, 20)
     }
 
     private fun getOpenAppIntent(): PendingIntent {
