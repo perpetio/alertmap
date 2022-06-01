@@ -90,55 +90,46 @@
                 android:text="@string/min" />
         </RadioGroup>
 
-        <CheckBox
-            android:id="@+id/chk_notification"
-            style="@style/BoldText"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/receive_notification" />
-
         <LinearLayout
-            android:id="@+id/lay_notification_sound"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:gravity="start|center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="100">
-
-            <TextView
-                android:id="@+id/btn_select_territories"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:background="@drawable/card_frame_plate"
-                android:gravity="center"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/more_details" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="50" />
+            android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/chk_notification_sound"
-                style="@style/MainText"
+                android:id="@+id/chk_notification"
+                style="@style/BoldText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:button="@drawable/sound_check"
-                android:paddingStart="10dp"
-                android:gravity="center"
-                android:text="@string/notification_sound" />
+                android:text="@string/receive_notification" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="50" />
+            <CheckBox
+                android:id="@+id/chk_sound"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:button="@drawable/sound_check"
+                android:layout_marginStart="10dp"/>
+
+            <CheckBox
+                android:id="@+id/chk_vibration"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:button="@drawable/ic_vibration"
+                android:layout_marginStart="10dp"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_select_states"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/card_frame_plate"
+            android:gravity="center"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="@string/more_details"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"/>
 
         <View
             android:layout_width="match_parent"

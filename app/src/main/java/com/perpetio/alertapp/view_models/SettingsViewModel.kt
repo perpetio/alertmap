@@ -2,7 +2,6 @@ package com.perpetio.alertapp.view_models
 
 import androidx.lifecycle.ViewModel
 import com.perpetio.alertapp.data.RepeatInterval
-import com.perpetio.alertapp.data_models.StateModel
 import java.util.*
 
 class SettingsViewModel : ViewModel() {
@@ -12,6 +11,7 @@ class SettingsViewModel : ViewModel() {
     var repeatInterval = RepeatInterval.Min.minutes
     var timeUpdate = Date().time
     var notificationCheck = false
-    var notificationSoundCheck = false
+    var soundCheck = false
+    var vibrationCheck = false
     var observedStatesId = mutableListOf<Int>()
 }

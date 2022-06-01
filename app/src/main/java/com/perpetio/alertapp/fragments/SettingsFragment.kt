@@ -67,11 +67,15 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 settingsViewModel.notificationCheck = isChecked
                 enableSaving(true)
             }
-            chkNotificationSound.setOnCheckedChangeListener { button, isChecked ->
-                settingsViewModel.notificationSoundCheck = isChecked
+            chkSound.setOnCheckedChangeListener { button, isChecked ->
+                settingsViewModel.soundCheck = isChecked
                 enableSaving(true)
             }
-            btnSelectTerritories.setOnClickListener {
+            chkVibration.setOnCheckedChangeListener { button, isChecked ->
+                settingsViewModel.vibrationCheck = isChecked
+                enableSaving(true)
+            }
+            btnSelectStates.setOnClickListener {
                 goTo(MainFragmentDirections.toSelectStateFragment())
             }
             btnSave.setOnClickListener {
@@ -107,7 +111,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun showNotificationUi(value: Boolean) {
-        binding.layNotificationSound.visibility = getVisibility(value)
+        binding.apply {
+            val visibility = getVisibility(value)
+            chkSound.visibility = visibility
+            chkVibration.visibility = visibility
+            btnSelectStates.visibility = visibility
+        }
     }
 
     private fun loadSettings() {
@@ -118,7 +127,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 repeatInterval = storage.minutesRepeatInterval
                 timeUpdate = storage.timeUpdate
                 notificationCheck = storage.notificationCheck
-                notificationSoundCheck = storage.notificationSoundCheck
+                soundCheck = storage.soundCheck
                 observedStatesId = storage.observedStatesId.toMutableList()
                 isDataSaved = true
                 isDataLoaded = true
@@ -138,7 +147,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                     rgRepeatInterval.check(interval.btnId)
                 }
                 chkNotification.isChecked = notificationCheck
-                chkNotificationSound.isChecked = notificationSoundCheck
+                chkSound.isChecked = soundCheck
+                chkVibration.isChecked = vibrationCheck
                 showNotificationUi(autoUpdateCheck && notificationCheck)
                 enableSaving(!isDataSaved)
             }
@@ -157,7 +167,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             minutesRepeatInterval = settings.repeatInterval
             timeUpdate = settings.timeUpdate
             notificationCheck = settings.notificationCheck
-            notificationSoundCheck = settings.notificationSoundCheck
+            soundCheck = settings.soundCheck
+            vibrationCheck = settings.vibrationCheck
             observedStatesId = settings.observedStatesId
         }
     }

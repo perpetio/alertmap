@@ -38,15 +38,21 @@ class LocalStorage(
         }
 
     var notificationCheck: Boolean
-        get() = prefs.getBoolean(NOTIFY, false)
+        get() = prefs.getBoolean(NOTIFICATION_CHECK, false)
         set(value) = prefs.edit().putBoolean(
-            NOTIFY, value
+            NOTIFICATION_CHECK, value
         ).apply()
 
-    var notificationSoundCheck: Boolean
-        get() = prefs.getBoolean(NOTIFY_WITH_SOUND, false)
+    var soundCheck: Boolean
+        get() = prefs.getBoolean(SOUND_CHECK, false)
         set(value) = prefs.edit().putBoolean(
-            NOTIFY_WITH_SOUND, value
+            SOUND_CHECK, value
+        ).apply()
+
+    var vibrationCheck: Boolean
+        get() = prefs.getBoolean(VIBRATION_CHECK, false)
+        set(value) = prefs.edit().putBoolean(
+            VIBRATION_CHECK, value
         ).apply()
 
     var observedStatesId: List<Int>
@@ -71,8 +77,9 @@ class LocalStorage(
         private const val REPEAT_INTERVAL = "repeat_interval"
         private const val TIME_UPDATE = "time_update"
 
-        private const val NOTIFY = "notify"
-        private const val NOTIFY_WITH_SOUND = "notify_with_sound"
+        private const val NOTIFICATION_CHECK = "notification_check"
+        private const val SOUND_CHECK = "sound_check"
+        private const val VIBRATION_CHECK = "vibration_check"
         private const val OBSERVED_TERRITORIES = "observed_territories"
     }
 }

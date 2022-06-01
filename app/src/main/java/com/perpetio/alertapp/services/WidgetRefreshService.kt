@@ -44,7 +44,7 @@ class WidgetRefreshService : Service() {
                 app.storage.minutesRepeatInterval
             )?.let { isAlert ->
                 NotificationPublisher(this@WidgetRefreshService).informUser(
-                    isAlert, app.storage.notificationSoundCheck
+                    isAlert, app.storage.soundCheck
                 )
             }
             WidgetUpdateReceiver.checkUpdate(

@@ -70,6 +70,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun setupListeners() {
         binding.apply {
+            imgMapHolder.setOnClickListener {
+                NotificationPublisher(requireContext()).informUser(
+                    true, app.storage.soundCheck
+                )
+            }
             refreshLayout.setOnRefreshListener {
                 viewModel.refreshMap()
             }
@@ -89,7 +94,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun showAlert(isAlert: Boolean) {
         NotificationPublisher(requireContext()).informUser(
-            isAlert, app.storage.notificationSoundCheck
+            isAlert, app.storage.soundCheck
         )
     }
 

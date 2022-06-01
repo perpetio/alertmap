@@ -73,7 +73,7 @@ class NotificationPublisher(
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(id, notification)
 
-        Vibrator(context).vibrate(3, 50, 20)
+        Vibrator(context).vibrate(3, 50, 50)
     }
 
     private fun getOpenAppIntent(): PendingIntent {

@@ -11,6 +11,8 @@
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/card_plate.xml" value="0.136" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/circle.xml" value="0.136" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.136" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/ic_vibration_off.xml" value="0.136" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/ic_vibration_on.xml" value="0.136" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/ic_vink.xml" value="0.136" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/ic_volume_on.xml" value="0.136" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/drawable/sound_check.xml" value="0.136" />
@@ -19,7 +21,7 @@
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/dialog_select_territoty.xml" value="0.67" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_main.xml" value="0.67" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_map.xml" value="0.503968253968254" />
-        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_select_state.xml" value="0.503968253968254" />
+        <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_select_state.xml" value="0.67" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_select_territoty.xml" value="0.67" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/fragment_settings.xml" value="0.67" />
         <entry key="..\:/Root/Work/AlertApp/app/src/main/res/layout/item_select_territory.xml" value="0.503968253968254" />

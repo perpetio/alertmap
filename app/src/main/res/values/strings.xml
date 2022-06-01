@@ -26,12 +26,13 @@
     <string name="every">Кожні</string>
     <string name="min">%d хв.</string>
     <string name="receive_notification">Отримувати сповіщення</string>
-    <string name="notification_sound">Звук сповіщення</string>
+    <string name="sound_and_vibration">Звук і вібрація</string>
     <string name="more_details">Детальніше</string>
     <string name="save">Зберегти</string>
 
     <string name="state_list">Список областей</string>
     <string name="select_territories_you_want_observe">Оберіть об\'єкти, від яких хочете отримувати сповіщення</string>
+    <string name="clear_choice">Очистити вибір</string>
     
     <string name="air_alert_">Повітряна тривога!</string>
     <string name="go_to_the_refuge">Перейдіть у сховище</string>
