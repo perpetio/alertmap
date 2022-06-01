@@ -20,13 +20,12 @@ class Repository(
         }
     }
 
-    fun isAirAlert(
+    fun getChangeList(
         states: List<StateModel>,
         observedStatesId: List<Int>,
         minutesRefreshInterval: Int
-    ): Boolean? {
-        var isNewChanges = false
-        var isAlert = false
+    ): List<StateModel> {
+        val changeList = mutableListOf<StateModel>()
         observedStatesId.forEach { stateId ->
             states.find { state ->
                 state.id == stateId
@@ -34,17 +33,13 @@ class Repository(
                 Formatter.getDate(state.updateTime)?.let { refreshDate ->
                     val interval = minutesRefreshInterval * 60 * 1000L
                     if (Formatter.isDateFresh(refreshDate, interval)) {
-                        isNewChanges = true
-                        if (state.isAlert) isAlert = true
+                        changeList.add(state)
                     }
                 }
             }
         }
-        return if (isNewChanges) {
-            isAlert
-        } else null
+        return changeList
     }
-
 }
 
 class ApiError(message: String, cause: Throwable) : Exception(message, cause)

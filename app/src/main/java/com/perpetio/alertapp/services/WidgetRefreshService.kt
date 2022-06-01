@@ -38,15 +38,14 @@ class WidgetRefreshService : Service() {
                     Formatter.getShortFormat(Date())
                 )
             }
-            repository.isAirAlert(
+            val changeList = repository.getChangeList(
                 statesInfo.states,
                 app.storage.observedStatesId,
                 app.storage.minutesRepeatInterval
-            )?.let { isAlert ->
-                NotificationPublisher(this@WidgetRefreshService).informUser(
-                    isAlert, app.storage.soundCheck, app.storage.vibrationCheck
-                )
-            }
+            )
+            NotificationPublisher(this@WidgetRefreshService).showChangeList(
+                changeList, app.storage.soundCheck, app.storage.vibrationCheck
+            )
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, this@WidgetRefreshService
             )

@@ -11,6 +11,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.activities.MainActivity
+import com.perpetio.alertapp.data_models.StateModel
 
 
 class NotificationPublisher(
@@ -25,15 +26,19 @@ class NotificationPublisher(
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
 
-    fun informUser(isAlert: Boolean, makeSound: Boolean, vibrate: Boolean) {
-        val title = context.getString(
-            if (isAlert) R.string.air_alert_
-            else R.string.air_alert_is_stopped
-        )
-        val content = context.getString(
-            if (isAlert) R.string.go_to_the_refuge
-            else R.string.get_back_to_business
-        )
+    fun showChangeList(
+        changeList: List<StateModel>,
+        makeSound: Boolean,
+        vibrate: Boolean
+    ) {
+        val title = context.getString(R.string.attention_x2)
+        val alert = context.getString(R.string.alert)
+        val noAlert = context.getString(R.string.no_alert)
+        val content = changeList.joinToString(
+            separator = ";\n", postfix = "."
+        ) { state ->
+            "${state.name} - ${if (state.isAlert) alert else noAlert}"
+        }
         val notificationId = context.getString(R.string.alert_notification_id).toInt()
         NotificationPublisher(context).showNotification(
             notificationId, title, content, makeSound, vibrate
@@ -50,7 +55,7 @@ class NotificationPublisher(
         return NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(title)
-            .setContentText(content)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(content))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .apply {
                 if (withSound) setSound(alertSound)

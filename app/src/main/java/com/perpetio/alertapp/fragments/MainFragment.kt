@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.perpetio.alertapp.data_models.StateModel
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.FragmentMainBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
@@ -54,7 +55,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 ViewModelState.Loading -> showProgress()
-                is ViewModelState.AirAlert -> showAlert(state.isAlert)
+                is ViewModelState.Notification -> notifyUser(state.changeList)
                 is ViewModelState.Error -> showError(state.message)
                 is ViewModelState.Completed -> hideProgress()
             }
@@ -71,8 +72,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private fun setupListeners() {
         binding.apply {
             imgMapHolder.setOnClickListener {
-                NotificationPublisher(requireContext()).informUser(
-                    true, app.storage.soundCheck, app.storage.vibrationCheck
+                NotificationPublisher(requireContext()).showChangeList(
+                    listOf(), app.storage.soundCheck, app.storage.vibrationCheck
                 )
             }
             refreshLayout.setOnRefreshListener {
@@ -92,9 +93,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
     }
 
-    private fun showAlert(isAlert: Boolean) {
-        NotificationPublisher(requireContext()).informUser(
-            isAlert, app.storage.soundCheck, app.storage.vibrationCheck
+    private fun notifyUser(changeList: List<StateModel>) {
+        NotificationPublisher(requireContext()).showChangeList(
+            changeList, app.storage.soundCheck, app.storage.vibrationCheck
         )
     }
 

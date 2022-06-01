@@ -17,7 +17,7 @@
     <string name="data_for_date">Дані станом на:</string>
     <string name="refresh">Оновити</string>
 
-    <string name="air_alert">Тривога</string>
+    <string name="alert">Тривога</string>
     <string name="no_alert">Відбій</string>
     <string name="no_info">Немає даних</string>
 
@@ -34,10 +34,6 @@
     <string name="state_list">Список областей</string>
     <string name="select_territories_you_want_observe">Оберіть об\'єкти, від яких хочете отримувати сповіщення</string>
     <string name="clear_choice">Очистити вибір</string>
-    
-    <string name="air_alert_">Повітряна тривога!</string>
-    <string name="go_to_the_refuge">Перейдіть у сховище</string>
 
-    <string name="air_alert_is_stopped">Відбій повітряної тривоги!</string>
-    <string name="get_back_to_business">Повертайтесь до справ</string>
+    <string name="attention_x2">Увага! Увага!</string>
 </resources>
