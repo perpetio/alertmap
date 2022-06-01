@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
+import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.services.WidgetRefreshService
@@ -23,13 +24,14 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
         WidgetRefreshService.startSelf(context)
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent) {
         Log.d("123", "WidgetUpdateReceiver onReceive")
-        intent?.apply {
-            Log.d("123", "WidgetUpdateReceiver intent != null")
-            statesInfo = getParcelableExtra(STATES_INFO)
-            Log.d("123", "statesInfo: $statesInfo")
+        Log.d("123", "WidgetUpdateReceiver intent != null")
+        statesInfo = intent.getParcelableExtra(STATES_INFO)
+        if (statesInfo == null) {
+            statesInfo = getApp(context).storage.statesInfo
         }
+        Log.d("123", "statesInfo: $statesInfo")
         super.onReceive(context, intent)
     }
 
@@ -59,6 +61,10 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
         val intent = Intent(context, WidgetRefreshService::class.java)
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         return PendingIntent.getService(context, 0, intent, flags)
+    }
+
+    private fun getApp(context: Context): AlertApp {
+        return context.applicationContext as AlertApp
     }
 
     companion object {

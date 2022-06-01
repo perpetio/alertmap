@@ -51,6 +51,7 @@ class WidgetRefreshService : Service() {
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, this@WidgetRefreshService
             )
+            app.storage.statesInfo = statesInfo
             stopSelf()
         }
 

@@ -66,6 +66,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, requireContext()
             )
+            app.storage.statesInfo = statesInfo
         }
     }
 

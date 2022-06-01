@@ -3,6 +3,7 @@ package com.perpetio.alertapp.data
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.perpetio.alertapp.data_models.StatesInfoModel
 import java.util.*
 
 class LocalStorage(
@@ -70,6 +71,21 @@ class LocalStorage(
             prefs.edit().putString(OBSERVED_TERRITORIES, json).apply()
         }
 
+    var statesInfo: StatesInfoModel?
+        get() {
+            val json = prefs.getString(STATE_INFO, "")
+            val listType = object : TypeToken<StatesInfoModel>() {}.type
+            return try {
+                gson.fromJson(json, listType)
+            } catch (e: Exception) {
+                null
+            }
+        }
+        set(value) {
+            val json = gson.toJson(value)
+            prefs.edit().putString(STATE_INFO, json).apply()
+        }
+
     companion object {
         private const val STORAGE_NAME = "alert_app_storage"
 
@@ -81,5 +97,6 @@ class LocalStorage(
         private const val SOUND_CHECK = "sound_check"
         private const val VIBRATION_CHECK = "vibration_check"
         private const val OBSERVED_TERRITORIES = "observed_territories"
+        private const val STATE_INFO = "state_info"
     }
 }
