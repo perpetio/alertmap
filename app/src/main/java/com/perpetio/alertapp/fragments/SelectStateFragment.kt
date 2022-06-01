@@ -52,6 +52,10 @@ class SelectStateFragment : BaseFragment<FragmentSelectStateBinding>() {
 
     private fun setupListeners() {
         binding.apply {
+            btnClearChoice.setOnClickListener {
+                val adapter = rvStates.adapter as SelectStateAdapter
+                adapter.clearChoice()
+            }
             btnBack.setOnClickListener {
                 goTo(SelectStateFragmentDirections.toMainFragment())
             }

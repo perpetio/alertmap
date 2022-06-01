@@ -34,11 +34,20 @@
             android:text="@string/select_territories_you_want_observe"
             android:textColor="@color/grey" />
 
+        <TextView
+            android:id="@+id/btn_clear_choice"
+            style="@style/MainText"
+            android:gravity="end"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/clear_choice" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_states"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             tools:listitem="@layout/item_select_territory" />
     </LinearLayout>

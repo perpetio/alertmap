@@ -28,6 +28,16 @@ class SelectStateAdapter(
         return states.size
     }
 
+    fun clearChoice() {
+        states.forEach { state ->
+            state.isChecked = false
+            checkChangeListener.onCheckChange(
+                state.id, state.isChecked
+            )
+        }
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val chkText: CheckedTextView = itemView.findViewById(R.id.chk_text)
 
