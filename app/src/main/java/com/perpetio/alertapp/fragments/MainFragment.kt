@@ -72,7 +72,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.apply {
             imgMapHolder.setOnClickListener {
                 NotificationPublisher(requireContext()).informUser(
-                    true, app.storage.soundCheck
+                    true, app.storage.soundCheck, app.storage.vibrationCheck
                 )
             }
             refreshLayout.setOnRefreshListener {
@@ -94,7 +94,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun showAlert(isAlert: Boolean) {
         NotificationPublisher(requireContext()).informUser(
-            isAlert, app.storage.soundCheck
+            isAlert, app.storage.soundCheck, app.storage.vibrationCheck
         )
     }
 

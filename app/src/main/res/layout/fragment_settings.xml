@@ -90,46 +90,52 @@
                 android:text="@string/min" />
         </RadioGroup>
 
+        <CheckBox
+            android:id="@+id/chk_notification"
+            style="@style/BoldText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/receive_notification" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/chk_notification"
-                style="@style/BoldText"
+            <TextView
+                android:id="@+id/btn_select_states"
+                style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="@string/receive_notification" />
+                android:layout_marginStart="5dp"
+                android:background="@drawable/card_frame_plate"
+                android:gravity="center"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:text="@string/from_who" />
 
             <CheckBox
                 android:id="@+id/chk_sound"
-                android:layout_width="30dp"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:layout_marginStart="10dp"
                 android:button="@drawable/sound_check"
-                android:layout_marginStart="10dp"/>
+                android:paddingStart="10dp"
+                android:text="@string/sound" />
 
             <CheckBox
                 android:id="@+id/chk_vibration"
-                android:layout_width="30dp"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:layout_marginStart="10dp"
                 android:button="@drawable/ic_vibration"
-                android:layout_marginStart="10dp"/>
+                android:paddingStart="10dp"
+                android:text="@string/vibration" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/btn_select_states"
-            style="@style/MainText"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/card_frame_plate"
-            android:gravity="center"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:text="@string/more_details"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"/>
 
         <View
             android:layout_width="match_parent"

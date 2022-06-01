@@ -25,7 +25,7 @@ class NotificationPublisher(
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
 
-    fun informUser(isAlert: Boolean, withSound: Boolean) {
+    fun informUser(isAlert: Boolean, makeSound: Boolean, vibrate: Boolean) {
         val title = context.getString(
             if (isAlert) R.string.air_alert_
             else R.string.air_alert_is_stopped
@@ -36,7 +36,7 @@ class NotificationPublisher(
         )
         val notificationId = context.getString(R.string.alert_notification_id).toInt()
         NotificationPublisher(context).showNotification(
-            notificationId, title, content, withSound, true
+            notificationId, title, content, makeSound, vibrate
         )
     }
 
@@ -63,17 +63,19 @@ class NotificationPublisher(
         title: String,
         content: String,
         withSound: Boolean,
-        withOpenAppLogic: Boolean
+        vibrate: Boolean
     ) {
         createNotificationChannel()
         val notification = buildNotification(
-            title, content, withSound, withOpenAppLogic
+            title, content, withSound, true
         )
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(id, notification)
 
-        Vibrator(context).vibrate(3, 50, 50)
+        if (vibrate) {
+            Vibrator(context).vibrate(3, 50, 50)
+        }
     }
 
     private fun getOpenAppIntent(): PendingIntent {

@@ -26,8 +26,9 @@
     <string name="every">Кожні</string>
     <string name="min">%d хв.</string>
     <string name="receive_notification">Отримувати сповіщення</string>
-    <string name="sound_and_vibration">Звук і вібрація</string>
-    <string name="more_details">Детальніше</string>
+    <string name="sound">Звук</string>
+    <string name="vibration">Вібрація</string>
+    <string name="from_who">Від кого?</string>
     <string name="save">Зберегти</string>
 
     <string name="state_list">Список областей</string>
