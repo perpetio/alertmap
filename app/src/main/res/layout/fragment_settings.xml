@@ -116,28 +116,41 @@
                 android:paddingEnd="30dp"
                 android:text="@string/from_who" />
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
             <CheckBox
                 android:id="@+id/chk_sound"
                 style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginStart="10dp"
                 android:button="@drawable/sound_check"
                 android:paddingStart="10dp"
                 android:text="@string/sound" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <CheckBox
                 android:id="@+id/chk_vibration"
                 style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginStart="10dp"
                 android:button="@drawable/ic_vibration"
                 android:paddingStart="10dp"
                 android:text="@string/vibration" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
         </LinearLayout>
 
-        <View
+        <Space
             android:layout_width="match_parent"
             android:layout_height="80dp" />
     </LinearLayout>
