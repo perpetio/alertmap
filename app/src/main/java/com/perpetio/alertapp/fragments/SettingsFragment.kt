@@ -1,7 +1,6 @@
 package com.perpetio.alertapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.view.forEach
@@ -33,7 +32,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun setupViews() {
-        Log.d("123", "setupViews")
         binding.apply {
             val intervals = RepeatInterval.values().toList()
             rgRepeatInterval.forEach { button ->
@@ -47,10 +45,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun setupListeners() {
-        Log.d("123", "setupListeners")
         binding.apply {
             chkAutoUpdate.setOnCheckedChangeListener { button, isChecked ->
-                Log.d("123", "chkAutoUpdate")
                 showAutoUpdateUi(isChecked)
                 settingsViewModel.autoUpdateCheck = isChecked
                 chkNotification.isChecked = false

@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.RemoteViews
 import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
@@ -26,13 +25,10 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("123", "WidgetUpdateReceiver onReceive")
-        Log.d("123", "WidgetUpdateReceiver intent != null")
         statesInfo = intent.getParcelableExtra(STATES_INFO)
         if (statesInfo == null) {
             statesInfo = getApp(context).storage.statesInfo
         }
-        Log.d("123", "statesInfo: $statesInfo")
         super.onReceive(context, intent)
     }
 
@@ -41,7 +37,6 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        Log.d("123", "WidgetUpdateReceiver onUpdate")
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(
                 context.packageName,
@@ -49,7 +44,6 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
             ).apply {
                 setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
                 statesInfo?.apply {
-                    Log.d("123", "statesInfo != null")
                     setTextViewText(R.id.tv_refresh_date, Formatter.getShortFormat(refreshTime!!))
                     setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(states, context))
                 }
@@ -75,7 +69,6 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
             statesInfo: StatesInfoModel,
             context: Context
         ) {
-            Log.d("123", "WidgetUpdateReceiver checkUpdate")
             val refreshIntent = getRefreshIntent(context)
             refreshIntent.putExtra(STATES_INFO, statesInfo)
             context.sendBroadcast(refreshIntent)

@@ -1,6 +1,5 @@
 package com.perpetio.alertapp.view_models
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -81,12 +80,8 @@ class MainViewModel(
     private suspend fun getFreshStates(): StatesInfoModel {
         val storageStatesInfo = storage.statesInfo
         return if (!isFresh(storageStatesInfo)) {
-            Log.d("123", "ViewModel storageStatesInfo is fresh false")
             repository.refreshStates()
-        } else {
-            Log.d("123", "ViewModel storageStatesInfo is fresh true")
-            storageStatesInfo!!
-        }
+        } else storageStatesInfo!!
     }
 
     private fun keepFreshData(

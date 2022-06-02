@@ -25,7 +25,6 @@ object MapDrawer {
         Canvas(canvas).apply {
             Map.areas.forEach { area ->
                 area.apply {
-                    //val isAlert = Random.nextInt(0, 2) == 0
                     val image = getBitmap(imageResId, context)
                     val isAlert = states.find { state ->
                         state.id == id

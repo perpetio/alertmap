@@ -1,7 +1,6 @@
 package com.perpetio.alertapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.perpetio.alertapp.data_models.StateModel
@@ -62,7 +61,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             }
         }
         viewModel.statesInfo.observe(viewLifecycleOwner) { statesInfo ->
-            Log.d("123", "viewModel.statesInfo.observe: $statesInfo")
             refreshMap(statesInfo)
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, requireContext()
@@ -72,11 +70,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun setupListeners() {
         binding.apply {
-            imgMapHolder.setOnClickListener {
-                NotificationPublisher(requireContext()).showChangeList(
-                    listOf(), app.storage.soundCheck, app.storage.vibrationCheck
-                )
-            }
             refreshLayout.setOnRefreshListener {
                 viewModel.refreshMapForce()
             }

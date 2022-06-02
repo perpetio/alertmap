@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StatesInfoModel
@@ -58,17 +57,10 @@ class WidgetRefreshService : Service() {
     private suspend fun refreshStates(
         repository: Repository
     ): StatesInfoModel {
-        val statesInfo = app.storage.statesInfo
         return try {
-            if (!isFresh(statesInfo)) {
-                Log.d("123", "Service Date is fresh: false")
-                val freshInfo = repository.refreshStates()
-                app.storage.statesInfo = freshInfo
-                freshInfo
-            } else {
-                Log.d("123", "Service Date is fresh: ture")
-                statesInfo!!
-            }
+            val freshInfo = repository.refreshStates()
+            app.storage.statesInfo = freshInfo
+            freshInfo
         } catch (e: ApiError) {
             StatesInfoModel(
                 emptyList(),
