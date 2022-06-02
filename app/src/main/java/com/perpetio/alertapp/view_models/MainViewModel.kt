@@ -62,7 +62,7 @@ class MainViewModel(
                 delay(minutesInterval * 60 * 1000L)
                 if (!isFresh(statesInfo.value)) {
                     withLoading {
-                        val freshStatesInfo = getFreshStates()
+                        val freshStatesInfo = repository.refreshStates()
                         keepFreshData(freshStatesInfo)
                     }
                 }

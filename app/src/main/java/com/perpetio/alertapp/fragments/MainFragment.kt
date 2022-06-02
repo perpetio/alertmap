@@ -28,8 +28,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
         setupObservers()
         setupListeners()
-
-        viewModel.refreshMap()
     }
 
     override fun onStart() {
@@ -38,6 +36,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         if (app.storage.autoUpdateCheck) {
             viewModel.refreshMapPeriodically(app.storage.minutesRepeatInterval)
         }
+        viewModel.refreshMap()
     }
 
     override fun onStop() {
