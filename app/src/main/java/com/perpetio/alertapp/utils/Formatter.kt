@@ -12,7 +12,7 @@ object Formatter {
 
     fun getTimeFormat(time: Long): String {
         return SimpleDateFormat(
-            "HH:mm", Locale.getDefault()
+            "HH:mm:ss", Locale.getDefault()
         ).format(Date(time))
     }
 
@@ -26,7 +26,11 @@ object Formatter {
         }
     }
 
-    fun isDateFresh(dateTime: Date, maxMinInterval: Int): Boolean {
-        return (Date().time - dateTime.time) < (maxMinInterval * 60 * 1000)
+    fun isDateFresh(dateTime: Date, maxMinutesInterval: Int): Boolean {
+        return (Date().time - dateTime.time) < toMillis(maxMinutesInterval)
+    }
+
+    private fun toMillis(minutes: Int): Long {
+        return (minutes * 60 * 1000L)
     }
 }

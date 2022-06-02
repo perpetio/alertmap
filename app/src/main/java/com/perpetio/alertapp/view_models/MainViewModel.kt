@@ -60,13 +60,15 @@ class MainViewModel(
         refreshJob?.cancel()
         refreshJob = viewModelScope.launch {
             _refreshTime.value = nextRefreshTime
+            val startDelay = nextRefreshTime - Date().time
+            delay(startDelay)
             while (isActive) {
-                delay(minutesInterval * 60 * 1000L)
-                _refreshTime.value = WidgetRefreshReminder.getNextTime(minutesInterval)
                 withLoading {
                     val freshStatesInfo = repository.refreshStates()
                     keepFreshData(freshStatesInfo)
                 }
+                _refreshTime.value = WidgetRefreshReminder.getNextTime(minutesInterval)
+                delay(minutesInterval * 60 * 1000L)
             }
         }
     }
