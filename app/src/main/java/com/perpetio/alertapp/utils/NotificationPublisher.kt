@@ -20,7 +20,7 @@ class NotificationPublisher(
     private val alertSound: Uri =
         Uri.parse(
             "android.resource://"
-                    + context.packageName + "/" + R.raw.horn
+                    + context.packageName + "/" + R.raw.alert_horn
         );
 
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
@@ -79,7 +79,7 @@ class NotificationPublisher(
         notificationManager.notify(id, notification)
 
         if (vibrate) {
-            Vibrator(context).vibrate(3, 50, 50)
+            Vibrator(context).vibrate(1, 1000, 0)
         }
     }
 
