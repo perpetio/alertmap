@@ -12,6 +12,7 @@ import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.services.WidgetRefreshService
+import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 
 
@@ -49,7 +50,7 @@ class WidgetUpdateReceiver : AppWidgetProvider() {
                 setOnClickPendingIntent(R.id.btn_refresh, getRefreshWidgetIntent(context))
                 statesInfo?.apply {
                     Log.d("123", "statesInfo != null")
-                    setTextViewText(R.id.tv_refresh_date, refreshTime)
+                    setTextViewText(R.id.tv_refresh_date, Formatter.getShortFormat(refreshTime!!))
                     setImageViewBitmap(R.id.img_map_holder, MapDrawer.drawMap(states, context))
                 }
             }

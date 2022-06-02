@@ -9,6 +9,7 @@ import com.perpetio.alertapp.data_models.StatesInfoModel
 import com.perpetio.alertapp.databinding.FragmentMainBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.receivers.WidgetUpdateReceiver
+import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.utils.MapDrawer
 import com.perpetio.alertapp.utils.NotificationPublisher
 import com.perpetio.alertapp.view_models.MainViewModel
@@ -28,9 +29,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         setupObservers()
         setupListeners()
 
-        if (viewModel.state.value == null) {
-            viewModel.refreshMap()
-        }
+        viewModel.refreshMap()
     }
 
     override fun onStart() {
@@ -62,11 +61,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
         viewModel.statesInfo.observe(viewLifecycleOwner) { statesInfo ->
             Log.d("123", "viewModel.statesInfo.observe: $statesInfo")
-            updateMap(statesInfo)
+            refreshMap(statesInfo)
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, requireContext()
             )
-            app.storage.statesInfo = statesInfo
         }
     }
 
@@ -78,14 +76,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 )
             }
             refreshLayout.setOnRefreshListener {
-                viewModel.refreshMap()
+                viewModel.refreshMapForce()
             }
         }
     }
 
-    private fun updateMap(statesInfo: StatesInfoModel) {
+    private fun refreshMap(statesInfo: StatesInfoModel) {
         binding.apply {
-            tvRefreshDate.text = statesInfo.refreshTime
+            tvRefreshDate.text = Formatter.getShortFormat(statesInfo.refreshTime!!)
             imgMapHolder.setImageBitmap(
                 MapDrawer.drawMap(
                     statesInfo.states, requireContext()

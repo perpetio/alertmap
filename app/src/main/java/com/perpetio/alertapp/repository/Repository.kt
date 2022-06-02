@@ -13,7 +13,7 @@ class Repository(
             val statesInfo = airAlertApi.getStates()
             return StatesInfoModel(
                 statesInfo.states,
-                Formatter.getShortFormat(Date())
+                Date()
             )
         } catch (cause: Throwable) {
             throw ApiError("Can't load states", cause)
@@ -31,8 +31,7 @@ class Repository(
                 state.id == stateId
             }?.let { state ->
                 Formatter.getDate(state.updateTime)?.let { refreshDate ->
-                    val interval = minutesRefreshInterval * 60 * 1000L
-                    if (Formatter.isDateFresh(refreshDate, interval)) {
+                    if (Formatter.isDateFresh(refreshDate, minutesRefreshInterval)) {
                         changeList.add(state)
                     }
                 }

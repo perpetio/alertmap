@@ -3,6 +3,7 @@ package com.perpetio.alertapp.data_models
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class StateModel(
@@ -20,6 +21,5 @@ data class StateModel(
 @Parcelize
 data class StatesInfoModel(
     val states: List<StateModel>,
-    @SerializedName("last_update")
-    val refreshTime: String,
+    val refreshTime: Date?,
 ): Parcelable

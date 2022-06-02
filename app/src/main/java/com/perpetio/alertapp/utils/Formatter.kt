@@ -26,7 +26,7 @@ object Formatter {
         }
     }
 
-    fun isDateFresh(dateTime: Date, maxInterval: Long): Boolean {
-        return (Date().time - dateTime.time) < maxInterval
+    fun isDateFresh(dateTime: Date, maxMinInterval: Int): Boolean {
+        return (Date().time - dateTime.time) < (maxMinInterval * 60 * 1000)
     }
 }

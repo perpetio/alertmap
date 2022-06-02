@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import com.perpetio.alertapp.AlertApp
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data_models.StatesInfoModel
@@ -30,14 +31,7 @@ class WidgetRefreshService : Service() {
         startOnForeground()
         val repository = Repository(getAlertApiService())
         CoroutineScope(Job()).launch {
-            val statesInfo = try {
-                repository.refreshStates()
-            } catch (e: ApiError) {
-                StatesInfoModel(
-                    emptyList(),
-                    Formatter.getShortFormat(Date())
-                )
-            }
+            val statesInfo = refreshStates(repository)
             val changeList = repository.getChangeList(
                 statesInfo.states,
                 app.storage.observedStatesId,
@@ -51,7 +45,6 @@ class WidgetRefreshService : Service() {
             WidgetUpdateReceiver.checkUpdate(
                 statesInfo, this@WidgetRefreshService
             )
-            app.storage.statesInfo = statesInfo
             stopSelf()
         }
 
@@ -60,6 +53,40 @@ class WidgetRefreshService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
+    }
+
+    private suspend fun refreshStates(
+        repository: Repository
+    ): StatesInfoModel {
+        val statesInfo = app.storage.statesInfo
+        return try {
+            if (!isFresh(statesInfo)) {
+                Log.d("123", "Service Date is fresh: false")
+                val freshInfo = repository.refreshStates()
+                app.storage.statesInfo = freshInfo
+                freshInfo
+            } else {
+                Log.d("123", "Service Date is fresh: ture")
+                statesInfo!!
+            }
+        } catch (e: ApiError) {
+            StatesInfoModel(
+                emptyList(),
+                Date()
+            )
+        }
+    }
+
+    private fun isFresh(
+        stateInfo: StatesInfoModel?
+    ): Boolean {
+        stateInfo?.refreshTime?.let { refreshTime ->
+            return Formatter.isDateFresh(
+                refreshTime,
+                app.storage.minutesRepeatInterval
+            )
+        }
+        return false
     }
 
     private fun startOnForeground() {
