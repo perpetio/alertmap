@@ -34,7 +34,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         super.onStart()
         WidgetRefreshReminder.cancel(requireContext())
         if (app.storage.autoUpdateCheck) {
-            viewModel.refreshMapPeriodically(app.storage.minutesRepeatInterval)
+            viewModel.refreshMapPeriodically(
+                app.storage.timeUpdate,
+                app.storage.minutesRepeatInterval
+            )
         }
         viewModel.refreshMap()
     }

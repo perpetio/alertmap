@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
+import com.perpetio.alertapp.receivers.WidgetRefreshReminder
 import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.SettingsViewModel
@@ -125,7 +126,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             if (!isDataLoaded) {
                 autoUpdateCheck = storage.autoUpdateCheck
                 repeatInterval = storage.minutesRepeatInterval
-                timeUpdate = storage.timeUpdate
                 notificationCheck = storage.notificationCheck
                 soundCheck = storage.soundCheck
                 vibrationCheck = storage.vibrationCheck
@@ -161,12 +161,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         val storage = app.storage
 
         if (settings.autoUpdateCheck) {
-            mainViewModel.refreshMapPeriodically(settings.repeatInterval)
+            mainViewModel.refreshMapPeriodically(
+                WidgetRefreshReminder.getNextTime(settings.repeatInterval),
+                settings.repeatInterval
+            )
         } else mainViewModel.cancelMapRefreshing()
         storage.apply {
             autoUpdateCheck = settings.autoUpdateCheck
             minutesRepeatInterval = settings.repeatInterval
-            timeUpdate = settings.timeUpdate
             notificationCheck = settings.notificationCheck
             soundCheck = settings.soundCheck
             vibrationCheck = settings.vibrationCheck

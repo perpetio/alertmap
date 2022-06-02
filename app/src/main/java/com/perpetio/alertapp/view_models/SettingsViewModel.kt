@@ -9,7 +9,6 @@ class SettingsViewModel : ViewModel() {
     var isDataSaved = true
     var autoUpdateCheck = false
     var repeatInterval = RepeatInterval.Min.minutes
-    var timeUpdate = Date().time
     var notificationCheck = false
     var soundCheck = false
     var vibrationCheck = false

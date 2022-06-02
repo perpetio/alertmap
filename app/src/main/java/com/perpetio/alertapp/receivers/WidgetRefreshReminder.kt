@@ -66,9 +66,9 @@ class WidgetRefreshReminder : BroadcastReceiver() {
             pendingIntent.cancel()
         }
 
-        fun getNextTime(delay: Int): Long {
+        fun getNextTime(minutesInterval: Int): Long {
             val calendar = Calendar.getInstance()
-            calendar.add(Calendar.MINUTE, delay)
+            calendar.add(Calendar.MINUTE, minutesInterval)
             return calendar.timeInMillis
         }
 

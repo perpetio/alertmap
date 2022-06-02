@@ -15,6 +15,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainViewModel(
     private val storage: LocalStorage,
@@ -53,18 +54,18 @@ class MainViewModel(
     }
 
     fun refreshMapPeriodically(
+        nextRefreshTime: Long,
         minutesInterval: Int
     ) {
         refreshJob?.cancel()
         refreshJob = viewModelScope.launch {
+            _refreshTime.value = nextRefreshTime
             while (isActive) {
-                _refreshTime.value = WidgetRefreshReminder.getNextTime(minutesInterval)
                 delay(minutesInterval * 60 * 1000L)
-                if (!isFresh(statesInfo.value)) {
-                    withLoading {
-                        val freshStatesInfo = repository.refreshStates()
-                        keepFreshData(freshStatesInfo)
-                    }
+                _refreshTime.value = WidgetRefreshReminder.getNextTime(minutesInterval)
+                withLoading {
+                    val freshStatesInfo = repository.refreshStates()
+                    keepFreshData(freshStatesInfo)
                 }
             }
         }
