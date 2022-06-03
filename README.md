@@ -11,14 +11,14 @@ App to inform about air raid alerts in Ukraine
 
 ## Preview
 <p align="center">
-    <img src="assets/main_screen.png" width='150'/>
-    <img src="assets/select_states_screen.png" width='150'/>
-    <img src="assets/widget.png" width='150'/>
-    <img src="assets/notification.png" width='150'/>
+    <img src="assets/main_screen.png" width='170'/>
+    <img src="assets/select_states_screen.png" width='170'/>
+    <img src="assets/widget.png" width='170'/>
+    <img src="assets/notification.png" width='170'/>
 </p>
 
 ## Video preview
-<img src="assets/video_preview.gif" width='200'/>
+<img src="assets/video_preview.gif" width='300'/>
 
 ## Used libraries:
 * [Navigation component](https://developer.android.com/guide/navigation/navigation-getting-started?authuser=3) - framework for navigating between 'destinations' within an Android application. Navigation provides a consistent API whether destinations are implemented as Fragments, Activities, or other components.
@@ -29,7 +29,7 @@ App to inform about air raid alerts in Ukraine
 ## Getting started
 1. Clone the repo
 ```
- $ git clone https://github.com/perpetio/pricey.git
+ $ git clone https://github.com/perpetio/alertmap.git
  ```
 2. Open project in Android studio or IntelliJ IDEA
 3. Run on android device using your IDE's tools.
