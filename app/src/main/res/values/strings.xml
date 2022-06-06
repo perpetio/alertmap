@@ -28,7 +28,7 @@
     <string name="receive_notification">Отримувати сповіщення</string>
     <string name="sound">Звук</string>
     <string name="vibration">Вібрація</string>
-    <string name="from_who">Від кого?</string>
+    <string name="select_state">Оберіть область</string>
     <string name="save">Зберегти</string>
 
     <string name="state_list">Список областей</string>

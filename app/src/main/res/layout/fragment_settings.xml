@@ -112,9 +112,9 @@
                 android:layout_marginStart="5dp"
                 android:background="@drawable/card_frame_plate"
                 android:gravity="center"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/from_who" />
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/select_state" />
 
             <Space
                 android:layout_width="0dp"
