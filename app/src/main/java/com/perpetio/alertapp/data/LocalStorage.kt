@@ -17,7 +17,7 @@ class LocalStorage(
     }
 
     var autoUpdateCheck: Boolean
-        get() = prefs.getBoolean(AUTOUPDATE, false)
+        get() = prefs.getBoolean(AUTOUPDATE, true)
         set(value) = prefs.edit().putBoolean(
             AUTOUPDATE, value
         ).apply()
