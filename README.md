@@ -2,6 +2,10 @@
 
 App to inform about air raid alerts in Ukraine
 
+## See our tutorial post:
+
+[How We Made an Air Alert Monitoring App With a Widget Feature on Android: Full Tutorial](https://perpet.io/blog/how-we-made-an-air-alert-monitoring-app-with-a-widget-feature-on-android-full-tutorial/)
+
 ## Features include:
 * display the current state of air alarms in the color map form
 * display the map as a separate widget on home screen
