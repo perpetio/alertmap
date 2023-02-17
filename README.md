@@ -1,4 +1,4 @@
-# AlertApp
+# AlertMap
 
 App to inform about air raid alerts in Ukraine
 
