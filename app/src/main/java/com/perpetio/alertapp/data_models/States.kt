@@ -11,7 +11,7 @@ data class StateModel(
     @SerializedName("alert")
     val isAlert: Boolean,
     @SerializedName("changed")
-    val updateTime: String,
+    val updateTime: String?,
     val name: String,
     @SerializedName("name_en")
     val nameEn: String,

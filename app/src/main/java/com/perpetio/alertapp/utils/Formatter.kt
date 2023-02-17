@@ -16,7 +16,8 @@ object Formatter {
         ).format(Date(time))
     }
 
-    fun getDate(dateTime: String): Date? {
+    fun getDate(dateTime: String?): Date? {
+        if (dateTime == null) return null
         return try {
             SimpleDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.getDefault()
