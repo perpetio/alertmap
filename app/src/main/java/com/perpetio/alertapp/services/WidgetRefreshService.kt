@@ -83,7 +83,6 @@ class WidgetRefreshService : Service() {
 
     private fun startOnForeground() {
         NotificationPublisher(this).apply {
-            createNotificationChannel()
             val notificationId = getString(R.string.refresh_service_notification_id).toInt()
             val notification = buildNotification(
                 getString(R.string.refresh_service_notification_title),

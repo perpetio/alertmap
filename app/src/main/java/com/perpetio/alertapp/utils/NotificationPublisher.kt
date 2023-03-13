@@ -56,7 +56,7 @@ class NotificationPublisher(
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(title)
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .apply {
                 if (withSound) setSound(alertSound)
                 if (withOpenAppLogic) setContentIntent(getOpenAppIntent())
@@ -70,12 +70,14 @@ class NotificationPublisher(
         withSound: Boolean,
         vibrate: Boolean
     ) {
-        createNotificationChannel()
+        val notificationManager = context.getSystemService(
+            Context.NOTIFICATION_SERVICE
+        ) as NotificationManager
+
         val notification = buildNotification(
             title, content, withSound, true
         )
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        createNotificationChannel(notificationManager)
         notificationManager.notify(id, notification)
 
         if (vibrate) {
@@ -91,16 +93,18 @@ class NotificationPublisher(
         )
     }
 
-    fun createNotificationChannel() {
+    private fun createNotificationChannel(
+        notificationManager: NotificationManager
+    ) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(
                 channelId, channelName, importance
-            )
-            val notificationManager: NotificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            ).apply {
+                setSound(alertSound, Notification.AUDIO_ATTRIBUTES_DEFAULT)
+            }
             notificationManager.createNotificationChannel(channel)
         }
     }
