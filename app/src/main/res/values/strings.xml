@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">AlertApp</string>
+    <string name="app_name">AlertMap</string>
 
-    <string name="widget_service_description">Widget refresh service</string>
+    <string name="widget_service_description">AlertMap refresh service</string>
     
     <string name="notification_channel_id">1120</string>
-    <string name="notification_channel_name">AlertApp notification channel</string>
-    <string name="notification_channel_description">This channel is used for sending notifications</string>
+    <string name="notification_channel_name">Alert notification channel</string>
+    <string name="notification_channel_description">This channel notifies you of air alerts</string>
 
     <string name="refresh_service_notification_id">1121</string>
-    <string name="refresh_service_notification_title">Refresh service is working</string>
-    <string name="refresh_service_notification_content">Fetching map information&#8230;</string>
+    <string name="refresh_service_notification_title">AlertMap refresh service</string>
+    <string name="refresh_service_notification_content">Refreshing map information&#8230;</string>
 
     <string name="alert_notification_id">1122</string>
 
