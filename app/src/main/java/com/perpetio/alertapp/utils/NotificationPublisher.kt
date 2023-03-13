@@ -4,8 +4,10 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -17,11 +19,12 @@ import com.perpetio.alertapp.data_models.StateModel
 class NotificationPublisher(
     private val context: Context
 ) {
-    private val alertSound: Uri =
-        Uri.parse(
-            "android.resource://"
-                    + context.packageName + "/" + R.raw.alert_horn
-        );
+    private val alertSound: Uri by lazy {
+        val path = "${
+            ContentResolver.SCHEME_ANDROID_RESOURCE
+        }://${context.packageName}/${R.raw.alert_horn}"
+        Uri.parse(path)
+    }
 
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
@@ -58,7 +61,7 @@ class NotificationPublisher(
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .apply {
-                if (withSound) setSound(alertSound)
+                /*if (withSound) setSound(alertSound)*/
                 if (withOpenAppLogic) setContentIntent(getOpenAppIntent())
             }.build()
     }
@@ -83,6 +86,12 @@ class NotificationPublisher(
         if (vibrate) {
             Vibrator(context).vibrate(1, 1000, 0)
         }
+        if (withSound) {
+            RingtoneManager.getRingtone(
+                context.applicationContext,
+                alertSound
+            ).play()
+        }
     }
 
     private fun getOpenAppIntent(): PendingIntent {
@@ -102,9 +111,9 @@ class NotificationPublisher(
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(
                 channelId, channelName, importance
-            ).apply {
+            )/*.apply {
                 setSound(alertSound, Notification.AUDIO_ATTRIBUTES_DEFAULT)
-            }
+            }*/
             notificationManager.createNotificationChannel(channel)
         }
     }
