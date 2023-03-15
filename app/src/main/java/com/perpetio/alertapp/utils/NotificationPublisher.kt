@@ -4,11 +4,8 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.perpetio.alertapp.R
@@ -19,13 +16,6 @@ import com.perpetio.alertapp.data_models.StateModel
 class NotificationPublisher(
     private val context: Context
 ) {
-    private val alertSound: Uri by lazy {
-        val path = "${
-            ContentResolver.SCHEME_ANDROID_RESOURCE
-        }://${context.packageName}/${R.raw.alert_horn}"
-        Uri.parse(path)
-    }
-
     private val channelId by lazy { context.getString(R.string.notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.notification_channel_name) }
 
@@ -84,13 +74,10 @@ class NotificationPublisher(
         notificationManager.notify(id, notification)
 
         if (vibrate) {
-            Vibrator(context).vibrate(1, 1000, 0)
+            AlertManager.vibrate(context)
         }
         if (withSound) {
-            RingtoneManager.getRingtone(
-                context.applicationContext,
-                alertSound
-            ).play()
+            AlertManager.playSound(context)
         }
     }
 
