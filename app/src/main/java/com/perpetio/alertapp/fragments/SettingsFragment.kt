@@ -9,6 +9,7 @@ import com.perpetio.alertapp.R
 import com.perpetio.alertapp.data.RepeatInterval
 import com.perpetio.alertapp.databinding.FragmentSettingsBinding
 import com.perpetio.alertapp.receivers.WidgetRefreshReminder
+import com.perpetio.alertapp.utils.AlertManager
 import com.perpetio.alertapp.utils.Formatter
 import com.perpetio.alertapp.view_models.MainViewModel
 import com.perpetio.alertapp.view_models.SettingsViewModel
@@ -65,10 +66,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 enableSaving(true)
             }
             chkSound.setOnCheckedChangeListener { button, isChecked ->
+                if (isChecked) AlertManager.playSound(requireContext())
                 settingsViewModel.soundCheck = isChecked
                 enableSaving(true)
             }
             chkVibration.setOnCheckedChangeListener { button, isChecked ->
+                if (isChecked) AlertManager.vibrate(requireContext())
                 settingsViewModel.vibrationCheck = isChecked
                 enableSaving(true)
             }
